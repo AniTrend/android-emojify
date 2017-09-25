@@ -1,4 +1,4 @@
-# Android Emojify &nbsp; &nbsp; [![Release](https://jitpack.io/v/wax911/android-emojify.svg?style=flat-square)](https://jitpack.io/#wax911/android-emojify)
+# Android Emojify &nbsp; &nbsp; [![Release](https://jitpack.io/v/wax911/android-emojify.svg?style=flat-square)](https://jitpack.io/#wax911/android-emojify) &nbsp; [![Codacy Badge](https://api.codacy.com/project/badge/Grade/30a8f983c55541cbb504671ecc32786c)](https://www.codacy.com/app/wax911/android-emojify?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=wax911/android-emojify&amp;utm_campaign=Badge_Grade) &nbsp; [![Build Status](https://travis-ci.org/wax911/android-emojify.svg?branch=master)](https://travis-ci.org/wax911/android-emojify) &nbsp; [![Stories in Ready](https://badge.waffle.io/wax911/android-emojify.svg?label=ready&title=Ready)](http://waffle.io/wax911/android-emojify)
 
 This project is an android port from [emoji4j](https://github.com/kcthota/emoji4j)
 
@@ -6,10 +6,16 @@ Which is a java library to convert short codes, html entities to emojis and vice
 
 Inspired by [vdurmont/emoji-java](https://github.com/vdurmont/emoji-java), emoji4j adds more goodies and helpers to deal with emojis. The emoji data is based on the database from [github/gemoji](https://github.com/github/gemoji) and ASCII emoticons data from [wooorm/emoticon](https://github.com/wooorm/emoticon).
 
+###### This project is already being used in [AniTrend](https://anitrend.co/)
+
 # Known Issues
 
 1. Converting of html entities to emojies may not always display the emoji on a given android device if the target device does not have the suggested emoticons e.g. android 4.3 does not have some emoticons available in android 5.0+
-2. Depending on the complexity of the string passed the conversion may take a second or two which may make your divice jitter, I strongly suggest doing conversions in a background thread. This could be between sending a network request.
+
+# Suggestions
+
+1. Depending on the complexity of the string passed the conversion may take a second or two which may make your application jitter, I strongly suggest doing conversions in a background thread. This could be between sending a network request or recieving it.
+2. If you are using a markdown library like __[txtmark](https://github.com/rjeschke/txtmark)__ you can skip convertion of __HexHtml & HtmlCodes__ to emoji and just pass the text to a __[Spanned](https://developer.android.com/reference/android/text/Spanned.html)__
 
 # Getting Started
 
@@ -51,10 +57,7 @@ public class App extends Application {
 
 # Screen Shots
 <br/>
-<img src="https://github.com/wax911/android-emojify/raw/master/screenshots/device-2017-09-25-155538.png" width="350px" />
-<img src="https://github.com/wax911/android-emojify/raw/master/screenshots/device-2017-09-25-155600.png" width="350px" />
-<img src="https://github.com/wax911/android-emojify/raw/master/screenshots/device-2017-09-25-155617.png" width="350px" />
-<img src="https://github.com/wax911/android-emojify/raw/master/screenshots/device-2017-09-25-155644.png" width="350px" />
+<img src="https://github.com/wax911/android-emojify/raw/master/screenshots/device-2017-09-25-155538.png" width="350px" /> <img src="https://github.com/wax911/android-emojify/raw/master/screenshots/device-2017-09-25-155600.png" width="350px" /> <img src="https://github.com/wax911/android-emojify/raw/master/screenshots/device-2017-09-25-155617.png" width="350px" /> <img src="https://github.com/wax911/android-emojify/raw/master/screenshots/device-2017-09-25-155644.png" width="350px" />
 
 # Examples:
 

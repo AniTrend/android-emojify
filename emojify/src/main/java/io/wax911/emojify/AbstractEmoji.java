@@ -9,15 +9,15 @@ import com.google.code.regexp.Pattern;
  */
 abstract class AbstractEmoji {
 
-	static final Pattern shortCodePattern = Pattern.compile(":(\\w+):");
-	
-	static final Pattern htmlEntityPattern = Pattern.compile("&#\\w+;");
-	
-	static final Pattern htmlSurrogateEntityPattern = Pattern.compile("(?<H>&#\\w+;)(?<L>&#\\w+;)");
-	
-	static final Pattern htmlSurrogateEntityPattern2 = Pattern.compile("&#\\w+;&#\\w+;&#\\w+;&#\\w+;");
-	
-	static final Pattern shortCodeOrHtmlEntityPattern = Pattern.compile(":\\w+:|(?<H1>&#\\w+;)(?<H2>&#\\w+;)(?<L1>&#\\w+;)(?<L2>&#\\w+;)|(?<H>&#\\w+;)(?<L>&#\\w+;)|&#\\w+;");
+	protected static final Pattern shortCodePattern = Pattern.compile(":(\\w+):");
+
+	protected static final Pattern htmlEntityPattern = Pattern.compile("&#\\w+;");
+
+	protected static final Pattern htmlSurrogateEntityPattern = Pattern.compile("(?<H>&#\\w+;)(?<L>&#\\w+;)");
+
+	protected static final Pattern htmlSurrogateEntityPattern2 = Pattern.compile("&#\\w+;&#\\w+;&#\\w+;&#\\w+;");
+
+	protected static final Pattern shortCodeOrHtmlEntityPattern = Pattern.compile(":\\w+:|(?<H1>&#\\w+;)(?<H2>&#\\w+;)(?<L1>&#\\w+;)(?<L2>&#\\w+;)|(?<H>&#\\w+;)(?<L>&#\\w+;)|&#\\w+;");
 	
 	/**
 	 * Helper to convert emoji characters to html entities in a string
@@ -26,7 +26,7 @@ abstract class AbstractEmoji {
 	 * @param isHex isHex
 	 * @return htmlified string
 	 */
-	static String htmlifyHelper(String text, boolean isHex, boolean isSurrogate) {
+	protected static String htmlifyHelper(String text, boolean isHex, boolean isSurrogate) {
 
 		StringBuffer sb = new StringBuffer();
 
