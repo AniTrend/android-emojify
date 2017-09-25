@@ -1,12 +1,12 @@
 # Android Emojify &nbsp; &nbsp; [![Release](https://jitpack.io/v/wax911/android-emojify.svg?style=flat-square)](https://jitpack.io/#wax911/android-emojify) &nbsp; [![Codacy Badge](https://api.codacy.com/project/badge/Grade/30a8f983c55541cbb504671ecc32786c)](https://www.codacy.com/app/wax911/android-emojify?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=wax911/android-emojify&amp;utm_campaign=Badge_Grade) &nbsp; [![Build Status](https://travis-ci.org/wax911/android-emojify.svg?branch=master)](https://travis-ci.org/wax911/android-emojify) &nbsp; [![Stories in Ready](https://badge.waffle.io/wax911/android-emojify.svg?label=ready&title=Ready)](http://waffle.io/wax911/android-emojify)
 
-This project is an android port from [emoji4j](https://github.com/kcthota/emoji4j)
-
-Which is a java library to convert short codes, html entities to emojis and vice-versa. Also supports parsing emoticons, surrogate html entities.
+This project is an android port of the [emoji4j](https://github.com/kcthota/emoji4j) which is a java library to convert short codes, html entities to emojis and vice-versa. Also supports parsing emoticons, surrogate html entities.
 
 Inspired by [vdurmont/emoji-java](https://github.com/vdurmont/emoji-java), emoji4j adds more goodies and helpers to deal with emojis. The emoji data is based on the database from [github/gemoji](https://github.com/github/gemoji) and ASCII emoticons data from [wooorm/emoticon](https://github.com/wooorm/emoticon).
 
 ###### This project is already being used in [AniTrend](https://anitrend.co/)
+
+<a href='https://ko-fi.com/A3772XCL' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://az743702.vo.msecnd.net/cdn/kofi5.png?v=0' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
 
 # Known Issues
 
@@ -198,3 +198,21 @@ String text = "A &#128049;, &#x1f436;,&nbsp;:coyote: and a :mouse: became friend
 EmojiUtils.countEmojis(text); //returns 8
 
 ```
+
+# License
+
+```
+   Copyright 2017 Maxwell Mapako
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+   ```
