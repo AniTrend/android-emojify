@@ -28,7 +28,7 @@ dependencies {
     compile "com.android.support:design:${versions.supportLibrary}"
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
 
-    compile project(":emojify")
+    compile 'com.github.wax911:android-emojify:v0.1'
 
     testCompile 'junit:junit:4.12'
 }

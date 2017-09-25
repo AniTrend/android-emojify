@@ -33,7 +33,7 @@ public class EmojiUtils extends AbstractEmoji {
 			if (Matchers.equalTo(code).matches(emoji.getEmoji()) || Matchers.equalToIgnoringCase(code).matches(emoji.getEmoji()) ||
 					Matchers.equalToIgnoringCase(code).matches(emoji.getHexHtml()) || Matchers.equalToIgnoringCase(code).matches(emoji.getDecimalHtml()) ||
 					Matchers.equalToIgnoringCase(code).matches(emoji.getDecimalSurrogateHtml()) || Matchers.equalToIgnoringCase(code).matches(emoji.getHexHtmlShort()) ||
-					Matchers.equalToIgnoringCase(code).matches(emoji.getDecimalHtmlShort()) || Matchers.hasItem(code).matches(emoji.getAliases()) || Matchers.hasItem(code).matches(emoji.getEmoticons())) {
+					Matchers.equalToIgnoringCase(code).matches(emoji.getDecimalHtmlShort()) || Matchers.hasItem(code).matches(emoji.getAliases())) {
 				return emoji;
 			}
 		}
