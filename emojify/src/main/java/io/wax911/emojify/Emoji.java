@@ -18,7 +18,9 @@ public final class Emoji extends AbstractEmoji implements Parcelable {
 
 	private List<String> aliases;
 
-	private List<String> emoticons;
+	private String category;
+
+	private String description;
 
 	private List<String> tags;
 
@@ -35,7 +37,8 @@ public final class Emoji extends AbstractEmoji implements Parcelable {
 	protected Emoji(Parcel in) {
 		emoji = in.readString();
 		aliases = in.createStringArrayList();
-		emoticons = in.createStringArrayList();
+		category = in.readString();
+		description = in.readString();
 		tags = in.createStringArrayList();
 		hexHtml = in.readString();
 		decimalHtml = in.readString();
@@ -80,6 +83,14 @@ public final class Emoji extends AbstractEmoji implements Parcelable {
 		return aliases;
 	}
 
+	public String getCategory() {
+		return category;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
 	public List<String> getTags() {
 		return tags;
 	}
@@ -121,21 +132,6 @@ public final class Emoji extends AbstractEmoji implements Parcelable {
 		} else {
 			this.setDecimalHtmlShort(decimalHtml);
 		}
-	}
-
-	/**
-	 * Gets the list of emoticons associated with the emoji
-	 * @return List of all emoticons associated with the emoji
-	 */
-	public List<String> getEmoticons() {
-		return emoticons;
-	}
-
-	public void setEmoticons(List<String> emoticons) {
-		//for(String emoticon:emoticons) {
-			//EmojiManager.addEmoticon(emoticon);
-		//}
-		this.emoticons = emoticons;
 	}
 
 	public String getDecimalSurrogateHtml() {
@@ -190,7 +186,8 @@ public final class Emoji extends AbstractEmoji implements Parcelable {
 	public void writeToParcel(Parcel dest, int flags) {
 		dest.writeString(emoji);
 		dest.writeStringList(aliases);
-		dest.writeStringList(emoticons);
+		dest.writeString(category);
+		dest.writeString(description);
 		dest.writeStringList(tags);
 		dest.writeString(hexHtml);
 		dest.writeString(decimalHtml);

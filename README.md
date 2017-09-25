@@ -1,9 +1,60 @@
-# AndroidEmojify
+# Android Emojify &nbsp; &nbsp; [![Release](https://jitpack.io/v/wax911/android-emojify.svg?style=flat-square)](https://jitpack.io/#wax911/android-emojify)
+
 This project is an android port from [emoji4j](https://github.com/kcthota/emoji4j)
 
 Which is a java library to convert short codes, html entities to emojis and vice-versa. Also supports parsing emoticons, surrogate html entities.
 
 Inspired by [vdurmont/emoji-java](https://github.com/vdurmont/emoji-java), emoji4j adds more goodies and helpers to deal with emojis. The emoji data is based on the database from [github/gemoji](https://github.com/github/gemoji) and ASCII emoticons data from [wooorm/emoticon](https://github.com/wooorm/emoticon).
+
+# Known Issues
+
+1. Converting of html entities to emojies may not always display the emoji on a given android device if the target device does not have the suggested emoticons e.g. android 4.3 does not have some emoticons available in android 5.0+
+2. Depending on the complexity of the string passed the conversion may take a second or two which may make your divice jitter, I strongly suggest doing conversions in a background thread. This could be between sending a network request.
+
+# Getting Started
+
+### Step 1. Add this to your root build.gradle:
+
+```
+allprojects {
+	repositories {
+		...
+		maven { url 'https://jitpack.io' }
+	}
+}
+```
+
+### Step 2. Add the dependency:
+
+```
+dependencies {
+	compile 'com.github.wax911:android-emojify:{latest_version}'
+}
+
+```
+
+### Step 3. Create an application class in your android project and add:
+
+Don't know how to do that?? Take a look at the [application class example](https://github.com/wax911/android-emojify/blob/master/app/src/main/java/io/wax911/emojifysample/App.java)
+
+```
+public class App extends Application {
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        EmojiManager.initEmojiData(getApplicationContext());
+    }
+}
+
+```
+
+# Screen Shots
+<br/>
+<img src="https://github.com/wax911/android-emojify/raw/master/screenshots/device-2017-09-25-155538.png" width="350px" />
+<img src="https://github.com/wax911/android-emojify/raw/master/screenshots/device-2017-09-25-155600.png" width="350px" />
+<img src="https://github.com/wax911/android-emojify/raw/master/screenshots/device-2017-09-25-155617.png" width="350px" />
+<img src="https://github.com/wax911/android-emojify/raw/master/screenshots/device-2017-09-25-155644.png" width="350px" />
 
 # Examples:
 
@@ -21,8 +72,6 @@ EmojiUtils.getEmoji(":blue_car:").getEmoji(); //also returns 🚙
 EmojiUtils.getEmoji("&#x1f42d;").getEmoji(); //returns 🐭
 
 EmojiUtils.getEmoji("&#128045;").getEmoji(); //also returns 🐭
-
-EmojiUtils.getEmoji(":)").getEmoji(); //returns 😃
 
 EmojiUtils.getEmoji("&#55357;&#56833;").getEmoji(); //returns 😁
 
@@ -75,10 +124,6 @@ String text = "A &#128049;, &#x1f436; and a :mouse: became friends. For the :dog
 
 EmojiUtils.emojify(text); //returns A 🐱, 🐶 and a 🐭 became friends. For the 🐶's birthday party, they all had 🍔s, 🍟s, 🍪s and 🍰.
 
-String text=":):-),:-):-]:-xP=*:*<3:P:p,=-)";
-
-EmojiUtils.emojify(text); //returns 😃😃😅😃😶😝😗😗❤️😛😛😅
-
 ```
 
 ## htmlify
@@ -127,10 +172,6 @@ EmojiUtils.htmlify(text, true); //returns &#55357;&#56835;
 String text = "A 🐱, 🐶 and a 🐭 became friends❤️. For 🐶's birthday party, they all had 🍔s, 🍟s, 🍪s and 🍰.";
 
 EmojiUtils.shortCodify(text); //returns A :cat:, :dog: and a :mouse: became friends:heart:. For :dog:'s birthday party, they all had :hamburger:s, :fries:s, :cookie:s and :cake:.
-
-text = ":):-),:-):-]:-xP=*:*<3:P:p,=-)";
-
-EmojiUtils.shortCodify(text); //returns :smiley::smiley::sweat_smile::smiley::no_mouth::stuck_out_tongue_closed_eyes::kissing::kissing::heart::stuck_out_tongue::stuck_out_tongue::sweat_smile:
 
 ```
 

@@ -24,7 +24,6 @@ import static org.junit.Assert.*;
 @RunWith(AndroidJUnit4.class)
 public class EmojiInstrumentedTest {
 
-    @Test
     public Context useAppContext() throws Exception {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
@@ -181,16 +180,6 @@ public class EmojiInstrumentedTest {
     }
 
     @Test
-    public void testShortCodifyFromEmoticons() {
-        startingPoint();
-        String text = ":):-),:-):-]:-xP=*:*<3:P:p,=-)";
-        String actual = EmojiUtils.shortCodify(text);
-        assertEquals(":smiley::smiley::sweat_smile::smiley::no_mouth::stuck_out_tongue_closed_eyes::kissing::kissing::heart::stuck_out_tongue::stuck_out_tongue::sweat_smile:", actual);
-
-        assertEquals("😃😃😅😃😶😝😗😗❤️😛😛😅", EmojiUtils.emojify(actual));
-    }
-
-    @Test
     public void testShortCodifyFromHtmlEntities() {
         startingPoint();
         String text = "A &#128049;, &#128054; and a &#128045; became friends. For &#128054;'s birthday party, they all had &#127828;s, &#127839;s, &#127850;s and &#127856;.";
@@ -211,8 +200,8 @@ public class EmojiInstrumentedTest {
     @Test
     public void surrogateDecimalToEmojiTest() {
         startingPoint();
-        String emojiText = "A &#55357;&#56369;, &#x1f436;&#55357;&#56369; and a &#55357;&#56365; became friends. They had &#junk;&#55356;&#57172;&#junk; :-)";
-        assertEquals("A 🐱, 🐶🐱 and a 🐭 became friends. They had &#junk;🍔&#junk; 😃", EmojiUtils.emojify(emojiText));
+        String emojiText = "A &#55357;&#56369;, &#x1f436;&#55357;&#56369; and a &#55357;&#56365; became friends. They had &#junk;&#55356;&#57172;&#junk;";
+        assertEquals("A 🐱, 🐶🐱 and a 🐭 became friends. They had &#junk;🍔&#junk;", EmojiUtils.emojify(emojiText));
 
         emojiText = "&#10084;&#65039;&#junk;&#55357;&#56374;";
         assertEquals("❤️&#junk;🐶", EmojiUtils.emojify(emojiText));
