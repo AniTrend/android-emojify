@@ -1,4 +1,4 @@
-# Android Emojify &nbsp; &nbsp; [![Release](https://jitpack.io/v/wax911/android-emojify.svg?style=flat-square)](https://jitpack.io/#wax911/android-emojify) &nbsp; [![Codacy Badge](https://api.codacy.com/project/badge/Grade/30a8f983c55541cbb504671ecc32786c)](https://www.codacy.com/app/wax911/android-emojify?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=wax911/android-emojify&amp;utm_campaign=Badge_Grade) &nbsp; [![Build Status](https://travis-ci.org/wax911/android-emojify.svg?branch=master)](https://travis-ci.org/wax911/android-emojify) &nbsp; [![Stories in Ready](https://badge.waffle.io/wax911/android-emojify.svg?label=ready&title=Ready)](http://waffle.io/wax911/android-emojify)
+# Android Emojify &nbsp; &nbsp; [![Release](https://jitpack.io/v/wax911/android-emojify.svg?style=flat-square)](https://jitpack.io/#wax911/android-emojify) &nbsp; [![Codacy Badge](https://api.codacy.com/project/badge/Grade/30a8f983c55541cbb504671ecc32786c)](https://www.codacy.com/app/wax911/android-emojify?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=wax911/android-emojify&amp;utm_campaign=Badge_Grade) &nbsp; [![Build Status](https://travis-ci.org/wax911/android-emojify.svg?branch=master)](https://travis-ci.org/wax911/android-emojify) &nbsp; [![Stories in Ready](https://badge.waffle.io/wax911/android-emojify.svg?label=ready&title=Ready&style=flat-square)](http://waffle.io/wax911/android-emojify) &nbsp; [![license](https://img.shields.io/github/license/mashape/apistatus.svg?style=flat-square)](https://github.com/wax911/android-emojify/blob/master/LICENSE)
 
 This project is an android port of the [emoji4j](https://github.com/kcthota/emoji4j) which is a java library to convert short codes, html entities to emojis and vice-versa. Also supports parsing emoticons, surrogate html entities.
 
@@ -16,6 +16,10 @@ Inspired by [vdurmont/emoji-java](https://github.com/vdurmont/emoji-java), emoji
 
 1. Depending on the complexity of the string passed the conversion may take a second or two which may make your application jitter, I strongly suggest doing conversions in a background thread. This could be between sending a network request or recieving it.
 2. If you are using a markdown library like __[txtmark](https://github.com/rjeschke/txtmark)__ you can skip convertion of __HexHtml & HtmlCodes__ to emoji and just pass the text to a __[Spanned](https://developer.android.com/reference/android/text/Spanned.html)__
+
+# Use Case
+
+Got a social application but you need someway of having emoji support? Then this library is for you, all your backend stores is the html entities. Your client application would have to convert all emoji objects in a given string and transmit that to your server. When the client request status or blog text it has to convert the html entities to emoji objects which your android operating system will resolve. See examples below!
 
 # Getting Started
 
