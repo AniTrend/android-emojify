@@ -15,7 +15,7 @@ Inspired by [vdurmont/emoji-java](https://github.com/vdurmont/emoji-java), emoji
 # Suggestions
 
 1. Depending on the complexity of the string passed the conversion may take a second or two which may make your application jitter, I strongly suggest doing conversions in a background thread. This could be between sending a network request or recieving it.
-2. If you are using a markdown library like __[txtmark](https://github.com/rjeschke/txtmark)__ you can skip convertion of __HexHtml & HtmlCodes__ to emoji and just pass the text to a __[Spanned](https://developer.android.com/reference/android/text/Spanned.html)__
+2. If you are using a markdown library like __[txtmark](https://github.com/rjeschke/txtmark)__ or using just ```Html.fromHtml()```  you can skip convertion of __HexHtml & HtmlCodes__ to emoji and just pass the returned  __[Spanned](https://developer.android.com/reference/android/text/Spanned.html)__ from the ```Html.fromHtml``` to your text view. (See sample in project)
 
 # Use Case
 
@@ -173,7 +173,7 @@ EmojiUtils.htmlify(text, true); //returns &#55357;&#56835;
 
 ```
 
-##shortCodify
+## shortCodify
 
 ```
 String text = "A 🐱, 🐶 and a 🐭 became friends❤️. For 🐶's birthday party, they all had 🍔s, 🍟s, 🍪s and 🍰.";
