@@ -30,13 +30,13 @@ public class EmojiInstrumentedTest {
 
     @Test
     public void startingPoint() {
-        if(EmojiManager.data() == null)
+        if(EmojiManager.emojiData == null)
             try {
                 EmojiManager.initEmojiData(useAppContext());
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        assertNotNull(EmojiManager.data());
+        assertNotNull(EmojiManager.emojiData);
     }
 
     @Test

@@ -17,18 +17,8 @@ import java.util.List;
  *
  */
 public final class EmojiManager {
-
-	protected static Pattern emoticonRegexPattern;
 	
-	protected static List<Emoji> emojiData;
-
-	/**
-	 * Returns the complete emoji data
-	 * @return List of emoji objects
-	 */
-	public static List<Emoji> data() {
-		return emojiData;
-	}
+	static List<Emoji> emojiData;
 
 	public static void initEmojiData(Context context) {
 		BufferedReader reader;
@@ -44,13 +34,5 @@ public final class EmojiManager {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
-
-	/**
-	 * Returns the Regex which can match all emoticons in a string
-	 * @return regex pattern for emoticons
-	 */
-	public static Pattern getEmoticonRegexPattern() {
-		return emoticonRegexPattern;
 	}
 }

@@ -13,7 +13,6 @@ import org.hamcrest.Matchers;
  */
 public class EmojiUtils extends AbstractEmoji {
 
-	
 	/**
 	 * Get emoji by unicode, short code, decimal html entity or hexadecimal html
 	 * entity
@@ -29,7 +28,7 @@ public class EmojiUtils extends AbstractEmoji {
 		if (m.find())
 			code = m.group(1);
 
-		for (Emoji emoji: EmojiManager.data()) {
+		for (Emoji emoji: EmojiManager.emojiData) {
 			if (Matchers.equalTo(code).matches(emoji.getEmoji()) || Matchers.equalToIgnoringCase(code).matches(emoji.getEmoji()) ||
 					Matchers.equalToIgnoringCase(code).matches(emoji.getHexHtml()) || Matchers.equalToIgnoringCase(code).matches(emoji.getDecimalHtml()) ||
 					Matchers.equalToIgnoringCase(code).matches(emoji.getDecimalSurrogateHtml()) || Matchers.equalToIgnoringCase(code).matches(emoji.getHexHtmlShort()) ||
@@ -213,12 +212,8 @@ public class EmojiUtils extends AbstractEmoji {
 		// surrogate pairs
 		// so at this point, we iterate through all the emojis and replace with
 		// short codes
-		for (Emoji emoji : EmojiManager.data()) {
-			StringBuilder shortCodeBuilder = new StringBuilder();
-			shortCodeBuilder.append(":").append(emoji.getAliases().get(0)).append(":");
-
-			emojifiedText = emojifiedText.replace(emoji.getEmoji(), shortCodeBuilder.toString());
-		}
+		for (Emoji emoji : EmojiManager.emojiData)
+			emojifiedText = emojifiedText.replace(emoji.getEmoji(), ":" + emoji.getAliases().get(0) + ":");
 		return emojifiedText;
 	}
 	
@@ -230,7 +225,7 @@ public class EmojiUtils extends AbstractEmoji {
 	 */
 	public static String removeAllEmojis(String emojiText) {
 		
-		for (Emoji emoji : EmojiManager.data()) {
+		for (Emoji emoji : EmojiManager.emojiData) {
 			emojiText = emojiText.replace(emoji.getEmoji(), "");
 		}
 		return emojiText;
