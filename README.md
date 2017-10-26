@@ -182,7 +182,7 @@ EmojiUtils.shortCodify(text); //returns A :cat:, :dog: and a :mouse: became frie
 
 ```
 
-## RemoveAllEmojis
+## removeAllEmojis
 Removes unicode emoji characters from the passed string
 
 ```
