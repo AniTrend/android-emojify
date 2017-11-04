@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.google.code.regexp.Pattern;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.BufferedReader;
@@ -21,16 +22,12 @@ public final class EmojiManager {
 	static List<Emoji> emojiData;
 
 	public static void initEmojiData(Context context) {
-		BufferedReader reader;
-		StringBuilder stringBuilder = new StringBuilder();
 		try {
-			reader = new BufferedReader(new InputStreamReader(context.getAssets().open("emoticons/emoji.json")));
-			String mLine;
-			while ((mLine = reader.readLine()) != null)
-                stringBuilder.append(mLine);
-
-			Gson jsonConverter = new Gson();
-			EmojiManager.emojiData = jsonConverter.fromJson(stringBuilder.toString(), new TypeToken<ArrayList<Emoji>>() {}.getType());
+			Gson gson = new GsonBuilder()
+					.enableComplexMapKeySerialization()
+					.setLenient().create();
+			BufferedReader reader = new BufferedReader(new InputStreamReader(context.getAssets().open("emoticons/emoji.json")));
+			EmojiManager.emojiData = gson.fromJson(reader, new TypeToken<ArrayList<Emoji>>() {}.getType());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
