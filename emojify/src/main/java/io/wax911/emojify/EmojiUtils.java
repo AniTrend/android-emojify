@@ -5,6 +5,8 @@ import com.google.code.regexp.Pattern;
 
 import org.hamcrest.Matchers;
 
+import java.util.List;
+
 /**
  * Utils to deal with emojis
  * 
@@ -12,6 +14,10 @@ import org.hamcrest.Matchers;
  *
  */
 public class EmojiUtils extends AbstractEmoji {
+
+	public static List<Emoji> getAllEmojis() {
+		return EmojiManager.emojiData;
+	}
 
 	/**
 	 * Get emoji by unicode, short code, decimal html entity or hexadecimal html
