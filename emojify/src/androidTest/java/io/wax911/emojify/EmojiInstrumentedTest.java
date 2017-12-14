@@ -4,8 +4,19 @@ import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import java.io.BufferedOutputStream;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
@@ -234,5 +245,25 @@ public class EmojiInstrumentedTest {
         assertEquals(emojiText, EmojiUtils.emojify(decHtmlString));
 
         assertEquals(emojiText, EmojiUtils.emojify(hexHtmlString));
+    }
+
+    @Test
+    public void testSaveEmoji() throws Exception {
+        List<Emoji> emojiData = EmojiManager.emojiData;
+        Gson gson = new GsonBuilder()
+                .enableComplexMapKeySerialization()
+                .setLenient().create();
+        File target = new File(useAppContext().getExternalCacheDir(), "emoji.json");
+        FileWriter fileWriter = new FileWriter(target);
+        fileWriter.append(gson.toJson(emojiData));
+        fileWriter.flush();
+        fileWriter.close();
+    }
+
+    @Test
+    public void testRemoveEmoji() throws Exception {
+        File target = new File(useAppContext().getExternalCacheDir(), "emoji.json");
+        if(target.exists())
+            assertEquals(true, target.delete());
     }
 }

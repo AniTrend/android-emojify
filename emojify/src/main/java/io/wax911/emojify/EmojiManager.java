@@ -22,14 +22,16 @@ public final class EmojiManager {
 	static List<Emoji> emojiData;
 
 	public static void initEmojiData(Context context) {
-		try {
-			Gson gson = new GsonBuilder()
-					.enableComplexMapKeySerialization()
-					.setLenient().create();
-			BufferedReader reader = new BufferedReader(new InputStreamReader(context.getAssets().open("emoticons/emoji.json")));
-			EmojiManager.emojiData = gson.fromJson(reader, new TypeToken<ArrayList<Emoji>>() {}.getType());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		if(EmojiManager.emojiData == null || EmojiManager.emojiData.size() < 1)
+            try {
+                Gson gson = new GsonBuilder()
+                        .enableComplexMapKeySerialization()
+                        .setLenient().create();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(context.getAssets().open("emoticons/emoji.json")));
+                EmojiManager.emojiData = gson.fromJson(reader, new TypeToken<ArrayList<Emoji>>() {}.getType());
+                reader.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 	}
 }
