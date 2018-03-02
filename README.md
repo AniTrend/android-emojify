@@ -208,7 +208,7 @@ EmojiUtils.countEmojis(text); //returns 8
 ```
 MIT License
 
-Copyright (c) 2017 Maxwell Mapako
+Copyright (c) 2018 Maxwell Mapako
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
