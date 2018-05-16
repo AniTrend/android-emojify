@@ -1,1 +1,1 @@
-include ':app', ':emojify', ':emojifykeyboard'
+include ':app', ':emojify'

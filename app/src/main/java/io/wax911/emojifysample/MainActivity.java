@@ -1,18 +1,14 @@
 package io.wax911.emojifysample;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.Editable;
-import android.text.Html;
-import android.text.Spannable;
-import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.SpannedString;
 import android.view.View;
 import android.widget.Toast;
 
-import io.wax911.emojify.Emoji;
 import io.wax911.emojify.EmojiUtils;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
