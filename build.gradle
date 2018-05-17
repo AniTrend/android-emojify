@@ -5,8 +5,8 @@ buildscript {
         'compileSdk'    : 27,
         'targetSdk'     : 27,
         'minSdk'        : 17,
-        'versionCode'   : 6,
-        'versionName'   : '0.1.6',
+        'versionCode'   : 7,
+        'versionName'   : '0.1.7',
         'buildTools'    : '27.0.3',
         'supportLibrary': '27.1.1'
     ]
