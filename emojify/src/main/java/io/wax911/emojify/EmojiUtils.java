@@ -218,8 +218,11 @@ public class EmojiUtils extends AbstractEmoji {
 		// surrogate pairs
 		// so at this point, we iterate through all the emojis and replace with
 		// short codes
-		for (Emoji emoji : EmojiManager.emojiData)
-			emojifiedText = emojifiedText.replace(emoji.getEmoji(), ":" + emoji.getAliases().get(0) + ":");
+		for (Emoji emoji : EmojiManager.emojiData) {
+			if(emoji != null && emojifiedText != null && emoji.getEmoji() != null && emoji.getAliases() != null){
+				emojifiedText = emojifiedText.replace(emoji.getEmoji(), ":" + emoji.getAliases().get(0) + ":");
+			}
+		}
 		return emojifiedText;
 	}
 	
