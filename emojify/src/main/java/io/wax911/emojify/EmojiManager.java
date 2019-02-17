@@ -2,12 +2,12 @@ package io.wax911.emojify;
 
 import android.content.Context;
 
-import com.google.code.regexp.Pattern;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +21,7 @@ public final class EmojiManager {
 	
 	static List<Emoji> emojiData;
 
-	public static void initEmojiData(Context context) {
+	public static void initEmojiData(Context context) throws IOException {
 		if(EmojiManager.emojiData == null || EmojiManager.emojiData.size() < 1)
             try {
                 Gson gson = new GsonBuilder()
@@ -31,7 +31,7 @@ public final class EmojiManager {
                 EmojiManager.emojiData = gson.fromJson(reader, new TypeToken<ArrayList<Emoji>>() {}.getType());
                 reader.close();
             } catch (Exception e) {
-                e.printStackTrace();
+                throw new IOException("Error initializing emoji data", e);
             }
 	}
 }

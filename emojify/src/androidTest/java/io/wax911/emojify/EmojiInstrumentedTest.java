@@ -7,6 +7,7 @@ import android.support.test.runner.AndroidJUnit4;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -35,21 +36,28 @@ public class EmojiInstrumentedTest {
         return appContext;
     }
 
-    @Test
-    public void startingPoint() {
-        if(EmojiManager.emojiData == null)
-            try {
-                EmojiManager.initEmojiData(useAppContext());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+    @Before
+    public void startingPoint() throws Exception {
+        if(EmojiManager.emojiData == null) {
+            EmojiManager.initEmojiData(useAppContext());
+        }
         assertNotNull(EmojiManager.emojiData);
+    }
+
+    @Test
+    public void testAllEmojis() {
+        for (Emoji emoji : EmojiManager.emojiData) {
+            assertNotNull(emoji);
+            assertNotNull(emoji.getEmoji());
+            assertNotNull(emoji.getAliases());
+            // any more that should never be null?
+            // also test for non-emptiness?
+        }
     }
 
     @Test
     public void testEmojiByUnicode() {
         // existing emoji
-        startingPoint();
         Emoji emoji = EmojiUtils.getEmoji("😃");
         assertNotNull(emoji);
         assertTrue(emoji.getAliases().contains("smiley"));
@@ -66,7 +74,6 @@ public class EmojiInstrumentedTest {
     @Test
     public void testEmojiByShortCode() {
         // existing emoji
-        startingPoint();
         Emoji emoji = EmojiUtils.getEmoji("blue_car");
         assertNotNull(emoji);
         assertEquals("🚙",emoji.getEmoji());
@@ -79,7 +86,6 @@ public class EmojiInstrumentedTest {
     @Test
     public void testEmojiByShortCodeWithColons() {
         // existing emoji
-        startingPoint();
         Emoji emoji = EmojiUtils.getEmoji(":blue_car:");
         assertNotNull(emoji);
         assertEquals("🚙",emoji.getEmoji());
@@ -92,7 +98,6 @@ public class EmojiInstrumentedTest {
     @Test
     public void testEmojiByHexHtml() {
         // get by hexhtml
-        startingPoint();
         Emoji emoji = EmojiUtils.getEmoji("&#x1f42d;");
         assertNotNull(emoji);
         assertTrue(emoji.getEmoji().equals("🐭"));
@@ -102,7 +107,6 @@ public class EmojiInstrumentedTest {
     @Test
     public void testEmojiByDecimalHtml() {
         // get by decimal html
-        startingPoint();
         Emoji emoji = EmojiUtils.getEmoji("&#128045;");
         assertNotNull(emoji);
         assertTrue(emoji.getEmoji().equals("🐭"));
@@ -111,7 +115,6 @@ public class EmojiInstrumentedTest {
 
     @Test
     public void testIsEmoji() {
-        startingPoint();
         assertTrue(EmojiUtils.isEmoji("&#128045;"));
 
         assertFalse(EmojiUtils.isEmoji("&#123;"));
@@ -125,7 +128,6 @@ public class EmojiInstrumentedTest {
 
     @Test
     public void testEmojify1() {
-        startingPoint();
         String text = "A :cat:, :dog: and a :mouse: became friends. For :dog:'s birthday party, they all had :hamburger:s, :fries:s, :cookie:s and :cake:.";
         assertEquals("A 🐱, 🐶 and a 🐭 became friends. For 🐶's birthday party, they all had 🍔s, 🍟s, 🍪s and 🍰.", EmojiUtils.emojify(text));
 
@@ -136,7 +138,6 @@ public class EmojiInstrumentedTest {
 
     @Test
     public void testEmojify2() {
-        startingPoint();
         String text = "A &#128049;, &#x1f436; and a :mouse: became friends. For :dog:'s birthday party, they all had :hamburger:s, :fries:s, :cookie:s and :cake:.";
         assertEquals("A 🐱, 🐶 and a 🐭 became friends. For 🐶's birthday party, they all had 🍔s, 🍟s, 🍪s and 🍰.", EmojiUtils.emojify(text));
 
@@ -146,14 +147,12 @@ public class EmojiInstrumentedTest {
 
     @Test
     public void testCountEmojis() {
-        startingPoint();
         String text = "A &#128049;, &#x1f436;,&nbsp;:coyote: and a :mouse: became friends. For :dog:'s birthday party, they all had 🍔s, :fries:s, :cookie:s and :cake:.";
         assertTrue(EmojiUtils.countEmojis(text) == 8);
     }
 
     @Test
     public void testHtmlify() {
-        startingPoint();
         String text = "A :cat:, :dog: and a :mouse: became friends. For :dog:'s birthday party, they all had :hamburger:s, :fries:s, :cookie:s and :cake:.";
         String htmlifiedText = EmojiUtils.htmlify(text);
 
@@ -166,7 +165,6 @@ public class EmojiInstrumentedTest {
 
     @Test
     public void testHexHtmlify() {
-        startingPoint();
         String text = "A :cat:, :dog: and a :mouse: became friends. For :dog:'s birthday party, they all had :hamburger:s, :fries:s, :cookie:s and :cake:.";
         String htmlifiedText = EmojiUtils.hexHtmlify(text);
 
@@ -177,7 +175,6 @@ public class EmojiInstrumentedTest {
 
     @Test
     public void testShortCodifyFromEmojis() {
-        startingPoint();
         String text = "A 🐱, 🐶 and a 🐭 became friends❤️. For 🐶's birthday party, they all had 🍔s, 🍟s, 🍪s and 🍰.";
         assertEquals("A :cat:, :dog: and a :mouse: became friends:heart:. For :dog:'s birthday party, they all had :hamburger:s, :fries:s, :cookie:s and :cake:.", EmojiUtils.shortCodify(text));
 
@@ -185,7 +182,6 @@ public class EmojiInstrumentedTest {
 
     @Test
     public void testShortCodifyFromHtmlEntities() {
-        startingPoint();
         String text = "A &#128049;, &#128054; and a &#128045; became friends. For &#128054;'s birthday party, they all had &#127828;s, &#127839;s, &#127850;s and &#127856;.";
         assertEquals("A :cat:, :dog: and a :mouse: became friends. For :dog:'s birthday party, they all had :hamburger:s, :fries:s, :cookie:s and :cake:.", EmojiUtils.shortCodify(text));
 
@@ -196,14 +192,12 @@ public class EmojiInstrumentedTest {
 
     @Test
     public void removeAllEmojisTest() {
-        startingPoint();
         String emojiText = "A 🐱, 🐱 and a 🐭 became friends❤️. For 🐶's birthday party, they all had 🍔s, 🍟s, 🍪s and 🍰.";
         assertEquals("A ,  and a  became friends. For 's birthday party, they all had s, s, s and .", EmojiUtils.removeAllEmojis(emojiText));
     }
 
     @Test
     public void surrogateDecimalToEmojiTest() {
-        startingPoint();
         String emojiText = "A &#55357;&#56369;, &#x1f436;&#55357;&#56369; and a &#55357;&#56365; became friends. They had &#junk;&#55356;&#57172;&#junk;";
         assertEquals("A 🐱, 🐶🐱 and a 🐭 became friends. They had &#junk;🍔&#junk;", EmojiUtils.emojify(emojiText));
 
@@ -216,7 +210,6 @@ public class EmojiInstrumentedTest {
 
     @Test
     public void toSurrogateDecimalAndBackTest() {
-        startingPoint();
         String text = "😃😃😅😃😶😝😗😗❤️😛😛😅❤️😛";
         String htmlifiedText = EmojiUtils.htmlify(text, true);
         assertEquals("&#55357;&#56835;&#55357;&#56835;&#55357;&#56837;&#55357;&#56835;&#55357;&#56886;&#55357;&#56861;&#55357;&#56855;&#55357;&#56855;&#55242;&#56164;&#55296;&#55823;&#55357;&#56859;&#55357;&#56859;&#55357;&#56837;&#55242;&#56164;&#55296;&#55823;&#55357;&#56859;", htmlifiedText);
@@ -226,7 +219,6 @@ public class EmojiInstrumentedTest {
 
     @Test
     public void surrogateToHTMLTest() {
-        startingPoint();
         String surrogateText = "&#55357;&#56835;&#55357;&#56835;&#55357;&#56837;&#55357;&#56835;&#55357;&#56886;&#55357;&#56861;&#55357;&#56855;&#55357;&#56855;&#55242;&#56164;&#55296;&#55823;&#55357;&#56859;&#55357;&#56859;&#55357;&#56837;&#55242;&#56164;&#55296;&#55823;&#55357;&#56859;";
 
         String emojiText = "😃😃😅😃😶😝😗😗❤️😛😛😅❤️😛";
