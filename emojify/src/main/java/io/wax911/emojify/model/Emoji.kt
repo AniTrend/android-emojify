@@ -1,11 +1,13 @@
 package io.wax911.emojify.model
 
+import com.google.gson.annotations.SerializedName
 import io.wax911.emojify.util.Fitzpatrick
 import java.nio.charset.Charset
 
 
 data class Emoji (
         val description: String? = null,
+        @SerializedName("supports_fitzpatrick")
         val supportsFitzpatrick: Boolean = false,
         val aliases: List<String>? = null,
         val tags: List<String>? = null,
