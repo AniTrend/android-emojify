@@ -11,12 +11,12 @@ class EmojiTrie(emojis: Collection<Emoji>) {
         for (emoji in emojis) {
             var tree: Node? = root
             for (c in emoji.unicode.toCharArray()) {
-                if (!tree!!.hasChild(c)) {
+                if (tree?.hasChild(c) == false) {
                     tree.addChild(c)
                 }
-                tree = tree.getChild(c)
+                tree = tree?.getChild(c)
             }
-            tree!!.emoji = emoji
+            tree?.emoji = emoji
         }
     }
 
@@ -46,13 +46,13 @@ class EmojiTrie(emojis: Collection<Emoji>) {
 
         var tree: Node? = root
         for (c in sequence) {
-            if (!tree!!.hasChild(c)) {
+            if (tree?.hasChild(c) == false) {
                 return Matches.IMPOSSIBLE
             }
-            tree = tree.getChild(c)
+            tree = tree?.getChild(c)
         }
 
-        return if (tree!!.isEndOfEmoji) Matches.EXACTLY else Matches.POSSIBLY
+        return if (tree?.isEndOfEmoji == true) Matches.EXACTLY else Matches.POSSIBLY
     }
 
 
@@ -64,12 +64,12 @@ class EmojiTrie(emojis: Collection<Emoji>) {
     fun getEmoji(unicode: String): Emoji? {
         var tree: Node? = root
         for (c in unicode.toCharArray()) {
-            if (!tree!!.hasChild(c)) {
+            if (tree?.hasChild(c) == false) {
                 return null
             }
-            tree = tree.getChild(c)
+            tree = tree?.getChild(c)
         }
-        return tree!!.emoji
+        return tree?.emoji
     }
 
     enum class Matches {
