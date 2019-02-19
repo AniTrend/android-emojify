@@ -10,16 +10,16 @@ This project is an android port of [vdurmont/emoji-java](https://github.com/vdur
 
 # Suggestions
 
-- From v1.X the project was reworked and should be able to handle conversion from emoji to hexHtml, decHtml or short codes on the main thread,
-however I would recommend moving all convention work to a background thread between network requests for a smoother experience for your users
+- From v1.X the project was reworked and should be able to handle conversion from emoji to hexHtml, decHtml or short codes on the main thread with a slight improvement on processing speed (depending on the length of text of course),
+however I would highly recommend moving all convention work to a background thread between network requests for a smoother experience for your users (read up on the repository pattern).
 - If you are using a markdown library like __[txtmark](https://github.com/rjeschke/txtmark)__ or using just ```Html.fromHtml()```  you can skip
 conversion of __HexHtml & HtmlCodes__ to emoji and just pass the returned  __[Spanned](https://developer.android.com/reference/android/text/Spanned.html)__
 from the ```Html.fromHtml``` to your text view. (See sample in project)
 
 # Migration
 
-A quick run overview of some of the changes, see the rest of the changes under [examples](#Examples) & `EmojiManager.initEmojiData` has been refactored
-to throw exceptions rather than consuming them. [see Getting Started](#GettingStarted), and you can find more example in the library unit tests, e.g. `EmojiUtilTest.kt`
+A quick run overview of some of the changes, see the rest of the changes under __Examples__ section. `EmojiManager.initEmojiData` has also been refactored
+to throw exceptions rather than consuming them. see __Getting Started__ section, and you can find more example in the library unit tests, e.g. `EmojiUtilTest.kt`
 
 ```java
 import io.wax911.emojify.EmojiUtils; //becomes -> io.wax911.emojify.parser.EmojiParser;
@@ -32,22 +32,22 @@ EmojiUtils.shortCodify(); //becomes -> EmojiParser.parseToAliases();
 
 > Starting v1.X conversion is only possible from `emoji -> hexHtml, decHtml or shortCodes` and `hexHtml, decHtml or shortCodes -> emoji`
 > unlike in previous versions where you could convert hexHtml to decHtml or shortCodes & vice-versa.
-
+>
 >```
-.
-├── io
-│   └── wax911
-│       └── emojify
-│           ├── EmojiManager.kt
-│           ├── model
-│           │   └── Emoji.kt
-│           ├── parser
-│           │   └── EmojiParser.kt
-│           └── util
-│               ├── EmojiTrie.kt
-│               └── Fitzpatrick.kt
-```
-> __N.B Package names have been changed and would require refactoring, except for `EmojiManager`__
+>.
+>├── io
+>│   └── wax911
+>│       └── emojify
+>│           ├── EmojiManager.kt
+>│           ├── model
+>│           │   └── Emoji.kt
+>│           ├── parser
+>│           │   └── EmojiParser.kt
+>│           └── util
+>│               ├── EmojiTrie.kt
+>│               └── Fitzpatrick.kt
+>```
+__N.B Package names have been changed and would require refactoring, except for `EmojiManager`__
 
 # Use Case
 
@@ -59,7 +59,7 @@ When the client request status or blog text it has to convert the html entities 
 
 ### Step 1. Add this to your root build.gradle:
 
-```
+```java
 allprojects {
 	repositories {
 		...
@@ -70,7 +70,7 @@ allprojects {
 
 ### Step 2. Add the dependency:
 
-```
+```java
 dependencies {
 	compile 'com.github.wax911:android-emojify:{latest_version}'
 }
@@ -81,7 +81,7 @@ dependencies {
 
 Don't know how to do that?? Take a look at the [application class example](https://github.com/wax911/android-emojify/blob/master/app/src/main/java/io/wax911/emojifysample/App.java)
 
-```
+```java
 public class App extends Application {
 
     @Override
