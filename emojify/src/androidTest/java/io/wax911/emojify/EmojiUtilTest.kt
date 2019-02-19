@@ -5,6 +5,7 @@ import android.support.test.runner.AndroidJUnit4
 import com.google.gson.GsonBuilder
 import io.wax911.emojify.parser.EmojiParser
 import org.junit.Assert.*
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -20,13 +21,14 @@ class EmojiUtilTest {
         EmojiManager.initEmojiData(context)
     }
 
-    @Test
+    @Before
     fun testApplicationContext() {
         assertNotNull(context)
     }
 
-    @Test
+    @Before
     fun testEmojiLoading() {
+        assertNotNull(emojis)
         assertNotNull(EmojiManager.getAll())
     }
 
