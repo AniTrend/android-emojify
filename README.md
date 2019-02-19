@@ -18,7 +18,8 @@ from the ```Html.fromHtml``` to your text view. (See sample in project)
 
 # Migration
 
-A quick run overview of some of the changes, see the rest of the changes under [examples](#Examples)
+A quick run overview of some of the changes, see the rest of the changes under [examples](#Examples) & `EmojiManager.initEmojiData` has been refactored
+to throw exceptions rather than consuming them. [see Getting Started](#GettingStarted), and you can find more example in the library unit tests, e.g. `EmojiUtilTest.kt`
 
 ```java
 import io.wax911.emojify.EmojiUtils; //becomes -> io.wax911.emojify.parser.EmojiParser;
@@ -86,7 +87,12 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        EmojiManager.initEmojiData(getApplicationContext());
+        try {
+            // may throw an exception if init fails
+            EmojiManager.initEmojiData(this)
+        } catch (e: Exception) {
+            e.fillInStackTrace()
+        }
     }
 }
 
