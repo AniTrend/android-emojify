@@ -35,11 +35,11 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         when (view.id) {
             R.id.toEmoji ->
                 // alternatively you could convert your hexHtml to emoji by using Html.fromHtml()
-                //e.g. convertedText = Html.fromHtml(EmojiUtils.hexHtmlify(textContent.toString()));
+                //e.g. convertedText = Html.fromHtml(EmojiParser.parseToHtmlHexadecimal(textContent.toString()));
                 convertedText = SpannedString(EmojiParser.parseToUnicode(textContent.toString()))
             R.id.toHtml ->
                 // alternatively you could convert your hexHtml to emoji by using Html.fromHtml()
-                //e.g. convertedText = Html.fromHtml(EmojiUtils.htmlify(textContent.toString()));
+                //e.g. convertedText = Html.fromHtml(EmojiParser.parseToHtmlDecimal(textContent.toString()));
                 convertedText = SpannedString(EmojiParser.parseToHtmlDecimal(textContent.toString()))
             R.id.toHexHtml ->
                 convertedText = SpannedString(EmojiParser.parseToHtmlHexadecimal(textContent.toString()))

@@ -11,6 +11,10 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        EmojiManager.initEmojiData(this)
+        try {
+            EmojiManager.initEmojiData(this)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 }
