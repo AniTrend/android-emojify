@@ -50,21 +50,24 @@ object EmojiManager {
 
     private const val PATH = "emoticons/emoji.json"
 
+    /**
+     * Initializes emoji objects from an asset file in the library directory
+     *
+     * @param context any valid application context
+     * @throws Exception may throw but not limited to [java.io.IOException] when an error occurs
+     */
+    @Throws(Exception::class)
     fun initEmojiData(context: Context) {
         if (ALL_EMOJIS.isEmpty()) {
-            try {
-                val gson = GsonBuilder()
-                        .enableComplexMapKeySerialization()
-                        .setLenient().create()
-                val reader = BufferedReader(InputStreamReader(context.assets.open(PATH)))
-                ALL_EMOJIS.apply {
-                    addAll(gson.fromJson(reader, object : TypeToken<ArrayList<Emoji>>() {}.type))
-                    forEach { emoji -> emoji.initProperties() }
-                }
-                reader.close()
-            } catch (e: Exception) {
-                e.printStackTrace()
+            val gson = GsonBuilder()
+                    .enableComplexMapKeySerialization()
+                    .setLenient().create()
+            val reader = BufferedReader(InputStreamReader(context.assets.open(PATH)))
+            ALL_EMOJIS.apply {
+                addAll(gson.fromJson(reader, object : TypeToken<ArrayList<Emoji>>() {}.type))
+                forEach { emoji -> emoji.initProperties() }
             }
+            reader.close()
         }
     }
 

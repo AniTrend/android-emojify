@@ -1,14 +1,41 @@
 package io.wax911.emojify
 
+import android.support.test.InstrumentationRegistry
+import android.support.test.runner.AndroidJUnit4
 import io.wax911.emojify.model.Emoji
 import io.wax911.emojify.parser.EmojiParser
-import io.wax911.emojify.parser.EmojiParser.FitzpatrickAction
 import io.wax911.emojify.util.Fitzpatrick
-import org.junit.Assert.*
+import org.junit.Assert
+import org.junit.Before
 import org.junit.Test
+import org.junit.runner.RunWith
 
+/**
+ * Instrumentation test, which will execute on an Android device.
+ *
+ * @see [Testing documentation](http://d.android.com/tools/testing)
+ */
+@RunWith(AndroidJUnit4::class)
+class EmojiParseTest {
 
-class EmojiParserTest {
+    private val context by lazy {
+        InstrumentationRegistry.getTargetContext()
+    }
+
+    private val emojis by lazy {
+        EmojiManager.initEmojiData(context)
+    }
+
+    @Before
+    fun testApplicationContext() {
+        Assert.assertNotNull(context)
+    }
+
+    @Before
+    fun testEmojiLoading() {
+        Assert.assertNotNull(emojis)
+        Assert.assertNotNull(EmojiManager.getAll())
+    }
 
     @Test
     fun parseToAliases_replaces_the_emojis_by_one_of_their_aliases() {
@@ -19,7 +46,7 @@ class EmojiParserTest {
         val result = EmojiParser.parseToAliases(str)
 
         // THEN
-        assertEquals(
+        Assert.assertEquals(
                 "An :grinning:awesome :smiley:string with a few :wink:emojis!",
                 result
         )
@@ -35,7 +62,7 @@ class EmojiParserTest {
         val result = EmojiParser.replaceAllEmojis(str, ":)")
 
         // THEN
-        assertEquals(
+        Assert.assertEquals(
                 "An :)awesome :)string with a few :)emojis!",
                 result
         )
@@ -51,7 +78,7 @@ class EmojiParserTest {
         val result = EmojiParser.parseToAliases(str)
 
         // THEN
-        assertEquals(":boy|type_6:", result)
+        Assert.assertEquals(":boy|type_6:", result)
     }
 
     @Test
@@ -60,10 +87,10 @@ class EmojiParserTest {
         val str = "\uD83D\uDC66\uD83C\uDFFF"
 
         // WHEN
-        val result = EmojiParser.parseToAliases(str, FitzpatrickAction.REMOVE)
+        val result = EmojiParser.parseToAliases(str, EmojiParser.FitzpatrickAction.REMOVE)
 
         // THEN
-        assertEquals(":boy:", result)
+        Assert.assertEquals(":boy:", result)
     }
 
     @Test
@@ -72,10 +99,10 @@ class EmojiParserTest {
         val str = "\uD83D\uDC66"
 
         // WHEN
-        val result = EmojiParser.parseToAliases(str, FitzpatrickAction.REMOVE)
+        val result = EmojiParser.parseToAliases(str, EmojiParser.FitzpatrickAction.REMOVE)
 
         // THEN
-        assertEquals(":boy:", result)
+        Assert.assertEquals(":boy:", result)
     }
 
     @Test
@@ -84,10 +111,10 @@ class EmojiParserTest {
         val str = "\uD83D\uDC66\uD83C\uDFFF"
 
         // WHEN
-        val result = EmojiParser.parseToAliases(str, FitzpatrickAction.IGNORE)
+        val result = EmojiParser.parseToAliases(str, EmojiParser.FitzpatrickAction.IGNORE)
 
         // THEN
-        assertEquals(":boy:\uD83C\uDFFF", result)
+        Assert.assertEquals(":boy:\uD83C\uDFFF", result)
     }
 
     @Test
@@ -96,10 +123,10 @@ class EmojiParserTest {
         val str = "\uD83D\uDC66"
 
         // WHEN
-        val result = EmojiParser.parseToAliases(str, FitzpatrickAction.IGNORE)
+        val result = EmojiParser.parseToAliases(str, EmojiParser.FitzpatrickAction.IGNORE)
 
         // THEN
-        assertEquals(":boy:", result)
+        Assert.assertEquals(":boy:", result)
     }
 
     @Test
@@ -112,7 +139,7 @@ class EmojiParserTest {
 
         //With greedy parsing, this will give :man::woman::boy:
         //THEN
-        assertEquals(":family_man_woman_boy:", result)
+        Assert.assertEquals(":family_man_woman_boy:", result)
     }
 
     @Test
@@ -124,7 +151,7 @@ class EmojiParserTest {
         val result = EmojiParser.parseToAliases(str)
 
         //THEN
-        assertEquals(":woman::man::boy:", result)
+        Assert.assertEquals(":woman::man::boy:", result)
     }
 
     @Test
@@ -136,7 +163,7 @@ class EmojiParserTest {
         val result = EmojiParser.parseToHtmlDecimal(str)
 
         // THEN
-        assertEquals(
+        Assert.assertEquals(
                 "An &#128512;awesome &#128515;string with a few &#128521;emojis!",
                 result
         )
@@ -150,11 +177,11 @@ class EmojiParserTest {
         // WHEN
         val result = EmojiParser.parseToHtmlDecimal(
                 str,
-                FitzpatrickAction.PARSE
+                EmojiParser.FitzpatrickAction.PARSE
         )
 
         // THEN
-        assertEquals("&#128102;", result)
+        Assert.assertEquals("&#128102;", result)
     }
 
     @Test
@@ -165,11 +192,11 @@ class EmojiParserTest {
         // WHEN
         val result = EmojiParser.parseToHtmlDecimal(
                 str,
-                FitzpatrickAction.REMOVE
+                EmojiParser.FitzpatrickAction.REMOVE
         )
 
         // THEN
-        assertEquals("&#128102;", result)
+        Assert.assertEquals("&#128102;", result)
     }
 
     @Test
@@ -180,11 +207,11 @@ class EmojiParserTest {
         // WHEN
         val result = EmojiParser.parseToHtmlDecimal(
                 str,
-                FitzpatrickAction.IGNORE
+                EmojiParser.FitzpatrickAction.IGNORE
         )
 
         // THEN
-        assertEquals("&#128102;\uD83C\uDFFF", result)
+        Assert.assertEquals("&#128102;\uD83C\uDFFF", result)
     }
 
     @Test
@@ -196,7 +223,7 @@ class EmojiParserTest {
         val result = EmojiParser.parseToHtmlHexadecimal(str)
 
         // THEN
-        assertEquals(
+        Assert.assertEquals(
                 "An &#x1f600;awesome &#x1f603;string with a few &#x1f609;emojis!",
                 result
         )
@@ -210,11 +237,11 @@ class EmojiParserTest {
         // WHEN
         val result = EmojiParser.parseToHtmlHexadecimal(
                 str,
-                FitzpatrickAction.PARSE
+                EmojiParser.FitzpatrickAction.PARSE
         )
 
         // THEN
-        assertEquals("&#x1f466;", result)
+        Assert.assertEquals("&#x1f466;", result)
     }
 
     @Test
@@ -225,11 +252,11 @@ class EmojiParserTest {
         // WHEN
         val result = EmojiParser.parseToHtmlHexadecimal(
                 str,
-                FitzpatrickAction.REMOVE
+                EmojiParser.FitzpatrickAction.REMOVE
         )
 
         // THEN
-        assertEquals("&#x1f466;", result)
+        Assert.assertEquals("&#x1f466;", result)
     }
 
     @Test
@@ -240,11 +267,11 @@ class EmojiParserTest {
         // WHEN
         val result = EmojiParser.parseToHtmlHexadecimal(
                 str,
-                FitzpatrickAction.IGNORE
+                EmojiParser.FitzpatrickAction.IGNORE
         )
 
         // THEN
-        assertEquals("&#x1f466;\uD83C\uDFFF", result)
+        Assert.assertEquals("&#x1f466;\uD83C\uDFFF", result)
     }
 
     @Test
@@ -256,7 +283,7 @@ class EmojiParserTest {
         val result = EmojiParser.parseToUnicode(str)
 
         // THEN
-        assertEquals("An 😀awesome 😃string 😄with a few 😉emojis!", result)
+        Assert.assertEquals("An 😀awesome 😃string 😄with a few 😉emojis!", result)
     }
 
     @Test
@@ -268,7 +295,7 @@ class EmojiParserTest {
         val result = EmojiParser.parseToUnicode(str)
 
         // THEN
-        assertEquals(
+        Assert.assertEquals(
                 "An \uD83D\uDC4Dawesome 😃string 😄with a few 😉emojis!",
                 result
         )
@@ -283,7 +310,7 @@ class EmojiParserTest {
         val result = EmojiParser.parseToUnicode(str)
 
         // THEN
-        assertEquals(
+        Assert.assertEquals(
                 "An \uD83D\uDC4Eawesome 😃string 😄with a few 😉emojis!",
                 result
         )
@@ -298,7 +325,7 @@ class EmojiParserTest {
         val result = EmojiParser.parseToUnicode(str)
 
         // THEN
-        assertEquals(
+        Assert.assertEquals(
                 "An \uD83D\uDC4Dawesome 😃string 😄with a few 😉emojis!",
                 result
         )
@@ -313,7 +340,7 @@ class EmojiParserTest {
         val result = EmojiParser.parseToUnicode(str)
 
         // THEN
-        assertEquals("\uD83D\uDC66\uD83C\uDFFF", result)
+        Assert.assertEquals("\uD83D\uDC66\uD83C\uDFFF", result)
     }
 
     @Test
@@ -324,7 +351,7 @@ class EmojiParserTest {
         val result = EmojiParser.parseToUnicode(str)
 
         // THEN
-        assertEquals(str, result)
+        Assert.assertEquals(str, result)
     }
 
     @Test
@@ -336,9 +363,9 @@ class EmojiParserTest {
         val candidates = EmojiParser.getAliasCandidates(str)
 
         // THEN
-        assertEquals(1, candidates.size)
-        assertEquals("candidate", candidates[0].alias)
-        assertNull(candidates[0].fitzpatrick)
+        Assert.assertEquals(1, candidates.size)
+        Assert.assertEquals("candidate", candidates[0].alias)
+        Assert.assertNull(candidates[0].fitzpatrick)
     }
 
     @Test
@@ -350,9 +377,9 @@ class EmojiParserTest {
         val candidates = EmojiParser.getAliasCandidates(str)
 
         // THEN
-        assertEquals(1, candidates.size)
-        assertEquals("candidate", candidates[0].alias)
-        assertNull(candidates[0].fitzpatrick)
+        Assert.assertEquals(1, candidates.size)
+        Assert.assertEquals("candidate", candidates[0].alias)
+        Assert.assertNull(candidates[0].fitzpatrick)
     }
 
     @Test
@@ -364,9 +391,9 @@ class EmojiParserTest {
         val candidates = EmojiParser.getAliasCandidates(str)
 
         // THEN
-        assertEquals(1, candidates.size)
-        assertEquals("candidate", candidates[0].alias)
-        assertNull(candidates[0].fitzpatrick)
+        Assert.assertEquals(1, candidates.size)
+        Assert.assertEquals("candidate", candidates[0].alias)
+        Assert.assertNull(candidates[0].fitzpatrick)
     }
 
     @Test
@@ -378,9 +405,9 @@ class EmojiParserTest {
         val candidates = EmojiParser.getAliasCandidates(str)
 
         // THEN
-        assertEquals(1, candidates.size)
-        assertEquals("candidate", candidates[0].alias)
-        assertNull(candidates[0].fitzpatrick)
+        Assert.assertEquals(1, candidates.size)
+        Assert.assertEquals("candidate", candidates[0].alias)
+        Assert.assertNull(candidates[0].fitzpatrick)
     }
 
     @Test
@@ -392,11 +419,11 @@ class EmojiParserTest {
         val candidates = EmojiParser.getAliasCandidates(str)
 
         // THEN
-        assertEquals(2, candidates.size)
-        assertEquals("candi", candidates[0].alias)
-        assertNull(candidates[0].fitzpatrick)
-        assertEquals("candidate", candidates[1].alias)
-        assertNull(candidates[1].fitzpatrick)
+        Assert.assertEquals(2, candidates.size)
+        Assert.assertEquals("candi", candidates[0].alias)
+        Assert.assertNull(candidates[0].fitzpatrick)
+        Assert.assertEquals("candidate", candidates[1].alias)
+        Assert.assertNull(candidates[1].fitzpatrick)
     }
 
     @Test
@@ -408,11 +435,11 @@ class EmojiParserTest {
         val candidates = EmojiParser.getAliasCandidates(str)
 
         // THEN
-        assertEquals(2, candidates.size)
-        assertEquals("candi", candidates[0].alias)
-        assertNull(candidates[0].fitzpatrick)
-        assertEquals("candidate", candidates[1].alias)
-        assertNull(candidates[1].fitzpatrick)
+        Assert.assertEquals(2, candidates.size)
+        Assert.assertEquals("candi", candidates[0].alias)
+        Assert.assertNull(candidates[0].fitzpatrick)
+        Assert.assertEquals("candidate", candidates[1].alias)
+        Assert.assertNull(candidates[1].fitzpatrick)
     }
 
     @Test
@@ -424,9 +451,9 @@ class EmojiParserTest {
         val candidates = EmojiParser.getAliasCandidates(str)
 
         // THEN
-        assertEquals(1, candidates.size)
-        assertEquals("candidate", candidates[0].alias)
-        assertEquals(Fitzpatrick.TYPE_3, candidates[0].fitzpatrick)
+        Assert.assertEquals(1, candidates.size)
+        Assert.assertEquals("candidate", candidates[0].alias)
+        Assert.assertEquals(Fitzpatrick.TYPE_3, candidates[0].fitzpatrick)
     }
 
     @Test
@@ -434,8 +461,8 @@ class EmojiParserTest {
         val input = "Cuba has a new flag! :cu:"
         val expected = "Cuba has a new flag! \uD83C\uDDE8\uD83C\uDDFA"
 
-        assertEquals(expected, EmojiParser.parseToUnicode(input))
-        assertEquals(input, EmojiParser.parseToAliases(expected))
+        Assert.assertEquals(expected, EmojiParser.parseToUnicode(input))
+        Assert.assertEquals(input, EmojiParser.parseToAliases(expected))
     }
 
     @Test
@@ -448,7 +475,7 @@ class EmojiParserTest {
 
         // THEN
         val expected = "An awesome string with a few emojis!"
-        assertEquals(expected, result)
+        Assert.assertEquals(expected, result)
     }
 
     @Test
@@ -461,8 +488,8 @@ class EmojiParserTest {
         val smile = EmojiManager.getForAlias("smile")
         val onePlus = EmojiManager.getForAlias("+1")
 
-        assertNotNull(smile)
-        assertNotNull(onePlus)
+        Assert.assertNotNull(smile)
+        Assert.assertNotNull(onePlus)
 
         emojis.add(smile!!)
         emojis.add(onePlus!!)
@@ -472,7 +499,7 @@ class EmojiParserTest {
 
         // THEN
         val expected = "An\uD83D\uDE03 awesome string with" + "\uD83D\uDCAA\uD83C\uDFFD a few emojis!"
-        assertEquals(expected, result)
+        Assert.assertEquals(expected, result)
     }
 
     @Test
@@ -485,8 +512,8 @@ class EmojiParserTest {
         val smile = EmojiManager.getForAlias("smile")
         val onePlus = EmojiManager.getForAlias("+1")
 
-        assertNotNull(smile)
-        assertNotNull(onePlus)
+        Assert.assertNotNull(smile)
+        Assert.assertNotNull(onePlus)
 
         emojis.add(smile!!)
         emojis.add(onePlus!!)
@@ -496,7 +523,7 @@ class EmojiParserTest {
 
         // THEN
         val expected = "An awesome\uD83D\uDE04 string\uD83D\uDC4D\uD83C\uDFFF " + "with a few emojis!"
-        assertEquals(expected, result)
+        Assert.assertEquals(expected, result)
     }
 
     @Test
@@ -508,7 +535,7 @@ class EmojiParserTest {
         val result = EmojiParser.parseToUnicode(str)
 
         // THEN
-        assertEquals("Let's test the *⃣ emoji and its other alias *⃣", result)
+        Assert.assertEquals("Let's test the *⃣ emoji and its other alias *⃣", result)
     }
 
     @Test
@@ -520,7 +547,7 @@ class EmojiParserTest {
         val result = EmojiParser.parseToAliases(str)
 
         // THEN
-        assertEquals("Nigeria is :ng:, NG is :squared_ng:", result)
+        Assert.assertEquals("Nigeria is :ng:, NG is :squared_ng:", result)
     }
 
     @Test
@@ -532,7 +559,7 @@ class EmojiParserTest {
         val result = EmojiParser.parseToAliases(str)
 
         // THEN
-        assertEquals(":couplekiss_woman_woman:", result)
+        Assert.assertEquals(":couplekiss_woman_woman:", result)
     }
 
     @Test
@@ -544,9 +571,9 @@ class EmojiParserTest {
         val result = EmojiParser.extractEmojis(str)
 
         // THEN
-        assertEquals("😀", result[0])
-        assertEquals("😃", result[1])
-        assertEquals("😉", result[2])
+        Assert.assertEquals("😀", result[0])
+        Assert.assertEquals("😃", result[1])
+        Assert.assertEquals("😉", result[2])
 
     }
 }
