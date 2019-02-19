@@ -5,6 +5,7 @@ import android.support.test.runner.AndroidJUnit4
 import com.google.gson.GsonBuilder
 import io.wax911.emojify.parser.EmojiParser
 import org.junit.Assert.*
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -20,13 +21,14 @@ class EmojiUtilTest {
         EmojiManager.initEmojiData(context)
     }
 
-    @Test
+    @Before
     fun testApplicationContext() {
         assertNotNull(context)
     }
 
-    @Test
+    @Before
     fun testEmojiLoading() {
+        assertNotNull(emojis)
         assertNotNull(EmojiManager.getAll())
     }
 
@@ -34,7 +36,7 @@ class EmojiUtilTest {
     fun testEmojiByUnicode() {
         val emoji = EmojiManager.getByUnicode("\uD83D\uDC2D")
         assertNotNull(emoji)
-        assertTrue(emoji?.htmlHex.equals("&#x1f42d;"))
+        assertEquals("&#x1f42d;", emoji?.htmlHex)
     }
 
     @Test
@@ -69,8 +71,8 @@ class EmojiUtilTest {
         
         val emoji = EmojiManager.getByUnicode(unicode)
         assertNotNull(emoji)
-        
-        assertTrue(emoji!!.emoji == "🐭")
+
+        assertEquals("🐭", emoji?.emoji)
 
     }
 
@@ -83,21 +85,21 @@ class EmojiUtilTest {
         val emoji = EmojiManager.getByUnicode(unicode)
         assertNotNull(emoji)
 
-        assertTrue(emoji!!.emoji == "🐭")
+        assertEquals("🐭", emoji?.emoji)
 
     }
 
     @Test
     fun testIsEmoji() {
-        assertTrue(EmojiManager.isEmoji("&#128045;"))
-
         assertFalse(EmojiManager.isEmoji("&#123;"))
 
         assertTrue(EmojiManager.isEmoji("🐭"))
 
-        assertTrue(EmojiManager.isEmoji("smile"))
+        assertFalse(EmojiManager.isEmoji("smile"))
 
-        assertTrue(EmojiManager.isEmoji(":smiley:"))
+        assertTrue(EmojiManager.isEmoji(EmojiParser.parseToUnicode(":smiley:")))
+
+        assertFalse(EmojiManager.isEmoji("&#128045;"))
     }
 
     @Test
@@ -122,25 +124,38 @@ class EmojiUtilTest {
     @Test
     fun testCountEmojis() {
         val text = "A &#128049;, &#x1f436;,&nbsp;:coyote: and a :mouse: became friends. For :dog:'s birthday party, they all had 🍔s, :fries:s, :cookie:s and :cake:."
-        assertTrue(EmojiParser.extractEmojis(text).size == 8)
+
+        val emojiText = EmojiParser.parseToUnicode(text)
+
+        val emojiCount = EmojiParser.extractEmojis(emojiText).size
+
+        assertEquals(8, emojiCount)
     }
 
     @Test
     fun testHtmlify() {
         val text = "A :cat:, :dog: and a :mouse: became friends. For :dog:'s birthday party, they all had :hamburger:s, :fries:s, :cookie:s and :cake:."
-        val htmlifiedText = EmojiParser.parseToHtmlHexadecimal(text)
+
+        val emojiText = EmojiParser.parseToUnicode(text)
+
+        val htmlifiedText = EmojiParser.parseToHtmlDecimal(emojiText)
 
         assertEquals("A &#128049;, &#128054; and a &#128045; became friends. For &#128054;'s birthday party, they all had &#127828;s, &#127839;s, &#127850;s and &#127856;.", htmlifiedText)
 
         // also verify by emojifying htmlified text
 
-        assertEquals("A 🐱, 🐶 and a 🐭 became friends. For 🐶's birthday party, they all had 🍔s, 🍟s, 🍪s and 🍰.", EmojiParser.parseToUnicode(htmlifiedText!!))
+        assertEquals("A 🐱, 🐶 and a 🐭 became friends. For 🐶's birthday party, they all had 🍔s, 🍟s, 🍪s and 🍰.", EmojiParser.parseToUnicode(htmlifiedText))
     }
 
     @Test
     fun testHexHtmlify() {
         val text = "A :cat:, :dog: and a :mouse: became friends. For :dog:'s birthday party, they all had :hamburger:s, :fries:s, :cookie:s and :cake:."
-        val htmlifiedText = EmojiParser.parseToHtmlHexadecimal(text)
+
+        val emojiText = EmojiParser.parseToUnicode(text)
+
+        val htmlifiedText = EmojiParser.parseToHtmlHexadecimal(emojiText)
+
+        assertNotNull(htmlifiedText)
 
         assertEquals("A &#x1f431;, &#x1f436; and a &#x1f42d; became friends. For &#x1f436;'s birthday party, they all had &#x1f354;s, &#x1f35f;s, &#x1f36a;s and &#x1f370;.", htmlifiedText)
         // also verify by emojifying htmlified text
@@ -150,53 +165,51 @@ class EmojiUtilTest {
     @Test
     fun testShortCodifyFromEmojis() {
         val text = "A 🐱, 🐶 and a 🐭 became friends❤️. For 🐶's birthday party, they all had 🍔s, 🍟s, 🍪s and 🍰."
-        assertEquals("A :cat:, :dog: and a :mouse: became friends:heart:. For :dog:'s birthday party, they all had :hamburger:s, :fries:s, :cookie:s and :cake:.", EmojiParser.parseToAliases(text))
 
+        val expected = "A :cat:, :dog: and a :mouse: became friends:heart:️. For :dog:'s birthday party, they all had :hamburger:s, :fries:s, :cookie:s and :cake:."
+        val aliasText = EmojiParser.parseToAliases(text)
+
+        assertEquals(expected, aliasText)
     }
 
     @Test
     fun testShortCodifyFromHtmlEntities() {
         var text = "A &#128049;, &#128054; and a &#128045; became friends. For &#128054;'s birthday party, they all had &#127828;s, &#127839;s, &#127850;s and &#127856;."
-        assertEquals("A :cat:, :dog: and a :mouse: became friends. For :dog:'s birthday party, they all had :hamburger:s, :fries:s, :cookie:s and :cake:.", EmojiParser.parseToAliases(text))
+
+        var emojiText = EmojiParser.parseToUnicode(text)
+
+        assertEquals("A :cat:, :dog: and a :mouse: became friends. For :dog:'s birthday party, they all had :hamburger:s, :fries:s, :cookie:s and :cake:.", EmojiParser.parseToAliases(emojiText))
 
         text = "A &#x1f431;, &#x1f436; and a &#x1f42d; became friends. For &#x1f436;'s birthday party, they all had &#x1f354;s, &#x1f35f;s, &#x1f36a;s and &#x1f370;."
-        assertEquals("A :cat:, :dog: and a :mouse: became friends. For :dog:'s birthday party, they all had :hamburger:s, :fries:s, :cookie:s and :cake:.", EmojiParser.parseToAliases(text))
 
-    }
+        emojiText = EmojiParser.parseToUnicode(text)
 
-    @Test
-    fun surrogateDecimalToEmojiTest() {
-        var emojiText = "A &#55357;&#56369;, &#x1f436;&#55357;&#56369; and a &#55357;&#56365; became friends. They had &#junk;&#55356;&#57172;&#junk;"
-        assertEquals("A 🐱, 🐶🐱 and a 🐭 became friends. They had &#junk;🍔&#junk;", EmojiParser.parseToUnicode(emojiText))
+        assertEquals("A :cat:, :dog: and a :mouse: became friends. For :dog:'s birthday party, they all had :hamburger:s, :fries:s, :cookie:s and :cake:.", EmojiParser.parseToAliases(emojiText))
 
-        emojiText = "&#10084;&#65039;&#junk;&#55357;&#56374;"
-        assertEquals("❤️&#junk;🐶", EmojiParser.parseToAliases(emojiText))
-
-        emojiText = "&#55357;&#56833;"
-        assertEquals("😁", EmojiParser.parseToAliases(emojiText))
     }
 
     @Test
     fun toSurrogateDecimalAndBackTest() {
         val text = "😃😃😅😃😶😝😗😗❤️😛😛😅❤️😛"
         val htmlifiedText = EmojiParser.parseToHtmlDecimal(text)
-        assertEquals("&#55357;&#56835;&#55357;&#56835;&#55357;&#56837;&#55357;&#56835;&#55357;&#56886;&#55357;&#56861;&#55357;&#56855;&#55357;&#56855;&#55242;&#56164;&#55296;&#55823;&#55357;&#56859;&#55357;&#56859;&#55357;&#56837;&#55242;&#56164;&#55296;&#55823;&#55357;&#56859;", htmlifiedText)
+        assertEquals("&#128515;&#128515;&#128517;&#128515;&#128566;&#128541;&#128535;&#128535;&#10084;️&#128539;&#128539;&#128517;&#10084;️&#128539;", htmlifiedText)
 
         assertEquals(text, EmojiParser.parseToUnicode(htmlifiedText))
     }
 
     @Test
     fun surrogateToHTMLTest() {
-        val surrogateText = "&#55357;&#56835;&#55357;&#56835;&#55357;&#56837;&#55357;&#56835;&#55357;&#56886;&#55357;&#56861;&#55357;&#56855;&#55357;&#56855;&#55242;&#56164;&#55296;&#55823;&#55357;&#56859;&#55357;&#56859;&#55357;&#56837;&#55242;&#56164;&#55296;&#55823;&#55357;&#56859;"
-
         val emojiText = "😃😃😅😃😶😝😗😗❤️😛😛😅❤️😛"
-        val decHtmlString = EmojiParser.parseToHtmlDecimal(surrogateText)
 
-        val hexHtmlString = EmojiParser.parseToHtmlHexadecimal(surrogateText)
+        val decHtmlString = EmojiParser.parseToHtmlDecimal(emojiText)
 
-        assertEquals("&#128515;&#128515;&#128517;&#128515;&#128566;&#128541;&#128535;&#128535;&#10084;&#65039;&#128539;&#128539;&#128517;&#10084;&#65039;&#128539;", decHtmlString)
+        val hexHtmlString = EmojiParser.parseToHtmlHexadecimal(emojiText)
 
-        assertEquals("&#x1f603;&#x1f603;&#x1f605;&#x1f603;&#x1f636;&#x1f61d;&#x1f617;&#x1f617;&#x2764;&#xfe0f;&#x1f61b;&#x1f61b;&#x1f605;&#x2764;&#xfe0f;&#x1f61b;", hexHtmlString)
+        assertNotNull(hexHtmlString)
+
+        assertEquals("&#128515;&#128515;&#128517;&#128515;&#128566;&#128541;&#128535;&#128535;&#10084;️&#128539;&#128539;&#128517;&#10084;️&#128539;", decHtmlString)
+
+        assertEquals("&#x1f603;&#x1f603;&#x1f605;&#x1f603;&#x1f636;&#x1f61d;&#x1f617;&#x1f617;&#x2764;️&#x1f61b;&#x1f61b;&#x1f605;&#x2764;️&#x1f61b;", hexHtmlString)
 
         assertEquals(emojiText, EmojiParser.parseToUnicode(decHtmlString))
 
