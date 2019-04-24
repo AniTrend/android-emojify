@@ -1,9 +1,10 @@
 package io.wax911.emojify
 
-import android.support.test.InstrumentationRegistry
-import android.support.test.runner.AndroidJUnit4
+import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
+import androidx.test.platform.app.InstrumentationRegistry
 import io.wax911.emojify.model.Emoji
 import org.junit.Assert.*
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -13,24 +14,23 @@ import org.junit.runner.RunWith
  *
  * @see [Testing documentation](http://d.android.com/tools/testing)
  */
-@RunWith(AndroidJUnit4::class)
+@RunWith(AndroidJUnit4ClassRunner::class)
 class EmojiManagerTest {
 
-    private val context by lazy {
-        InstrumentationRegistry.getTargetContext()
-    }
+    private val context by lazy { InstrumentationRegistry.getInstrumentation().context }
 
     private val emojis by lazy {
         EmojiManager.initEmojiData(context)
     }
 
-    @Test
+    @Before
     fun testApplicationContext() {
         assertNotNull(context)
     }
 
-    @Test
+    @Before
     fun testEmojiLoading() {
+        assertNotNull(emojis)
         assertNotNull(EmojiManager.getAll())
     }
 

@@ -121,7 +121,7 @@ object EmojiParser {
                 if (supportsFitzpatrick || !supportsFitzpatrick && candidate.fitzpatrick == null) {
                     var replacement = unicode
                     if (candidate.fitzpatrick != null) {
-                        replacement += candidate.fitzpatrick!!.unicode
+                        replacement += candidate.fitzpatrick.unicode
                     }
                     result = result.replace(
                             ":" + candidate.fullString + ":",
@@ -431,7 +431,7 @@ object EmojiParser {
 
 
     class UnicodeCandidate internal constructor(val emoji: Emoji?, fitzpatrick: String?, val emojiStartIndex: Int) {
-        val fitzpatrick: Fitzpatrick?
+        private val fitzpatrick: Fitzpatrick? = Fitzpatrick.fitzpatrickFromUnicode(fitzpatrick)
 
         val fitzpatrickType: String
             get() = if (hasFitzpatrick()) fitzpatrick!!.name.toLowerCase() else ""
@@ -439,15 +439,11 @@ object EmojiParser {
         val fitzpatrickUnicode: String
             get() = if (hasFitzpatrick()) fitzpatrick!!.unicode else ""
 
-        val emojiEndIndex: Int
+        private val emojiEndIndex: Int
             get() = emojiStartIndex + (emoji?.unicode?.length ?: 0)
 
         val fitzpatrickEndIndex: Int
             get() = emojiEndIndex + if (fitzpatrick != null) 2 else 0
-
-        init {
-            this.fitzpatrick = Fitzpatrick.fitzpatrickFromUnicode(fitzpatrick)
-        }
 
         fun hasFitzpatrick(): Boolean {
             return fitzpatrick != null

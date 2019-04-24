@@ -15,7 +15,7 @@ android {
         targetSdkVersion rootProject.targetSdk
         versionCode rootProject.versionCode
         versionName rootProject.versionName
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
@@ -29,14 +29,14 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    /** Testing Libraries */
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$rootProject.kotlin"
 
     implementation "com.google.code.gson:gson:$rootProject.gson"
+
+    /** Testing-only dependencies */
+    testImplementation "junit:junit:$rootProject.junit"
+    androidTestImplementation "androidx.test:runner:$rootProject.runner"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.espresso"
 }
 repositories {
     mavenCentral()

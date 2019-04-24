@@ -1,24 +1,24 @@
 package io.wax911.emojifysample
 
-import android.support.test.InstrumentationRegistry
-import android.support.test.runner.AndroidJUnit4
+import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
+import androidx.test.platform.app.InstrumentationRegistry
+import org.junit.runner.RunWith
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import org.junit.runner.RunWith
 
 /**
  * Instrumentation test, which will execute on an Android device.
  *
  * @see [Testing documentation](http://d.android.com/tools/testing)
  */
-@RunWith(AndroidJUnit4::class)
+@RunWith(AndroidJUnit4ClassRunner::class)
 class ExampleInstrumentedTest {
+
+    private val appContext by lazy { InstrumentationRegistry.getInstrumentation().context }
+
     @Test
     @Throws(Exception::class)
     fun useAppContext() {
-        // Context of the app under test.
-        val appContext = InstrumentationRegistry.getTargetContext()
-
-        assertEquals("io.wax911.emojify", appContext.packageName)
+        assertEquals("io.wax911.emojifysample", appContext.packageName)
     }
 }
