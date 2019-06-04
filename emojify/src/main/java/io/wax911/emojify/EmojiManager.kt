@@ -62,12 +62,14 @@ object EmojiManager {
             val gson = GsonBuilder()
                     .enableComplexMapKeySerialization()
                     .setLenient().create()
-            val reader = BufferedReader(InputStreamReader(context.assets.open(PATH)))
-            ALL_EMOJIS.apply {
-                addAll(gson.fromJson(reader, object : TypeToken<ArrayList<Emoji>>() {}.type))
-                forEach { emoji -> emoji.initProperties() }
+            InputStreamReader(context.assets.open(PATH)).use { streamReader ->
+                BufferedReader(streamReader).use {
+                    ALL_EMOJIS.apply {
+                        addAll(gson.fromJson(it, object : TypeToken<ArrayList<Emoji>>() {}.type))
+                        forEach { emoji -> emoji.initProperties() }
+                    }
+                }
             }
-            reader.close()
         }
     }
 
