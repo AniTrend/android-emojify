@@ -14512,5 +14512,14 @@
       "female_judge"
     ],
     "tags": []
-  }
+  },
+  {
+    "emojiChar": "අ",
+    "emoji": "\u0D85",
+    "description": "sinhala a",
+    "aliases": [
+      "%a"
+    ],
+    "tags": []
+  },
 ]
