@@ -44,9 +44,7 @@ object EmojiManager {
         EmojiTrie(ALL_EMOJIS)
     }
 
-    private val ALL_EMOJIS by lazy {
-        ArrayList<Emoji>()
-    }
+    private val ALL_EMOJIS = ArrayList<Emoji>()
 
     private const val PATH = "emoticons/emoji.json"
 
