@@ -164,20 +164,13 @@ object EmojiManager {
 
     /**
      * Checks if sequence of chars contain an emoji.
-     * @param sequence Sequence of char that may contain emoji in full or
-     * partially.
+     *
+     * @param sequence Sequence of char that may contain emoji in full or partially.
      *
      * @return
-     * &lt;li&gt;
-     * Matches.EXACTLY if char sequence in its entirety is an emoji
-     * &lt;/li&gt;
-     * &lt;li&gt;
-     * Matches.POSSIBLY if char sequence matches prefix of an emoji
-     * &lt;/li&gt;
-     * &lt;li&gt;
-     * Matches.IMPOSSIBLE if char sequence matches no emoji or prefix of an
-     * emoji
-     * &lt;/li&gt;
+     * - Matches.EXACTLY if char sequence in its entirety is an emoji
+     * - Matches.POSSIBLY if char sequence matches prefix of an emoji
+     * - Matches.IMPOSSIBLE if char sequence matches no emoji or prefix of an emoji
      */
     fun isEmoji(sequence: CharArray): EmojiTrie.Matches {
         return EMOJI_TRIE.isEmoji(sequence)

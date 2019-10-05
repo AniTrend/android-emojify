@@ -3,8 +3,7 @@ package io.wax911.emojify.parser
 import io.wax911.emojify.EmojiManager
 import io.wax911.emojify.model.Emoji
 import io.wax911.emojify.util.Fitzpatrick
-import java.util.ArrayList
-import java.util.Arrays
+import java.util.*
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
@@ -15,33 +14,40 @@ import java.util.regex.Pattern
  */
 object EmojiParser {
 
-    private val ALIAS_CANDIDATE_PATTERN by lazy {
-        Pattern.compile("(?<=:)\\+?(\\w|\\||\\-)+(?=:)")
-    }
+    private val ALIAS_CANDIDATE_PATTERN = Pattern.compile(
+            "(?<=:)\\+?(\\w|\\||\\-)+(?=:)"
+    )
+
 
     /**
      * Replaces the emoji's unicode occurrences by one of their alias
-     * (between 2 ':').<br></br>
-     * Example: `😄` will be replaced by `:smile:`<br></br>
-     * <br></br>
+     * (between 2 ':').
+     *
+     * > `😄` will be replaced by `:smile:`
+     *
+     *
      * When a fitzpatrick modifier is present with a PARSE action, a "|" will be
-     * appendend to the alias, with the fitzpatrick type.<br></br>
-     * Example: `👦🏿` will be replaced by
-     * `:boy|type_6:`<br></br>
-     * The fitzpatrick types are: type_1_2, type_3, type_4, type_5, type_6<br></br>
-     * <br></br>
+     * appended to the alias, with the fitzpatrick type.
+     *
+     * > `👦🏿` will be replaced by `:boy|type_6:`
+     *
+     *
      * When a fitzpatrick modifier is present with a REMOVE action, the modifier
-     * will be deleted.<br></br>
-     * Example: `👦🏿` will be replaced by `:boy:`<br></br>
-     * <br></br>
+     * will be deleted.
+     *
+     * > `👦🏿` will be replaced by `:boy:`
+     *
+     *
      * When a fitzpatrick modifier is present with a IGNORE action, the modifier
-     * will be ignored.<br></br>
-     * Example: `👦🏿` will be replaced by `:boy:🏿`<br></br>
+     * will be ignored.
+     *
+     * > `👦🏿` will be replaced by `:boy:🏿`
      *
      * @param input             the string to parse
      * @param fitzpatrickAction the action to apply for the fitzpatrick modifiers
      *
      * @return the string with the emojis replaced by their alias.
+     * @see io.wax911.emojify.util.Fitzpatrick
      */
     @JvmOverloads
     fun parseToAliases(
@@ -51,7 +57,7 @@ object EmojiParser {
         val emojiTransformer = object : EmojiTransformer {
             override fun transform(unicodeCandidate: UnicodeCandidate): String {
                 when (fitzpatrickAction) {
-                    EmojiParser.FitzpatrickAction.PARSE -> {
+                    FitzpatrickAction.PARSE -> {
                         return if (unicodeCandidate.hasFitzpatrick()) {
                             ":" +
                                     unicodeCandidate.emoji?.aliases?.get(0) +
@@ -62,8 +68,8 @@ object EmojiParser {
                                 unicodeCandidate.emoji?.aliases?.get(0) +
                                 ":"
                     }
-                    EmojiParser.FitzpatrickAction.REMOVE -> return ":" + unicodeCandidate.emoji?.aliases?.get(0) + ":"
-                    EmojiParser.FitzpatrickAction.IGNORE -> return ":" +
+                    FitzpatrickAction.REMOVE -> return ":" + unicodeCandidate.emoji?.aliases?.get(0) + ":"
+                    FitzpatrickAction.IGNORE -> return ":" +
                             unicodeCandidate.emoji?.aliases?.get(0) +
                             ":" +
                             unicodeCandidate.fitzpatrickUnicode
@@ -99,11 +105,13 @@ object EmojiParser {
 
     /**
      * Replaces the emoji's aliases (between 2 ':') occurrences and the html
-     * representations by their unicode.<br></br>
-     * Examples:<br></br>
-     * `:smile:` will be replaced by `😄`<br></br>
-     * `&#128516;` will be replaced by `😄`<br></br>
-     * `:boy|type_6:` will be replaced by `👦🏿`
+     * representations by their unicode.
+     *
+     * > `:smile:` will be replaced by `😄`
+     *
+     * > `&#128516;` will be replaced by `😄`
+     *
+     * > `:boy|type_6:` will be replaced by `👦🏿`
      *
      * @param input the string to parse
      *
@@ -162,20 +170,23 @@ object EmojiParser {
     }
 
     /**
-     * Replaces the emoji's unicode occurrences by their html representation.<br></br>
-     * Example: `😄` will be replaced by `&#128516;`<br></br>
-     * <br></br>
-     * When a fitzpatrick modifier is present with a PARSE or REMOVE action, the
-     * modifier will be deleted from the string.<br></br>
-     * Example: `👦🏿` will be replaced by
-     * `&#128102;`<br></br>
-     * <br></br>
-     * When a fitzpatrick modifier is present with a IGNORE action, the modifier
-     * will be ignored and will remain in the string.<br></br>
-     * Example: `👦🏿` will be replaced by
-     * `&#128102;🏿`
+     * Replaces the emoji's unicode occurrences by their html representation.
      *
-     * @param input             the string to parse
+     * > `😄` will be replaced by `&#128516;`
+     *
+     *
+     * When a fitzpatrick modifier is present with a PARSE or REMOVE action, the
+     * modifier will be deleted from the string.
+     *
+     * > `👦🏿` will be replaced by `&#128102;`
+     *
+     *
+     * When a fitzpatrick modifier is present with a IGNORE action, the modifier
+     * will be ignored and will remain in the string.
+     *
+     * > `👦🏿` will be replaced by`&#128102;🏿`
+     *
+     * @param input the string to parse
      * @param fitzpatrickAction the action to apply for the fitzpatrick modifiers
      *
      * @return the string with the emojis replaced by their html decimal
@@ -188,10 +199,12 @@ object EmojiParser {
     ): String {
         val emojiTransformer = object : EmojiTransformer {
             override fun transform(unicodeCandidate: UnicodeCandidate): String? {
-                when (fitzpatrickAction) {
-                    EmojiParser.FitzpatrickAction.PARSE, EmojiParser.FitzpatrickAction.REMOVE -> return unicodeCandidate.emoji?.htmlDec
-                    EmojiParser.FitzpatrickAction.IGNORE -> return unicodeCandidate.emoji?.htmlDec + unicodeCandidate.fitzpatrickUnicode
-                    else -> return unicodeCandidate.emoji?.htmlDec
+                return when (fitzpatrickAction) {
+                    FitzpatrickAction.PARSE,
+                    FitzpatrickAction.REMOVE ->
+                        unicodeCandidate.emoji?.htmlDec
+                    FitzpatrickAction.IGNORE ->
+                        unicodeCandidate.emoji?.htmlDec + unicodeCandidate.fitzpatrickUnicode
                 }
             }
         }
@@ -201,20 +214,23 @@ object EmojiParser {
 
     /**
      * Replaces the emoji's unicode occurrences by their html hex
-     * representation.<br></br>
-     * Example: `👦` will be replaced by `&#x1f466;`<br></br>
-     * <br></br>
-     * When a fitzpatrick modifier is present with a PARSE or REMOVE action, the
-     * modifier will be deleted.<br></br>
-     * Example: `👦🏿` will be replaced by
-     * `&#x1f466;`<br></br>
-     * <br></br>
-     * When a fitzpatrick modifier is present with a IGNORE action, the modifier
-     * will be ignored and will remain in the string.<br></br>
-     * Example: `👦🏿` will be replaced by
-     * `&#x1f466;🏿`
+     * representation.
      *
-     * @param input             the string to parse
+     * > `👦` will be replaced by `&#x1f466;`
+     *
+     *
+     * When a fitzpatrick modifier is present with a PARSE or REMOVE action, the
+     * modifier will be deleted.
+     *
+     * > `👦🏿` will be replaced by `&#x1f466;`
+     *
+     *
+     * When a fitzpatrick modifier is present with a IGNORE action, the modifier
+     * will be ignored and will remain in the string.
+     *
+     * > `👦🏿` will be replaced by `&#x1f466;🏿`
+     *
+     * @param input the string to parse
      * @param fitzpatrickAction the action to apply for the fitzpatrick modifiers
      *
      * @return the string with the emojis replaced by their html hex
@@ -227,10 +243,12 @@ object EmojiParser {
     ): String? {
         val emojiTransformer = object : EmojiTransformer {
             override fun transform(unicodeCandidate: UnicodeCandidate): String? {
-                when (fitzpatrickAction) {
-                    EmojiParser.FitzpatrickAction.PARSE, EmojiParser.FitzpatrickAction.REMOVE -> return unicodeCandidate.emoji?.htmlHex
-                    EmojiParser.FitzpatrickAction.IGNORE -> return unicodeCandidate.emoji?.htmlHex + unicodeCandidate.fitzpatrickUnicode
-                    else -> return unicodeCandidate.emoji?.htmlHex
+                return when (fitzpatrickAction) {
+                    FitzpatrickAction.PARSE,
+                    FitzpatrickAction.REMOVE ->
+                        unicodeCandidate.emoji?.htmlHex
+                    FitzpatrickAction.IGNORE ->
+                        unicodeCandidate.emoji?.htmlHex + unicodeCandidate.fitzpatrickUnicode
                 }
             }
         }
@@ -259,7 +277,7 @@ object EmojiParser {
     /**
      * Removes a set of emojis from a String
      *
-     * @param str            the string to process
+     * @param str the string to process
      * @param emojisToRemove the emojis to remove from this string
      *
      * @return the string without the emojis that were removed
@@ -282,7 +300,7 @@ object EmojiParser {
     /**
      * Removes all the emojis in a String except a provided set
      *
-     * @param str          the string to process
+     * @param str the string to process
      * @param emojisToKeep the emojis to keep in this string
      *
      * @return the string without the emojis that were removed
@@ -346,8 +364,8 @@ object EmojiParser {
      * UnicodeCandidate is created for every unicode emoticon found in input
      * string, additionally if Fitzpatrick modifier follows the emoji, it is
      * included in UnicodeCandidate. Finally, it contains start and end index of
-     * unicode emoji itself (WITHOUT Fitzpatrick modifier whether it is there or
-     * not!).
+     * unicode emoji itself **(WITHOUT Fitzpatrick modifier whether it is there or
+     * not!)**.
      *
      * @param input String to find all unicode emojis in
      * @return List of UnicodeCandidates for each unicode emote in text
@@ -400,8 +418,8 @@ object EmojiParser {
      * Returns end index of a unicode emoji if it is found in text starting at
      * index startPos, -1 if not found.
      * This returns the longest matching emoji, for example, in
-     * "\uD83D\uDC68\u200D\uD83D\uDC69\u200D\uD83D\uDC66"
-     * it will find alias:family_man_woman_boy, NOT alias:man
+     * `"\uD83D\uDC68\u200D\uD83D\uDC69\u200D\uD83D\uDC66"`
+     * it will find `alias:family_man_woman_bo`y, **NOT** `alias:man`
      *
      * @param text the current text where we are looking for an emoji
      * @param startPos the position in the text where we should start looking for
@@ -413,11 +431,7 @@ object EmojiParser {
     internal fun getEmojiEndPos(text: CharArray, startPos: Int): Int {
         var best = -1
         for (j in startPos + 1..text.size) {
-            val status = EmojiManager.isEmoji(Arrays.copyOfRange(
-                    text,
-                    startPos,
-                    j
-            ))
+            val status = EmojiManager.isEmoji(text.copyOfRange(startPos, j))
 
             if (status.exactMatch()) {
                 best = j
@@ -430,14 +444,22 @@ object EmojiParser {
     }
 
 
-    class UnicodeCandidate internal constructor(val emoji: Emoji?, fitzpatrick: String?, val emojiStartIndex: Int) {
+    class UnicodeCandidate internal constructor(
+            val emoji: Emoji?,
+            fitzpatrick: String?,
+            val emojiStartIndex: Int
+    ) {
         private val fitzpatrick: Fitzpatrick? = Fitzpatrick.fitzpatrickFromUnicode(fitzpatrick)
 
         val fitzpatrickType: String
-            get() = if (hasFitzpatrick()) fitzpatrick!!.name.toLowerCase() else ""
+            get() = if (hasFitzpatrick())
+                fitzpatrick?.name?.toLowerCase(Locale.ROOT) ?: ""
+            else ""
 
         val fitzpatrickUnicode: String
-            get() = if (hasFitzpatrick()) fitzpatrick!!.unicode else ""
+            get() = if (hasFitzpatrick())
+                fitzpatrick?.unicode ?: ""
+            else ""
 
         private val emojiEndIndex: Int
             get() = emojiStartIndex + (emoji?.unicode?.length ?: 0)
@@ -445,9 +467,7 @@ object EmojiParser {
         val fitzpatrickEndIndex: Int
             get() = emojiEndIndex + if (fitzpatrick != null) 2 else 0
 
-        fun hasFitzpatrick(): Boolean {
-            return fitzpatrick != null
-        }
+        fun hasFitzpatrick() =  fitzpatrick != null
     }
 
 
