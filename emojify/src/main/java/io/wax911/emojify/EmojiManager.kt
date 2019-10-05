@@ -59,12 +59,10 @@ object EmojiManager {
     @Throws(Exception::class)
     fun initEmojiData(context: Context) {
         if (ALL_EMOJIS.isEmpty()) {
-            val gson = GsonBuilder()
-                    .enableComplexMapKeySerialization()
-                    .setLenient().create()
             InputStreamReader(context.assets.open(PATH)).use { streamReader ->
                 BufferedReader(streamReader).use {
                     ALL_EMOJIS.apply {
+                        val gson = GsonBuilder().setLenient().create()
                         addAll(gson.fromJson(it, object : TypeToken<ArrayList<Emoji>>() {}.type))
                         forEach { emoji -> emoji.initProperties() }
                     }
