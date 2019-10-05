@@ -28,9 +28,8 @@ dependencies {
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
 
-    implementation "androidx.appcompat:appcompat:$supportLibrary"
-    implementation "com.google.android.material:material:$supportLibrary"
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation "com.google.android.material:material:$material"
+    implementation "androidx.constraintlayout:constraintlayout:$constraintlayout"
 
     implementation project(':emojify')
 
