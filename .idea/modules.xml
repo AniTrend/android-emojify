@@ -2,9 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/android-emojify.iml" filepath="$PROJECT_DIR$/android-emojify.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/emojify/emojify.iml" filepath="$PROJECT_DIR$/emojify/emojify.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/AndroidEmojify.iml" filepath="$PROJECT_DIR$/.idea/modules/AndroidEmojify.iml" group="AndroidEmojify" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/AndroidEmojify_buildSrc.iml" filepath="$PROJECT_DIR$/.idea/modules/AndroidEmojify_buildSrc.iml" group="AndroidEmojify/AndroidEmojify_buildSrc" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="AndroidEmojify/app" />
+      <module fileurl="file://$PROJECT_DIR$/emojify/emojify.iml" filepath="$PROJECT_DIR$/emojify/emojify.iml" group="AndroidEmojify/emojify" />
     </modules>
   </component>
 </project>
