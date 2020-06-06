@@ -1,4 +1,7 @@
 jdk:
   - openjdk8
+install:
+  - echo "Running build commands"
+  - ./gradlew clean build dokka publishMavenPublicationToMavenLocal
 env:
   CI: "true"
