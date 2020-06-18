@@ -1,10 +1,11 @@
 package io.wax911.emojify.util
 
-import java.util.HashMap
-
 import io.wax911.emojify.model.Emoji
+import io.wax911.emojify.util.tree.Matches
+import io.wax911.emojify.util.tree.Node
 
-class EmojiTrie(emojis: Collection<Emoji>) {
+
+class EmojiTree(emojis: Collection<Emoji>) {
     private val root = Node()
 
     init {
@@ -19,7 +20,6 @@ class EmojiTrie(emojis: Collection<Emoji>) {
         }
     }
 
-
     /**
      * Checks if sequence of chars contain an emoji.
      *
@@ -27,9 +27,9 @@ class EmojiTrie(emojis: Collection<Emoji>) {
      * partially.
      *
      * @return
-     * - Matches.EXACTLY if char sequence in its entirety is an emoji
-     * - Matches.POSSIBLY if char sequence matches prefix of an emoji
-     * - Matches.IMPOSSIBLE if char sequence matches no emoji or prefix of an emoji
+     * - [Matches.EXACTLY] if char sequence in its entirety is an emoji
+     * - [Matches.POSSIBLY] if char sequence matches prefix of an emoji
+     * - [Matches.IMPOSSIBLE] if char sequence matches no emoji or prefix of an emoji
      */
     fun isEmoji(sequence: CharArray?): Matches {
         if (sequence == null)
@@ -50,7 +50,9 @@ class EmojiTrie(emojis: Collection<Emoji>) {
 
     /**
      * Finds Emoji instance from emoji unicode
+     *
      * @param unicode unicode of emoji to get
+     *
      * @return Emoji instance if unicode matches and emoji, null otherwise.
      */
     fun getEmoji(unicode: String): Emoji? {
@@ -61,34 +63,5 @@ class EmojiTrie(emojis: Collection<Emoji>) {
             tree = tree?.getChild(c)
         }
         return tree?.emoji
-    }
-
-    enum class Matches {
-        EXACTLY, POSSIBLY, IMPOSSIBLE;
-
-        fun exactMatch() = this == EXACTLY
-
-        fun impossibleMatch() = this == IMPOSSIBLE
-    }
-
-    inner class Node {
-        private val children = HashMap<Char, Node>()
-
-        internal var emoji: Emoji? = null
-
-        internal val isEndOfEmoji: Boolean
-            get() = emoji != null
-
-        internal fun hasChild(child: Char): Boolean {
-            return children.containsKey(child)
-        }
-
-        internal fun addChild(child: Char) {
-            children[child] = Node()
-        }
-
-        internal fun getChild(child: Char): Node? {
-            return children[child]
-        }
     }
 }
