@@ -5,7 +5,7 @@ import io.wax911.emojify.util.Fitzpatrick
 import java.util.*
 
 
-internal class UnicodeCandidate internal constructor(
+class UnicodeCandidate internal constructor(
     val emoji: Emoji?,
     fitzpatrick: String?,
     val emojiStartIndex: Int
