@@ -7,6 +7,18 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 import java.nio.charset.Charset
 
+/**
+ * @param aliases a list of aliases for this emoji
+ * @param description the (optional) description of the emoji
+ * @param emoji unicode emoji
+ * @param emojiChar actual raw emoji
+ * @param supportsFitzpatrick true if the emoji supports the Fitzpatrick modifiers, else false
+ * @param supportsGender true if the emoji supports the gender modifiers, else false
+ * @param tags a list of tags for this emoji
+ * @property unicode the unicode representation of the emoji
+ * @property htmlDec an html decimal representation of the emoji
+ * @property htmlHex an html decimal representation of the emoji
+ */
 @Serializable
 data class Emoji (
     @SerialName("aliases") val aliases: List<String>? = null,
@@ -54,11 +66,12 @@ data class Emoji (
      * Returns the unicode representation of the emoji associated with the
      * provided Fitzpatrick modifier.
      *
-     * If the modifier is null, then the result is similar to [Emoji.getUnicode]
+     * If the modifier is null, then the result is similar to [unicode]
      *
      * @param fitzpatrick the fitzpatrick modifier or null
      *
      * @return the unicode representation
+     * 
      * @throws UnsupportedOperationException if the emoji doesn't support the Fitzpatrick modifiers
      */
     @Throws(UnsupportedOperationException::class)
