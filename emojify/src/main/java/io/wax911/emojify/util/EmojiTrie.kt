@@ -8,12 +8,11 @@ class EmojiTrie(emojis: Collection<Emoji>) {
     private val root = Node()
 
     init {
-        for (emoji in emojis) {
+        emojis.forEach { emoji ->
             var tree: Node? = root
-            for (c in emoji.unicode.toCharArray()) {
-                if (tree?.hasChild(c) == false) {
-                    tree.addChild(c)
-                }
+            emoji.unicode.toCharArray().forEach { c ->
+                if (tree?.hasChild(c) == false)
+                    tree?.addChild(c)
                 tree = tree?.getChild(c)
             }
             tree?.emoji = emoji
@@ -28,31 +27,24 @@ class EmojiTrie(emojis: Collection<Emoji>) {
      * partially.
      *
      * @return
-     * &lt;li&gt;
-     * Matches.EXACTLY if char sequence in its entirety is an emoji
-     * &lt;/li&gt;
-     * &lt;li&gt;
-     * Matches.POSSIBLY if char sequence matches prefix of an emoji
-     * &lt;/li&gt;
-     * &lt;li&gt;
-     * Matches.IMPOSSIBLE if char sequence matches no emoji or prefix of an
-     * emoji
-     * &lt;/li&gt;
+     * - Matches.EXACTLY if char sequence in its entirety is an emoji
+     * - Matches.POSSIBLY if char sequence matches prefix of an emoji
+     * - Matches.IMPOSSIBLE if char sequence matches no emoji or prefix of an emoji
      */
     fun isEmoji(sequence: CharArray?): Matches {
-        if (sequence == null) {
+        if (sequence == null)
             return Matches.POSSIBLY
-        }
 
         var tree: Node? = root
-        for (c in sequence) {
-            if (tree?.hasChild(c) == false) {
+        sequence.forEach { c ->
+            if (tree?.hasChild(c) == false)
                 return Matches.IMPOSSIBLE
-            }
             tree = tree?.getChild(c)
         }
 
-        return if (tree?.isEndOfEmoji == true) Matches.EXACTLY else Matches.POSSIBLY
+        return if (tree?.isEndOfEmoji == true)
+            Matches.EXACTLY
+        else Matches.POSSIBLY
     }
 
 
@@ -63,10 +55,9 @@ class EmojiTrie(emojis: Collection<Emoji>) {
      */
     fun getEmoji(unicode: String): Emoji? {
         var tree: Node? = root
-        for (c in unicode.toCharArray()) {
-            if (tree?.hasChild(c) == false) {
+        unicode.toCharArray().forEach { c ->
+            if (tree?.hasChild(c) == false)
                 return null
-            }
             tree = tree?.getChild(c)
         }
         return tree?.emoji
@@ -75,19 +66,14 @@ class EmojiTrie(emojis: Collection<Emoji>) {
     enum class Matches {
         EXACTLY, POSSIBLY, IMPOSSIBLE;
 
-        fun exactMatch(): Boolean {
-            return this == EXACTLY
-        }
+        fun exactMatch() = this == EXACTLY
 
-        fun impossibleMatch(): Boolean {
-            return this == IMPOSSIBLE
-        }
+        fun impossibleMatch() = this == IMPOSSIBLE
     }
 
     inner class Node {
-        private val children by lazy {
-            HashMap<Char, Node>()
-        }
+        private val children = HashMap<Char, Node>()
+
         internal var emoji: Emoji? = null
 
         internal val isEndOfEmoji: Boolean

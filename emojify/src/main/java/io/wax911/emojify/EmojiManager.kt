@@ -44,9 +44,7 @@ object EmojiManager {
         EmojiTrie(ALL_EMOJIS)
     }
 
-    private val ALL_EMOJIS by lazy {
-        ArrayList<Emoji>()
-    }
+    private val ALL_EMOJIS = ArrayList<Emoji>()
 
     private const val PATH = "emoticons/emoji.json"
 
@@ -59,12 +57,10 @@ object EmojiManager {
     @Throws(Exception::class)
     fun initEmojiData(context: Context) {
         if (ALL_EMOJIS.isEmpty()) {
-            val gson = GsonBuilder()
-                    .enableComplexMapKeySerialization()
-                    .setLenient().create()
             InputStreamReader(context.assets.open(PATH)).use { streamReader ->
                 BufferedReader(streamReader).use {
                     ALL_EMOJIS.apply {
+                        val gson = GsonBuilder().setLenient().create()
                         addAll(gson.fromJson(it, object : TypeToken<ArrayList<Emoji>>() {}.type))
                         forEach { emoji -> emoji.initProperties() }
                     }
@@ -166,20 +162,13 @@ object EmojiManager {
 
     /**
      * Checks if sequence of chars contain an emoji.
-     * @param sequence Sequence of char that may contain emoji in full or
-     * partially.
+     *
+     * @param sequence Sequence of char that may contain emoji in full or partially.
      *
      * @return
-     * &lt;li&gt;
-     * Matches.EXACTLY if char sequence in its entirety is an emoji
-     * &lt;/li&gt;
-     * &lt;li&gt;
-     * Matches.POSSIBLY if char sequence matches prefix of an emoji
-     * &lt;/li&gt;
-     * &lt;li&gt;
-     * Matches.IMPOSSIBLE if char sequence matches no emoji or prefix of an
-     * emoji
-     * &lt;/li&gt;
+     * - Matches.EXACTLY if char sequence in its entirety is an emoji
+     * - Matches.POSSIBLY if char sequence matches prefix of an emoji
+     * - Matches.IMPOSSIBLE if char sequence matches no emoji or prefix of an emoji
      */
     fun isEmoji(sequence: CharArray): EmojiTrie.Matches {
         return EMOJI_TRIE.isEmoji(sequence)

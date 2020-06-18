@@ -1,8 +1,12 @@
-# Android Emojify &nbsp; &nbsp; [![Release](https://jitpack.io/v/wax911/android-emojify.svg?style=flat-square)](https://jitpack.io/#wax911/android-emojify) &nbsp; [![Codacy Badge](https://api.codacy.com/project/badge/Grade/30a8f983c55541cbb504671ecc32786c)](https://www.codacy.com/app/AniTrend/android-emojify?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=wax911/android-emojify&amp;utm_campaign=Badge_Grade) &nbsp; [![Build Status](https://travis-ci.org/AniTrend/android-emojify.svg?branch=master)](https://travis-ci.org/AniTrend/android-emojify) &nbsp;
+# Android Emojify &nbsp; &nbsp; [![Release](https://jitpack.io/v/wax911/android-emojify.svg?style=flat-square)](https://jitpack.io/#wax911/android-emojify) &nbsp; [![Codacy Badge](https://api.codacy.com/project/badge/Grade/30a8f983c55541cbb504671ecc32786c)](https://www.codacy.com/app/AniTrend/android-emojify?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=wax911/android-emojify&amp;utm_campaign=Badge_Grade) &nbsp; [![Build Status](https://travis-ci.org/AniTrend/android-emojify.svg?branch=master)](https://travis-ci.org/AniTrend/android-emojify) [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FAniTrend%2Fandroid-emojify.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FAniTrend%2Fandroid-emojify?ref=badge_shield)
+
+&nbsp;
 
 This project is an android port of [vdurmont/emoji-java](https://github.com/vdurmont/emoji-java) which is a lightweight java library that helps you use Emojis in your java applications re-written in Kotlin.
 
 ###### This project is already being used in [AniTrend](https://anitrend.co/)
+
+All class and function documentation on the **emojify** module can be found [here](https://javadoc.jitpack.io/com/github/anitrend/android-emojify/1.5.4-alpha01/javadoc/android-emojify) 
 
 # Known Issues
 
@@ -11,10 +15,10 @@ This project is an android port of [vdurmont/emoji-java](https://github.com/vdur
 # Suggestions
 
 - From v1.X the project was reworked and should be able to handle conversion from emoji to hexHtml, decHtml or short codes on the main thread with a slight improvement on processing speed (depending on the length of text of course),
-however I would highly recommend moving all convention work to a background thread between network requests for a smoother experience for your users (read up on the repository pattern).
+  however I would highly recommend moving all convention work to a background thread between network requests for a smoother experience for your users (read up on the repository pattern).
 - If you are using a markdown library like __[txtmark](https://github.com/rjeschke/txtmark)__ or using just ```Html.fromHtml()```  you can skip
-conversion of __HexHtml & HtmlCodes__ to emoji and just pass the returned  __[Spanned](https://developer.android.com/reference/android/text/Spanned.html)__
-from the ```Html.fromHtml``` to your text view. (See sample in project)
+  conversion of __HexHtml & HtmlCodes__ to emoji and just pass the returned  __[Spanned](https://developer.android.com/reference/android/text/Spanned.html)__
+  from the ```Html.fromHtml``` to your text view. (See sample in project)
 
 # Migration
 
@@ -32,22 +36,23 @@ EmojiUtils.shortCodify(); //becomes -> EmojiParser.parseToAliases();
 
 > Starting v1.X conversion is only possible from `emoji -> hexHtml, decHtml or shortCodes` and `hexHtml, decHtml or shortCodes -> emoji`
 > unlike in previous versions where you could convert hexHtml to decHtml or shortCodes & vice-versa.
->
->```
->.
->├── io
->│   └── wax911
->│       └── emojify
->│           ├── EmojiManager.kt
->│           ├── model
->│           │   └── Emoji.kt
->│           ├── parser
->│           │   └── EmojiParser.kt
->│           └── util
->│               ├── EmojiTrie.kt
->│               └── Fitzpatrick.kt
->```
-__N.B Package names have been changed and would require refactoring, except for `EmojiManager`__
+> 
+> ```
+> .
+> ├── io
+> │   └── wax911
+> │       └── emojify
+> │           ├── EmojiManager.kt
+> │           ├── model
+> │           │   └── Emoji.kt
+> │           ├── parser
+> │           │   └── EmojiParser.kt
+> │           └── util
+> │               ├── EmojiTrie.kt
+> │               └── Fitzpatrick.kt
+> ```
+> 
+> __N.B Package names have been changed and would require refactoring, except for `EmojiManager`__
 
 # Use Case
 
@@ -61,10 +66,10 @@ When the client request status or blog text it has to convert the html entities 
 
 ```java
 allprojects {
-	repositories {
-		...
-		maven { url 'https://jitpack.io' }
-	}
+    repositories {
+        ...
+        maven { url 'https://jitpack.io' }
+    }
 }
 ```
 
@@ -72,9 +77,8 @@ allprojects {
 
 ```java
 dependencies {
-	compile 'com.github.wax911:android-emojify:{latest_version}'
+    compile 'com.github.wax911:android-emojify:{latest_version}'
 }
-
 ```
 
 ### Step 3. Create an application class in your android project and add:
@@ -95,7 +99,6 @@ public class App extends Application {
         }
     }
 }
-
 ```
 
 # Screenshots
@@ -138,13 +141,13 @@ An `Emoji` is a POJO (plain old java object), which provides the following metho
 
 Some emojis now support the use of Fitzpatrick modifiers that gives the choice between 5 shades of skin tones:
 
-| Modifier | Type |
-| :---: | ------- |
-| 🏻 | type_1_2 |
-| 🏼 | type_3 |
-| 🏽 | type_4 |
-| 🏾 | type_5 |
-| 🏿 | type_6 |
+| Modifier | Type     |
+|:--------:| -------- |
+| 🏻       | type_1_2 |
+| 🏼       | type_3   |
+| 🏽       | type_4   |
+| 🏾       | type_5   |
+| 🏿       | type_6   |
 
 We defined the format of the aliases including a Fitzpatrick modifier as:
 
@@ -285,3 +288,5 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 ```
+
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FAniTrend%2Fandroid-emojify.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2FAniTrend%2Fandroid-emojify?ref=badge_large)

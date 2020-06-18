@@ -195,7 +195,7 @@ class EmojiManagerTest {
 
         // THEN
         // We know the number of distinct tags int the...!
-        assertEquals(594, tags.size)
+        assertEquals(656, tags.size)
     }
 
     @Test
@@ -250,12 +250,11 @@ class EmojiManagerTest {
             return true
         }
 
-        fun containsEmoji(emojis: Iterable<Emoji>, alias: String): Boolean {
+        private fun containsEmoji(emojis: Iterable<Emoji>, alias: String): Boolean {
             for ((_, _, aliases) in emojis) {
-                for (al in aliases!!) {
-                    if (alias == al) {
+                aliases?.forEach { al ->
+                    if (alias == al)
                         return true
-                    }
                 }
             }
             return false
