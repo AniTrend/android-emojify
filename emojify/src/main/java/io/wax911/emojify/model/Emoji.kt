@@ -1,10 +1,8 @@
 package io.wax911.emojify.model
 
-import androidx.annotation.VisibleForTesting
 import io.wax911.emojify.util.Fitzpatrick
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.Transient
 import java.nio.charset.Charset
 
 /**

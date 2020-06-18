@@ -1,6 +1,5 @@
 package io.wax911.emojify
 
-import androidx.annotation.VisibleForTesting
 import io.wax911.emojify.model.Emoji
 import io.wax911.emojify.parser.getNextUnicodeCandidate
 import io.wax911.emojify.parser.removeAllEmojis
@@ -66,8 +65,7 @@ class EmojiManager(
     fun getForAlias(alias: String?): Emoji? =
         alias?.let { emojiByAlias[trimAlias(it)] }
 
-    @VisibleForTesting
-    fun trimAlias(alias: String): String = alias.trim { it == ':' }
+    private fun trimAlias(alias: String): String = alias.trim { it == ':' }
 
     /**
      * Returns the [Emoji] for a given unicode.

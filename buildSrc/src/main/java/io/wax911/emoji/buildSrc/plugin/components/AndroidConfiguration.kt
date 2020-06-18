@@ -20,18 +20,11 @@ private fun DefaultConfig.applyAdditionalConfiguration(project: Project) {
         project.baseAppExtension().buildFeatures {
             viewBinding = true
         }
+        println("Applying vector drawables configuration for module -> ${project.path}")
+        vectorDrawables.useSupportLibrary = true
     }
     else
         consumerProguardFiles.add(File("consumer-rules.pro"))
-
-    if (project.isLibraryModule()) {
-        project.libraryExtension().buildFeatures {
-            viewBinding = true
-        }
-    }
-
-    println("Applying vector drawables configuration for module -> ${project.path}")
-    vectorDrawables.useSupportLibrary = true
 }
 
 internal fun Project.configureAndroid(): Unit = baseExtension().run {
@@ -48,13 +41,13 @@ internal fun Project.configureAndroid(): Unit = baseExtension().run {
     buildTypes {
         getByName("release") {
             isMinifyEnabled = false
-            isTestCoverageEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
 
         getByName("debug") {
             isMinifyEnabled = false
             isTestCoverageEnabled = true
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
 
@@ -73,7 +66,6 @@ internal fun Project.configureAndroid(): Unit = baseExtension().run {
     }
 
     testOptions {
-        unitTests.isIncludeAndroidResources = true
         unitTests.isReturnDefaultValues = true
     }
 

@@ -1,7 +1,7 @@
 package io.wax911.emojify.util.tree
 
 import io.wax911.emojify.model.Emoji
-import java.util.HashMap
+import java.util.*
 
 /**
  * Node representation of an emoji tree
