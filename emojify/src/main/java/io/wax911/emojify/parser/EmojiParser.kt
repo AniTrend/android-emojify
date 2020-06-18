@@ -2,10 +2,10 @@ package io.wax911.emojify.parser
 
 import io.wax911.emojify.EmojiManager
 import io.wax911.emojify.model.Emoji
+import io.wax911.emojify.parser.action.FitzpatrickAction
 import io.wax911.emojify.parser.candidate.AliasCandidate
 import io.wax911.emojify.parser.candidate.UnicodeCandidate
 import io.wax911.emojify.parser.common.EmojiTransformer
-import io.wax911.emojify.parser.action.FitzpatrickAction
 import java.util.*
 import java.util.regex.Pattern
 
