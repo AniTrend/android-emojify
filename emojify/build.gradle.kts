@@ -6,6 +6,6 @@ plugins {
 }
 
 dependencies {
-    implementation(Libraries.Google.Gson.gson)
+    implementation(Libraries.AndroidX.StartUp.startUpRuntime)
     implementation(Libraries.JetBrains.KotlinX.Serialization.runtime)
 }
