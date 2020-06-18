@@ -94,10 +94,12 @@ internal fun Project.configureAndroid(): Unit = baseExtension().run {
             kotlinOptions {
                 allWarningsAsErrors = false
                 // Filter out modules that won't be using coroutines
-                freeCompilerArgs = listOf(
+                freeCompilerArgs = if (isSampleModule()) listOf(
                     "-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
                     "-Xopt-in=kotlinx.coroutines.FlowPreview",
-                    "-Xopt-in=kotlinx.coroutines.FlowPreview",
+                    "-Xopt-in=kotlin.Experimental"
+                ) else listOf(
+                    "-Xopt-in=kotlinx.serialization.UnstableDefault",
                     "-Xopt-in=kotlin.Experimental"
                 )
             }
