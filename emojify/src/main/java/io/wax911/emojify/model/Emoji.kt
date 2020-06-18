@@ -1,68 +1,77 @@
 package io.wax911.emojify.model
 
-import com.google.gson.annotations.SerializedName
+import androidx.annotation.VisibleForTesting
 import io.wax911.emojify.util.Fitzpatrick
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.Transient
 import java.nio.charset.Charset
 
-
+/**
+ * @param aliases a list of aliases for this emoji
+ * @param description the (optional) description of the emoji
+ * @param emoji unicode emoji
+ * @param emojiChar actual raw emoji
+ * @param supportsFitzpatrick true if the emoji supports the Fitzpatrick modifiers, else false
+ * @param supportsGender true if the emoji supports the gender modifiers, else false
+ * @param tags a list of tags for this emoji
+ * @property unicode the unicode representation of the emoji
+ * @property htmlDec an html decimal representation of the emoji
+ * @property htmlHex an html decimal representation of the emoji
+ */
+@Serializable
 data class Emoji (
-        val description: String? = null,
-        @SerializedName("supports_fitzpatrick")
-        val supportsFitzpatrick: Boolean = false,
-        val aliases: List<String>? = null,
-        val tags: List<String>? = null,
-        val emojiChar: String,
-        val emoji: String,
-        var unicode: String,
-        var htmlDec: String,
-        var htmlHex: String
+    @SerialName("aliases") val aliases: List<String>? = null,
+    @SerialName("description") val description: String? = null,
+    @SerialName("emoji") val emoji: String,
+    @SerialName("emojiChar") val emojiChar: String,
+    @SerialName("supports_fitzpatrick") val supportsFitzpatrick: Boolean = false,
+    @SerialName("supports_gender") val supportsGender: Boolean = false,
+    @SerialName("tags") val tags: List<String>? = null
 ) {
+    var unicode: String = ""
+    var htmlDec: String = ""
+    var htmlHex: String = ""
 
-    internal fun initProperties() {
+    init {
         runCatching {
-            var count = 0
-            unicode = String(emoji.toByteArray(), Charset.forName("UTF-8"))
-            val stringLength = unicode.length
-            val pointCodes = arrayOfNulls<String>(stringLength)
-            val pointCodesHex = arrayOfNulls<String>(stringLength)
-
-            var offset = 0
-            while (offset < stringLength) {
-                val codePoint = unicode.codePointAt(offset)
-
-                pointCodes[count] = String.format("&#%d;", codePoint)
-                pointCodesHex[count++] = String.format("&#x%x;", codePoint)
-
-                offset += Character.charCount(codePoint)
-            }
-            htmlDec = stringJoin(pointCodes, count)
-            htmlHex = stringJoin(pointCodesHex, count)
-        }.exceptionOrNull()?.printStackTrace()
+            /** Upon init, we initialize optional properties: [unicode], [htmlDec] and [htmlHex] */
+            initializeProperties()
+        }.onFailure { it.printStackTrace() }
     }
 
-    /**
-     * Method to replace String.join, since it was only introduced in java8
-     *
-     * @param array the array to be concatenated
-     * @return concatenated String
-     */
-    private fun stringJoin(array: Array<String?>, count: Int): String {
-        var joined = ""
-        (0 until count).forEach { i ->
-            joined += array[i]
+    @Throws(Exception::class)
+    private fun initializeProperties() {
+        var count = 0
+        unicode = String(emoji.toByteArray(), Charset.forName("UTF-8"))
+        val stringLength = unicode.length
+        val pointCodes = arrayOfNulls<String>(stringLength)
+        val pointCodesHex = arrayOfNulls<String>(stringLength)
+
+        var offset = 0
+        while (offset < stringLength) {
+            val codePoint = unicode.codePointAt(offset)
+
+            pointCodes[count] = String.format("&#%d;", codePoint)
+            pointCodesHex[count++] = String.format("&#x%x;", codePoint)
+
+            offset += Character.charCount(codePoint)
         }
-        return joined
+
+        htmlDec = pointCodes.joinToString(limit = count, truncated = "", separator = "")
+        htmlHex = pointCodesHex.joinToString(limit = count, truncated = "", separator = "")
     }
 
     /**
      * Returns the unicode representation of the emoji associated with the
      * provided Fitzpatrick modifier.
      *
-     * If the modifier is null, then the result is similar to [Emoji.getUnicode]
+     * If the modifier is null, then the result is similar to [unicode]
      *
      * @param fitzpatrick the fitzpatrick modifier or null
      *
      * @return the unicode representation
+     * 
      * @throws UnsupportedOperationException if the emoji doesn't support the Fitzpatrick modifiers
      */
     @Throws(UnsupportedOperationException::class)

@@ -9,6 +9,7 @@ buildscript {
     dependencies {
         classpath Libraries.Android.Tools.buildGradle
         classpath Libraries.JetBrains.Kotlin.Gradle.plugin
+        classpath Libraries.JetBrains.Kotlin.Serialization.serialization
     }
 }
 

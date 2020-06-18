@@ -8,25 +8,31 @@ import android.text.Spanned
 import android.text.SpannedString
 import android.view.View
 import android.widget.Toast
-import io.wax911.emojify.parser.EmojiParser
+import io.wax911.emojify.parser.*
+import io.wax911.emojifysample.databinding.ActivityMainBinding
+import io.wax911.emojifysample.ext.emojiManager
 
 class MainActivity : AppCompatActivity(), View.OnClickListener {
 
-    private var editText: AppCompatEditText? = null
+    private val binding: ActivityMainBinding by lazy {
+        ActivityMainBinding.inflate(layoutInflater)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        editText = findViewById(R.id.edit_text)
+        setContentView(binding.root)
+    }
 
-        findViewById<View>(R.id.toEmoji).setOnClickListener(this)
-        findViewById<View>(R.id.toHtml).setOnClickListener(this)
-        findViewById<View>(R.id.toHexHtml).setOnClickListener(this)
-        findViewById<View>(R.id.toShortCode).setOnClickListener(this)
+    override fun onPostCreate(savedInstanceState: Bundle?) {
+        super.onPostCreate(savedInstanceState)
+        binding.containMain.toEmoji.setOnClickListener(this)
+        binding.containMain.toHtml.setOnClickListener(this)
+        binding.containMain.toHexHtml.setOnClickListener(this)
+        binding.containMain.toShortCode.setOnClickListener(this)
     }
 
     override fun onClick(view: View) {
-        val textContent: Editable? = editText?.editableText
+        val textContent: Editable? = binding.containMain.editText.editableText
         if (textContent == null) {
             Toast.makeText(this, "You must first enter some text", Toast.LENGTH_SHORT).show()
             return
@@ -36,16 +42,24 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             R.id.toEmoji ->
                 // alternatively you could convert your hexHtml to emoji by using Html.fromHtml()
                 //e.g. convertedText = Html.fromHtml(EmojiParser.parseToHtmlHexadecimal(textContent.toString()));
-                convertedText = SpannedString(EmojiParser.parseToUnicode(textContent.toString()))
+                convertedText = SpannedString(emojiManager().parseToUnicode(textContent.toString()))
             R.id.toHtml ->
                 // alternatively you could convert your hexHtml to emoji by using Html.fromHtml()
                 //e.g. convertedText = Html.fromHtml(EmojiParser.parseToHtmlDecimal(textContent.toString()));
-                convertedText = SpannedString(EmojiParser.parseToHtmlDecimal(textContent.toString()))
+                convertedText = SpannedString(emojiManager().parseToHtmlDecimal(textContent.toString()))
             R.id.toHexHtml ->
-                convertedText = SpannedString(EmojiParser.parseToHtmlHexadecimal(textContent.toString()))
+                convertedText = SpannedString(emojiManager().parseToHtmlHexadecimal(textContent.toString()))
             R.id.toShortCode ->
-                convertedText = SpannedString(EmojiParser.parseToAliases(textContent.toString()))
+                convertedText = SpannedString(emojiManager().parseToAliases(textContent.toString()))
         }
-        editText?.setText(convertedText)
+        binding.containMain.editText.setText(convertedText)
+    }
+
+    override fun onDestroy() {
+        binding.containMain.toEmoji.setOnClickListener(null)
+        binding.containMain.toHtml.setOnClickListener(null)
+        binding.containMain.toHexHtml.setOnClickListener(null)
+        binding.containMain.toShortCode.setOnClickListener(null)
+        super.onDestroy()
     }
 }

@@ -2,6 +2,7 @@ package io.wax911.emojify.util
 
 import java.util.*
 
+
 /**
  * Enum that represents the Fitzpatrick modifiers supported by the emojis.
  *
@@ -36,19 +37,18 @@ enum class Fitzpatrick constructor(val unicode: String) {
 
     companion object {
 
-        fun fitzpatrickFromUnicode(unicode: String?): Fitzpatrick? {
-            return values().find {
-                it.unicode == unicode
-            }
-        }
+        /**
+         * @return [Fitzpatrick] or null if no [unicode] matches the supported types
+         */
+        fun fitzpatrickFromUnicode(unicode: String?): Fitzpatrick? =
+            values().find { it.unicode == unicode }
 
-        fun fitzpatrickFromType(type: String): Fitzpatrick? {
-            return runCatching {
+        /**
+         * @return [Fitzpatrick] or null if no [type] the available enum names
+         */
+        fun fitzpatrickFromType(type: String): Fitzpatrick? =
+            runCatching {
                 valueOf(type.toUpperCase(Locale.ROOT))
-            }.getOrElse {
-                it.printStackTrace()
-                null
-            }
-        }
+            }.onFailure { it.printStackTrace() }.getOrNull()
     }
 }
