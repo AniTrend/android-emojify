@@ -4,7 +4,7 @@
 
 This project is an android port of [vdurmont/emoji-java](https://github.com/vdurmont/emoji-java) which is a lightweight java library that helps you use Emojis in your java applications re-written in Kotlin, with some extra tweaks.
 
-**This project is already being used in [AniTrend](https://anitrend.co/)**
+**This project is already being used in [AniTrend](https://anitrend.co/) and only aims to provide emojis from [emojipedia](https://emojipedia.org/)**
 
 - All class and function documentation on the **emojify** module can be found [here](https://javadoc.jitpack.io/com/github/anitrend/android-emojify/1.6.0-alpha01/javadoc/android-emojify)
 
@@ -84,30 +84,30 @@ Starting from **v1.6.0** the project has had some parts rewritten, specifically 
 ##### New project structure
 
 > .
-> └── io
->     └── wax911
->         └── emojify
->             ├── EmojiManager.kt
->             ├── initializer
->             │   └── EmojiInitializer.kt
->             ├── model
->             │   └── Emoji.kt
->             ├── parser
->             │   ├── action
->             │   │   └── FitzpatrickAction.kt
->             │   ├── candidate
->             │   │   ├── AliasCandidate.kt
->             │   │   └── UnicodeCandidate.kt
->             │   ├── common
->             │   │   └── EmojiTransformer.kt
->             │   └── EmojiParser.kt
->             └── util
->                 ├── EmojiTree.kt
->                 ├── Fitzpatrick.kt
->                 └── tree
->                     ├── Matches.kt
->                     └── Node.kt
-> 
+> ├── io
+> │    └── wax911
+> │        └── emojify
+> │            ├── EmojiManager.kt
+> │            ├── initializer
+> │            │   └── EmojiInitializer.kt
+> │            ├── model
+> │            │   └── Emoji.kt
+> │            ├── parser
+> │            │   ├── action
+> │            │   │   └── FitzpatrickAction.kt
+> │            │   ├── candidate
+> │            │   │   ├── AliasCandidate.kt
+> │            │   │   └── UnicodeCandidate.kt
+> │            │   ├── common
+> │            │   │   └── EmojiTransformer.kt
+> │            │   └── EmojiParser.kt
+> │            └── util
+> │                ├── EmojiTree.kt
+> │                ├── Fitzpatrick.kt
+> │                └── tree
+> │                    ├── Matches.kt
+> │                    └── Node.kt
+>
 > __N.B `EmojiManger` has been converted to class, thus an instance needs to be obtained from `EmojiInitializer` through [androidx.startup](https://developer.android.com/topic/libraries/app-startup#disable-individual#kotlin) or manually create an instance of the class on your own__.
 
 
