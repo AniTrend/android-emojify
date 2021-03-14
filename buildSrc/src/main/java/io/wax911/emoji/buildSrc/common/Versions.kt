@@ -2,8 +2,8 @@ package io.wax911.emoji.buildSrc.common
 
 object Versions {
 
-    const val compileSdk = 29
-    const val targetSdk = 29
+    const val compileSdk = 30
+    const val targetSdk = 30
     const val minSdk = 21
 
     const val versionCode = 160010
