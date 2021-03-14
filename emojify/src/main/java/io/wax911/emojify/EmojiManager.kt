@@ -1,26 +1,29 @@
 package io.wax911.emojify
 
-import android.content.Context
-import com.google.gson.GsonBuilder
-import com.google.gson.reflect.TypeToken
+import androidx.annotation.VisibleForTesting
+import io.wax911.emojify.manager.IEmojiManager
 import io.wax911.emojify.model.Emoji
-import io.wax911.emojify.parser.EmojiParser
-import io.wax911.emojify.util.EmojiTrie
-import java.io.BufferedReader
-import java.io.InputStreamReader
+import io.wax911.emojify.parser.getNextUnicodeCandidate
+import io.wax911.emojify.parser.removeAllEmojis
+import io.wax911.emojify.util.EmojiTree
+import io.wax911.emojify.util.tree.Matches
 import java.util.*
 
 
 /**
  * Holds the loaded emojis and provides search functions.
  *
- * @author Vincent DURMONT [vdurmont@gmail.com]
+ * @param emojiList complete list of all emojis
+ *
+ * @author [Vincent DURMONT](vdurmont@gmail.com)
  */
-object EmojiManager {
+class EmojiManager(
+    override val emojiList: Collection<Emoji>
+) : IEmojiManager {
 
-    private val EMOJIS_BY_ALIAS by lazy {
+    private val emojiByAlias by lazy {
         val aliasMap = HashMap<String, Emoji>()
-        ALL_EMOJIS.forEach { emoji ->
+        emojiList.forEach { emoji ->
             emoji.aliases?.forEach { alias ->
                 aliasMap[alias] = emoji
             }
@@ -28,9 +31,9 @@ object EmojiManager {
         aliasMap
     }
 
-    private val EMOJIS_BY_TAG by lazy {
+    private val emojiByTag by lazy {
         val emojiTagMap = HashMap<String, MutableSet<Emoji>>()
-        ALL_EMOJIS.forEach { emoji ->
+        emojiList.forEach { emoji ->
             emoji.tags?.forEach { tag ->
                 if (emojiTagMap[tag] == null)
                     emojiTagMap[tag] = HashSet()
@@ -40,33 +43,8 @@ object EmojiManager {
         emojiTagMap
     }
 
-    private val EMOJI_TRIE: EmojiTrie by lazy {
-        EmojiTrie(ALL_EMOJIS)
-    }
-
-    private val ALL_EMOJIS = ArrayList<Emoji>()
-
-    private const val PATH = "emoticons/emoji.json"
-
-    /**
-     * Initializes emoji objects from an asset file in the library directory
-     *
-     * @param context any valid application context
-     * @throws Exception may throw but not limited to [java.io.IOException] when an error occurs
-     */
-    @Throws(Exception::class)
-    fun initEmojiData(context: Context) {
-        if (ALL_EMOJIS.isEmpty()) {
-            InputStreamReader(context.assets.open(PATH)).use { streamReader ->
-                BufferedReader(streamReader).use {
-                    ALL_EMOJIS.apply {
-                        val gson = GsonBuilder().setLenient().create()
-                        addAll(gson.fromJson(it, object : TypeToken<ArrayList<Emoji>>() {}.type))
-                        forEach { emoji -> emoji.initProperties() }
-                    }
-                }
-            }
-        }
+    private val emojiTree: EmojiTree by lazy {
+        EmojiTree(emojiList)
     }
 
     /**
@@ -74,63 +52,34 @@ object EmojiManager {
      *
      * @param tag the tag
      *
-     * @return the associated [Emoji]s, null if the tag
-     * is unknown
+     * @return the associated [Emoji]s, null if the tag is unknown
      */
-    fun getForTag(tag: String?): Set<Emoji>? {
-        return tag.let {
-            EMOJIS_BY_TAG[it]
-        }
-    }
+    override fun getForTag(tag: String?): Collection<Emoji>? =
+        tag?.let { emojiByTag[it] }
 
     /**
      * Returns the [Emoji] for a given alias.
      *
      * @param alias the alias
      *
-     * @return the associated [Emoji], null if the alias
-     * is unknown
+     * @return the associated [Emoji], null if the alias is unknown
      */
-    fun getForAlias(alias: String?): Emoji? {
-        return alias?.let {
-            EMOJIS_BY_ALIAS[trimAlias(it)]
-        }
-    }
+    override fun getForAlias(alias: String?): Emoji? =
+        alias?.let { emojiByAlias[trimAlias(it)] }
 
-    private fun trimAlias(alias: String): String {
-        var result = alias
-        if (result.startsWith(":")) {
-            result = result.substring(1, result.length)
-        }
-        if (result.endsWith(":")) {
-            result = result.substring(0, result.length - 1)
-        }
-        return result
-    }
-
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    fun trimAlias(alias: String): String = alias.trim { it == ':' }
 
     /**
      * Returns the [Emoji] for a given unicode.
      *
      * @param unicode the the unicode
      *
-     * @return the associated [Emoji], null if the
-     * unicode is unknown
+     * @return the associated [Emoji], null if the unicode is unknown
      */
-    fun getByUnicode(unicode: String?): Emoji? {
-        return if (unicode == null) {
-            null
-        } else EMOJI_TRIE.getEmoji(unicode)
-    }
+    override fun getByUnicode(unicode: String?): Emoji? =
+        unicode?.let { emojiTree.getEmoji(it) }
 
-    /**
-     * Returns all the [Emoji]s
-     *
-     * @return all the [Emoji]s
-     */
-    fun getAll(): Collection<Emoji> {
-        return ALL_EMOJIS
-    }
 
     /**
      * Tests if a given String is an emoji.
@@ -139,11 +88,10 @@ object EmojiManager {
      *
      * @return true if the string is an emoji's unicode, false else
      */
-    fun isEmoji(string: String?): Boolean {
+    override fun isEmoji(string: String?): Boolean {
         if (string == null) return false
 
-        val unicodeCandidate = EmojiParser
-                .getNextUnicodeCandidate(string.toCharArray(), 0)
+        val unicodeCandidate = getNextUnicodeCandidate(string.toCharArray(), 0)
         return unicodeCandidate != null &&
                 unicodeCandidate.emojiStartIndex == 0 &&
                 unicodeCandidate.fitzpatrickEndIndex == string.length
@@ -156,8 +104,8 @@ object EmojiManager {
      *
      * @return true if the string only contains emojis, false else
      */
-    fun isOnlyEmojis(string: String?): Boolean {
-        return string != null && EmojiParser.removeAllEmojis(string).isEmpty()
+    override fun isOnlyEmojis(string: String?): Boolean {
+        return string != null && removeAllEmojis(string).isEmpty()
     }
 
     /**
@@ -166,20 +114,16 @@ object EmojiManager {
      * @param sequence Sequence of char that may contain emoji in full or partially.
      *
      * @return
-     * - Matches.EXACTLY if char sequence in its entirety is an emoji
-     * - Matches.POSSIBLY if char sequence matches prefix of an emoji
-     * - Matches.IMPOSSIBLE if char sequence matches no emoji or prefix of an emoji
+     * - [Matches.EXACTLY] if char sequence in its entirety is an emoji
+     * - [Matches.POSSIBLY] if char sequence matches prefix of an emoji
+     * - [Matches.IMPOSSIBLE] if char sequence matches no emoji or prefix of an emoji
      */
-    fun isEmoji(sequence: CharArray): EmojiTrie.Matches {
-        return EMOJI_TRIE.isEmoji(sequence)
-    }
+    override fun isEmoji(sequence: CharArray): Matches = emojiTree.isEmoji(sequence)
 
     /**
      * Returns all the tags in the database
      *
      * @return the tags
      */
-    fun getAllTags(): Collection<String> {
-        return EMOJIS_BY_TAG.keys
-    }
+    override fun getAllTags(): Collection<String> = emojiByTag.keys
 }

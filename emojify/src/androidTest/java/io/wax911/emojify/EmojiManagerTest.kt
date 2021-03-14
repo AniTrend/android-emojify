@@ -1,7 +1,9 @@
 package io.wax911.emojify
 
+import androidx.startup.AppInitializer
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
 import androidx.test.platform.app.InstrumentationRegistry
+import io.wax911.emojify.initializer.EmojiInitializer
 import io.wax911.emojify.model.Emoji
 import org.junit.Assert.*
 import org.junit.Before
@@ -17,10 +19,13 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4ClassRunner::class)
 class EmojiManagerTest {
 
-    private val context by lazy { InstrumentationRegistry.getInstrumentation().context }
+    private val context by lazy {
+        InstrumentationRegistry.getInstrumentation().context
+    }
 
-    private val emojis by lazy {
-        EmojiManager.initEmojiData(context)
+    private val emojiManager by lazy {
+        AppInitializer.getInstance(context)
+            .initializeComponent(EmojiInitializer::class.java)
     }
 
     @Before
@@ -30,8 +35,20 @@ class EmojiManagerTest {
 
     @Before
     fun testEmojiLoading() {
-        assertNotNull(emojis)
-        assertNotNull(EmojiManager.getAll())
+        assertNotNull(emojiManager)
+        assertTrue(emojiManager.emojiList.isNotEmpty())
+    }
+
+    @Test
+    fun getTrimmedAlias() {
+        // GIVEN
+        val alias = ":smile:"
+
+        // WHEN
+        val trimmed = emojiManager.trimAlias(alias)
+
+        // THEN
+        assertEquals("smile", trimmed)
     }
 
     @Test
@@ -39,7 +56,7 @@ class EmojiManagerTest {
         // GIVEN
 
         // WHEN
-        val emojis = EmojiManager.getForTag("jkahsgdfjksghfjkshf")
+        val emojis = emojiManager.getForTag("jkahsgdfjksghfjkshf")
 
         // THEN
         assertNull(emojis)
@@ -50,7 +67,7 @@ class EmojiManagerTest {
         // GIVEN
 
         // WHEN
-        val emojis = EmojiManager.getForTag("happy")
+        val emojis = emojiManager.getForTag("happy")
 
         // THEN
         assertEquals(4, emojis!!.size)
@@ -68,7 +85,7 @@ class EmojiManagerTest {
         // GIVEN
 
         // WHEN
-        val emoji = EmojiManager.getForAlias("jkahsgdfjksghfjkshf")
+        val emoji = emojiManager.getForAlias("jkahsgdfjksghfjkshf")
 
         // THEN
         assertNull(emoji)
@@ -79,7 +96,7 @@ class EmojiManagerTest {
         // GIVEN
 
         // WHEN
-        val emoji = EmojiManager.getForAlias("smile")
+        val emoji = emojiManager.getForAlias("smile")
 
         // THEN
         assertEquals(
@@ -93,7 +110,7 @@ class EmojiManagerTest {
         // GIVEN
 
         // WHEN
-        val emoji = EmojiManager.getForAlias(":smile:")
+        val emoji = emojiManager.getForAlias(":smile:")
 
         // THEN
         assertEquals(
@@ -108,7 +125,7 @@ class EmojiManagerTest {
         val emoji = "😀"
 
         // WHEN
-        val isEmoji = EmojiManager.isEmoji(emoji)
+        val isEmoji = emojiManager.isEmoji(emoji)
 
         // THEN
         assertTrue(isEmoji)
@@ -120,7 +137,7 @@ class EmojiManagerTest {
         val emoji = "\uD83E\uDD30\uD83C\uDFFB"
 
         // WHEN
-        val isEmoji = EmojiManager.isEmoji(emoji)
+        val isEmoji = emojiManager.isEmoji(emoji)
 
         // THEN
         assertTrue(isEmoji)
@@ -132,7 +149,7 @@ class EmojiManagerTest {
         val str = "test"
 
         // WHEN
-        val isEmoji = EmojiManager.isEmoji(str)
+        val isEmoji = emojiManager.isEmoji(str)
 
         // THEN
         assertFalse(isEmoji)
@@ -144,7 +161,7 @@ class EmojiManagerTest {
         val str = "😀 test"
 
         // WHEN
-        val isEmoji = EmojiManager.isEmoji(str)
+        val isEmoji = emojiManager.isEmoji(str)
 
         // THEN
         assertFalse(isEmoji)
@@ -156,7 +173,7 @@ class EmojiManagerTest {
         val str = "😀"
 
         // WHEN
-        val isEmoji = EmojiManager.isOnlyEmojis(str)
+        val isEmoji = emojiManager.isOnlyEmojis(str)
 
         // THEN
         assertTrue(isEmoji)
@@ -168,7 +185,7 @@ class EmojiManagerTest {
         val str = "😀😀😀"
 
         // WHEN
-        val isEmoji = EmojiManager.isOnlyEmojis(str)
+        val isEmoji = emojiManager.isOnlyEmojis(str)
 
         // THEN
         assertTrue(isEmoji)
@@ -180,7 +197,7 @@ class EmojiManagerTest {
         val str = "😀a"
 
         // WHEN
-        val isEmoji = EmojiManager.isOnlyEmojis(str)
+        val isEmoji = emojiManager.isOnlyEmojis(str)
 
         // THEN
         assertFalse(isEmoji)
@@ -191,7 +208,7 @@ class EmojiManagerTest {
         // GIVEN
 
         // WHEN
-        val tags = EmojiManager.getAllTags()
+        val tags = emojiManager.getAllTags()
 
         // THEN
         // We know the number of distinct tags int the...!
@@ -199,20 +216,20 @@ class EmojiManagerTest {
     }
 
     @Test
-    fun getAll_doesnt_return_duplicates() {
+    fun getAll_does_not_return_duplicates() {
         // GIVEN
 
         // WHEN
-        val emojis = EmojiManager.getAll()
+        val emojis = emojiManager.emojiList
 
         // THEN
         val unicodes = HashSet<String>()
-        for ((description, _, _, _, _, _, unicode) in emojis) {
+        for (emoji in emojis) {
             assertFalse(
-                    "Duplicate: " + description!!,
-                    unicodes.contains(unicode)
+                    "Duplicate: " + emoji.description!!,
+                    unicodes.contains(emoji.unicode)
             )
-            unicodes.add(unicode)
+            unicodes.add(emoji.unicode)
         }
         assertEquals(unicodes.size, emojis.size)
     }
@@ -222,13 +239,13 @@ class EmojiManagerTest {
         // GIVEN
 
         // WHEN
-        val emojis = EmojiManager.getAll()
+        val emojis = emojiManager.emojiList
 
         // THEN
         val aliases = HashSet<String>()
         val duplicates = HashSet<String>()
-        for ((_, _, aliases1) in emojis) {
-            for (alias in aliases1!!) {
+        for (emoji in emojis) {
+            for (alias in emoji.aliases!!) {
                 if (aliases.contains(alias)) {
                     duplicates.add(alias)
                 }
@@ -251,8 +268,8 @@ class EmojiManagerTest {
         }
 
         private fun containsEmoji(emojis: Iterable<Emoji>, alias: String): Boolean {
-            for ((_, _, aliases) in emojis) {
-                aliases?.forEach { al ->
+            for (emoji in emojis) {
+                emoji.aliases?.forEach { al ->
                     if (alias == al)
                         return true
                 }

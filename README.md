@@ -1,29 +1,33 @@
 # Android Emojify &nbsp; &nbsp; [![Release](https://jitpack.io/v/wax911/android-emojify.svg?style=flat-square)](https://jitpack.io/#wax911/android-emojify) &nbsp; [![Codacy Badge](https://api.codacy.com/project/badge/Grade/30a8f983c55541cbb504671ecc32786c)](https://www.codacy.com/app/AniTrend/android-emojify?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=wax911/android-emojify&amp;utm_campaign=Badge_Grade) &nbsp; [![Build Status](https://travis-ci.org/AniTrend/android-emojify.svg?branch=master)](https://travis-ci.org/AniTrend/android-emojify) [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FAniTrend%2Fandroid-emojify.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FAniTrend%2Fandroid-emojify?ref=badge_shield)
 
-&nbsp;
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FAniTrend%2Fandroid-emojify.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2FAniTrend%2Fandroid-emojify?ref=badge_large)
 
-This project is an android port of [vdurmont/emoji-java](https://github.com/vdurmont/emoji-java) which is a lightweight java library that helps you use Emojis in your java applications re-written in Kotlin.
+This project is an android port of [vdurmont/emoji-java](https://github.com/vdurmont/emoji-java) which is a lightweight java library that helps you use Emojis in your java applications re-written in Kotlin, with some extra tweaks.
 
-###### This project is already being used in [AniTrend](https://anitrend.co/)
+**This project is already being used in [AniTrend](https://anitrend.co/) and only aims to provide emojis from [emojipedia](https://emojipedia.org/)**
 
-All class and function documentation on the **emojify** module can be found [here](https://javadoc.jitpack.io/com/github/anitrend/android-emojify/1.5.4-alpha01/javadoc/android-emojify) 
+- All class and function documentation on the **emojify** module can be found [here](https://javadoc.jitpack.io/com/github/anitrend/android-emojify/1.6.0-alpha01/javadoc/android-emojify)
 
-# Known Issues
+- All supported emojis can be found [here](./SUPPORTED.md)
 
-- Converting of html entities to emojies may not always display the emoji on a given android device if the target device does not have the suggested emoticons e.g. android 4.3 does not have some emoticons available in android 5.0+
+## Known Issues
 
-# Suggestions
+- Converting of html entities to emojis may not always display the emoji on a given android device if the target device does not have the suggested emoticons e.g. android 4.3 does not have some emoticons available in android 5.0+
 
-- From v1.X the project was reworked and should be able to handle conversion from emoji to hexHtml, decHtml or short codes on the main thread with a slight improvement on processing speed (depending on the length of text of course),
-  however I would highly recommend moving all convention work to a background thread between network requests for a smoother experience for your users (read up on the repository pattern).
-- If you are using a markdown library like __[txtmark](https://github.com/rjeschke/txtmark)__ or using just ```Html.fromHtml()```  you can skip
-  conversion of __HexHtml & HtmlCodes__ to emoji and just pass the returned  __[Spanned](https://developer.android.com/reference/android/text/Spanned.html)__
-  from the ```Html.fromHtml``` to your text view. (See sample in project)
+## Suggestions
 
-# Migration
+- From v1.X the project was reworked and should be able to handle conversion from emoji to **hexHtml**, **decHtml** or short codes on the main thread with a slight improvement on processing speed (depending on the length of text of course),
+  however I would highly recommend moving all convention work to a background thread (consider [Coroutines - Kotlin](https://kotlinlang.org/docs/reference/coroutines/coroutines-guide.html)) between network requests for a smoother experience for your users (read up on the repository pattern).
+- If you are using a markdown library like [txtmark](https://github.com/rjeschke/txtmark), [markwon]([GitHub - noties/Markwon: Android markdown library (no WebView)](https://github.com/noties/Markwon)) or using just `Html.fromHtml()`  you can skip the conversion of __HexHtml__ & __HtmlCodes__ to emoji and just pass the returned  [Spanned](https://developer.android.com/reference/android/text/Spanned.html) from whichever framework you're using. (See sample in project)
+
+## Migration
+
+### From v0.x.x - v1.x.x
 
 A quick run overview of some of the changes, see the rest of the changes under __Examples__ section. `EmojiManager.initEmojiData` has also been refactored
-to throw exceptions rather than consuming them. see __Getting Started__ section, and you can find more example in the library unit tests, e.g. `EmojiUtilTest.kt`
+to throw exceptions rather than consuming them. 
+
+> See the __Getting Started__ section, and you can find more example in the library unit tests, e.g. `EmojiUtilTest.kt`
 
 ```java
 import io.wax911.emojify.EmojiUtils; //becomes -> io.wax911.emojify.parser.EmojiParser;
@@ -54,17 +58,72 @@ EmojiUtils.shortCodify(); //becomes -> EmojiParser.parseToAliases();
 > 
 > __N.B Package names have been changed and would require refactoring, except for `EmojiManager`__
 
-# Use Case
+### 
 
-Got a social application but you need someway of having emoji support? Then this library is for you, all your backend stores is the html entities.
-Your client application would have to convert all emoji objects in a given string and transmit that to your server.
-When the client request status or blog text it has to convert the html entities to emoji objects which your android operating system will resolve. See examples below!
+### From v1.x.x - v1.6.0
 
-# Getting Started
+Starting from **v1.6.0** the project has had some parts rewritten, specifically `EmojiParser`, `EmojiManager` and added support for **[androidx.startup](https://developer.android.com/topic/libraries/app-startup#kotlin)** please take the time to read the short description on what this does.
+
+>  __See [CHANGELOG.md](./CHANGELOG.md) for a detailed list of changes__
+
+#### Summary of changes
+
+- `EmojiManager` has been converted from an `object` to a class with the following signature: `class EmojiManager(val emojiList: Collection<Emoji>)`. This has been done to allow **you** to use your own emoji list and no longer required to explicitly initialize anything as previously with a call to `EmojiManager.initEmojiData`
+- `EmojiParser` has been converted to a set of extension function that are applied on the `EmojiManager` see examples below:
+  
+  ```kotlin
+  // getting our emoji manager from our application class through an extension function
+  // see https://github.com/anitrend/android-emojify/blob/master/app/src/main/java/io/wax911/emojifysample/App.kt
+  val emojiManager = context.emojiManager()
+  EmojiParser.parseToUnicode(); //becomes -> emojiManager.parseToUnicode();
+  EmojiParser.parseToHtmlDecimal (); //becomes -> emojiManager.parseToHtmlDecimal();
+  EmojiParser.parseToHtmlHexadecimal(); //becomes -> emojiManager.parseToHtmlHexadecimal();
+  EmojiParser.parseToAliases(); //becomes -> emojiManager.parseToAliases();
+  ```
+
+##### New project structure
+
+> .
+> ├── io
+> │    └── wax911
+> │        └── emojify
+> │            ├── EmojiManager.kt
+> │            ├── initializer
+> │            │   └── EmojiInitializer.kt
+> │            ├── model
+> │            │   └── Emoji.kt
+> │            ├── parser
+> │            │   ├── action
+> │            │   │   └── FitzpatrickAction.kt
+> │            │   ├── candidate
+> │            │   │   ├── AliasCandidate.kt
+> │            │   │   └── UnicodeCandidate.kt
+> │            │   ├── common
+> │            │   │   └── EmojiTransformer.kt
+> │            │   └── EmojiParser.kt
+> │            └── util
+> │                ├── EmojiTree.kt
+> │                ├── Fitzpatrick.kt
+> │                └── tree
+> │                    ├── Matches.kt
+> │                    └── Node.kt
+>
+> __N.B `EmojiManger` has been converted to class, thus an instance needs to be obtained from `EmojiInitializer` through [androidx.startup](https://developer.android.com/topic/libraries/app-startup#disable-individual#kotlin) or manually create an instance of the class on your own__.
+
+
+
+## Use Case
+
+Trying to get emoji support in your application in a way that is both compatible with a browser and mobile, you might even be trying to create a github client with reaction support? Then this library is for you, your backend stores is the html entities or aliases in text and this library will take care of everything for you.
+
+
+
+
+## Getting Started
 
 ### Step 1. Add this to your root build.gradle:
 
-```java
+```groovy
 allprojects {
     repositories {
         ...
@@ -75,45 +134,47 @@ allprojects {
 
 ### Step 2. Add the dependency:
 
-```java
+```groovy
 dependencies {
-    compile 'com.github.wax911:android-emojify:{latest_version}'
+    implementation 'com.github.anitrend:android-emojify:{latest_version}'
 }
 ```
 
 ### Step 3. Create an application class in your android project and add:
 
-Don't know how to do that?? Take a look at the [application class example](https://github.com/wax911/android-emojify/blob/master/app/src/main/java/io/wax911/emojifysample/App.java)
+Don't know how to do that?? Take a look at the [application class example](./app/src/main/java/io/wax911/emojifysample/App.kt)
 
-```java
-public class App extends Application {
+```kotlin
+class App : Application() {
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        try {
-            // may throw an exception if init fails
-            EmojiManager.initEmojiData(this)
-        } catch (e: Exception) {
-            e.fillInStackTrace()
-        }
+    /**
+     * Application scope bound emojiManager, you could keep a reference to this object in a
+     * dependency injector framework like as a singleton in `Hilt`, `Dagger` or `Koin`
+     */
+    internal val emojiManager: EmojiManager by lazy {
+        // should already be initialized if we haven't disabled initialization in manifest
+        // see: https://developer.android.com/topic/libraries/app-startup#disable-individual
+        AppInitializer.getInstance(this)
+            .initializeComponent(EmojiInitializer::class.java)
     }
 }
 ```
 
-# Screenshots
+## Screenshots
 
 <img src="https://github.com/wax911/android-emojify/raw/master/screenshots/device-2017-09-25-155538.png" width="365px"/> <img src="https://github.com/wax911/android-emojify/raw/master/screenshots/device-2017-09-25-155600.png" width="365px"/> <img src="https://github.com/wax911/android-emojify/raw/master/screenshots/device-2017-09-25-155617.png" width="365px"/> <img src="https://github.com/wax911/android-emojify/raw/master/screenshots/device-2017-09-25-155644.png" width="365px"/>
 
-# Examples:
+
+
+## Examples:
 
 ### EmojiManager
 
-The `EmojiManager` provides several static methods to search through the emojis database:
+The `EmojiManager` provides several instance methods to search through the emojis database:
 
 * `getForTag` returns all the emojis for a given tag
 * `getForAlias` returns the emoji for an alias
-* `getAll` returns all the emojis
+* `emojiList` list of all the emojis
 * `isEmoji` checks if a string is an emoji
 
 You can also query the metadata:
@@ -122,20 +183,20 @@ You can also query the metadata:
 
 Or get everything:
 
-* `getAll` returns all the emojis
+* `emojiList` list of all the emojis
 
 ### Emoji model
 
-An `Emoji` is a POJO (plain old java object), which provides the following methods:
+An `Emoji` is a data class, which provides the following methods:
 
-* `getUnicode` returns the unicode representation of the emoji
-* `getUnicode(Fitzpatrick)` returns the unicode representation of the emoji with the provided Fitzpatrick modifier. If the emoji doesn't support the Fitzpatrick modifiers. If the provided Fitzpatrick is null, this method will return the unicode of the emoji.
-* `getDescription` returns the (optional) description of the emoji
-* `getAliases` returns a list of aliases for this emoji
-* `getTags` returns a list of tags for this emoji
-* `getHtmlDecimal` returns an html decimal representation of the emoji
-* `getHtmlHexadecimal` returns an html decimal representation of the emoji
-* `supportsFitzpatrick` returns true if the emoji supports the Fitzpatrick modifiers, else false
+* `unicode` the unicode representation of the emoji
+* `description` the (optional) description of the emoji
+* `aliases` a list of aliases for this emoji
+* `tags` a list of tags for this emoji
+* `htmlDec` an html decimal representation of the emoji
+* `htmlHex` an html decimal representation of the emoji
+* `supportsFitzpatrick` true if the emoji supports the Fitzpatrick modifiers, else false
+* `getUnicode(fitzpatrick: Fitzpatrick?): String` Returns the unicode representation of the emoji associated with the  provided Fitzpatrick modifier.
 
 ### Fitzpatrick modifiers
 
@@ -163,7 +224,15 @@ A few examples:
 :santa|type_6:
 ```
 
+### 
+
 ### EmojiParser
+
+Is a set of extension methods to act on `EmojiManager`, so given an instance of `EmojiManger` we can achieve the following:
+
+```kotlin
+val emojiManager: EmojiManger = ...
+```
 
 #### To unicode
 
@@ -171,10 +240,10 @@ To replace all the aliases and the html representations found in a string by the
 
 For example:
 
-```java
-String str = "An :grinning:awesome :smiley:string &#128516;with a few :wink:emojis!";
-String result = EmojiParser.parseToUnicode(str);
-// "An 😀awesome 😃string 😄with a few 😉emojis!"
+```kotlin
+val str = "An :+1:awesome :smiley:string " + "😄with a few :wink:emojis!"
+val result = emojiManager.parseToUnicode(str)
+// An 😀awesome 😃string 😄with a few 😉emojis!
 ```
 
 #### To aliases
@@ -183,22 +252,21 @@ To replace all the emoji's unicodes found in a string by their aliases, use `Emo
 
 For example:
 
-```java
-String str = "An 😀awesome 😃string with a few 😉emojis!";
-String result = EmojiParser.parseToAliases(str);
+```kotlin
+val str = "An 😀awesome 😃string with a few 😉emojis!"
+val result = emojiManager.parseToAliases(str)
 // "An :grinning:awesome :smiley:string with a few :wink:emojis!"
 ```
 
 By default, the aliases will parse and include any Fitzpatrick modifier that would be provided. If you want to remove or ignore the Fitzpatrick modifiers, use `EmojiParser#parseToAliases(String, FitzpatrickAction)`. Examples:
 
-```java
-String str = "Here is a boy: \uD83D\uDC66\uD83C\uDFFF!";
-EmojiParser.parseToAliases(str);
-EmojiParser.parseToAliases(str, FitzpatrickAction.PARSE);
+```kotlin
+val str = "Here is a boy: \uD83D\uDC66\uD83C\uDFFF!"
+emojiManager.parseToAliases(str, FitzpatrickAction.PARSE)
 // Returns twice: "Here is a boy: :boy|type_6:!"
-EmojiParser.parseToAliases(str, FitzpatrickAction.REMOVE);
+emojiManager.parseToAliases(str, FitzpatrickAction.REMOVE)
 // Returns: "Here is a boy: :boy:!"
-EmojiParser.parseToAliases(str, FitzpatrickAction.IGNORE);
+emojiManager.parseToAliases(str, FitzpatrickAction.IGNORE)
 // Returns: "Here is a boy: :boy:🏿!"
 ```
 
@@ -208,50 +276,49 @@ To replace all the emoji's unicodes found in a string by their html representati
 
 For example:
 
-```java
-String str = "An 😀awesome 😃string with a few 😉emojis!";
-
-String resultDecimal = EmojiParser.parseToHtmlDecimal(str);
+```kotlin
+val str = "An 😀awesome 😃string with a few 😉emojis!"
+val resultHtmlDecimal = emojiManager.parseToHtmlDecimal(str)
 // Returns:
 // "An &#128512;awesome &#128515;string with a few &#128521;emojis!"
 
-String resultHexadecimal = EmojiParser.parseToHtmlHexadecimal(str);
+val resultHexadecimal = emojiManager.parseToHtmlHexadecimal(str)
 // Returns:
-// "An &#x1f600;awesome &#x1f603;string with a few &#x1f609;emojis!"
+// "An 😀awesome 😃string with a few 😉emojis!"
 ```
 
-By default, any Fitzpatrick modifier will be removed. If you want to ignore the Fitzpatrick modifiers, use `EmojiParser#parseToAliases(String, FitzpatrickAction)`. Examples:
+By default, any Fitzpatrick modifier will be removed. If you want to ignore the Fitzpatrick modifiers, use `emojiManager.parseToAliases(String, FitzpatrickAction)`. Examples:
 
-```java
-String str = "Here is a boy: \uD83D\uDC66\uD83C\uDFFF!";
-EmojiParser.parseToHtmlDecimal(str);
-EmojiParser.parseToHtmlDecimal(str, FitzpatrickAction.PARSE);
-EmojiParser.parseToHtmlDecimal(str, FitzpatrickAction.REMOVE);
-// Returns 3 times: "Here is a boy: &#128102;!"
-EmojiParser.parseToHtmlDecimal(str, FitzpatrickAction.IGNORE);
-// Returns: "Here is a boy: &#128102;🏿!"
+```kotlin
+val str = "Here is a boy: \uD83D\uDC66\uD83C\uDFFF!"
+
+emojiManager.parseToHtmlDecimal(str, FitzpatrickAction.PARSE)
+emojiManager.parseToHtmlDecimal(str, FitzpatrickAction.REMOVE)
+// Returns: "Here is a boy: 👦!"
+emojiManager.parseToHtmlDecimal(str, FitzpatrickAction.IGNORE)
+// Returns: "Here is a boy: 👦🏿!"
 ```
 
-The same applies for the methods `EmojiParser#parseToHtmlHexadecimal(String)` and `EmojiParser#parseToHtmlHexadecimal(String, FitzpatrickAction)`.
+The same applies for the methods `emojiManager.parseToHtmlHexadecimal(String)` and `emojiManager.parseToHtmlHexadecimal(String, FitzpatrickAction)`.
 
 #### Remove emojis
 
 You can easily remove emojis from a string using one of the following methods:
 
-* `EmojiParser#removeAllEmojis(String)`: removes all the emojis from the String
-* `EmojiParser#removeAllEmojisExcept(String, Collection<Emoji>)`: removes all the emojis from the String, except the ones in the Collection
-* `EmojiParser#removeEmojis(String, Collection<Emoji>)`: removes the emojis in the Collection from the String
+* `emojiManager.removeAllEmojis(String)`: removes all the emojis from the String
+* `emojiManager.removeAllEmojisExcept(String, Collection<Emoji>)`: removes all the emojis from the String, except the ones in the Collection
+* `emojiManager.removeEmojis(String, Collection<Emoji>)`: removes the emojis in the Collection from the String
 
 For example:
 
-```java
-String str = "An 😀awesome 😃string with a few 😉emojis!";
-Collection<Emoji> collection = new ArrayList<Emoji>();
-collection.add(EmojiManager.getForAlias("wink")); // This is 😉
+```kotlin
+val str = "An 😀awesome 😃string with a few 😉emojis!"
+val collection = ArrayList<Emoji>()
+collection.add(emojiManager.getForAlias("wink")); // This is 😉
 
-EmojiParser.removeAllEmojis(str);
-EmojiParser.removeAllEmojisExcept(str, collection);
-EmojiParser.removeEmojis(str, collection);
+emojiManager.removeAllEmojis(str);
+emojiManager.removeAllEmojisExcept(str, collection);
+emojiManager.removeEmojis(str, collection);
 
 // Returns:
 // "An awesome string with a few emojis!"
@@ -263,13 +330,15 @@ EmojiParser.removeEmojis(str, collection);
 
 You can search a string of mixed emoji/non-emoji characters and have all of the emoji characters returned as a Collection.
 
-* `EmojiParser#extractEmojis(String)`: returns all emojis as a Collection.  This will include duplicates if emojis are present more than once.
+* `emojiManager.extractEmojis(String)`: returns all emojis as a Collection.  This will include duplicates if emojis are present more than once.
+
+## 
 
 ## Credits
 
 **emoji-java** originally used the data provided by the [github/gemoji project](https://github.com/github/gemoji). It is still based on it but has evolved since.
 
-__[Supported Emoji List](./SUPPORTED.md)__
+
 
 # License
 
@@ -288,5 +357,3 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 ```
-
-[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FAniTrend%2Fandroid-emojify.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2FAniTrend%2Fandroid-emojify?ref=badge_large)
