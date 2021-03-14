@@ -11,7 +11,7 @@ object Libraries {
     object Android {
 
         object Tools {
-            private const val version = "4.0.0"
+            private const val version = "4.1.2"
             const val buildGradle = "com.android.tools.build:gradle:$version"
         }
     }
@@ -212,7 +212,7 @@ object Libraries {
         }
 
         object Kotlin {
-            private const val version = "1.3.72"
+            private const val version = "1.4.31"
             const val stdlib = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$version"
             const val reflect = "org.jetbrains.kotlin:kotlin-reflect:$version"
 
@@ -231,15 +231,15 @@ object Libraries {
 
         object KotlinX {
             object Coroutines {
-                private const val version = "1.3.7"
+                private const val version = "1.4.2"
                 const val core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$version"
                 const val android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$version"
                 const val test = "org.jetbrains.kotlinx:kotlinx-coroutines-test:$version"
             }
 
             object Serialization {
-                private const val version = "0.20.0"
-                const val runtime = "org.jetbrains.kotlinx:kotlinx-serialization-runtime:$version"
+                private const val version = "1.1.0"
+                const val json = "org.jetbrains.kotlinx:kotlinx-serialization-json:$version"
             }
         }
     }
