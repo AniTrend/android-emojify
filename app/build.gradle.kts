@@ -12,7 +12,7 @@ dependencies {
     implementation(project(":emojify"))
 
     implementation(Libraries.Google.Material.material)
-    implementation(Libraries.AndroidX.ContraintLayout.constraintLayout)
+    implementation(Libraries.AndroidX.ConstraintLayout.constraintLayout)
 
     implementation(Libraries.JetBrains.KotlinX.Coroutines.android)
     implementation(Libraries.JetBrains.KotlinX.Coroutines.core)
