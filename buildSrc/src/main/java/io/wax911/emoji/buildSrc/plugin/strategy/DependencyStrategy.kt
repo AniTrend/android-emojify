@@ -19,6 +19,7 @@ internal class DependencyStrategy(
         add("androidTestImplementation", Libraries.AndroidX.Test.core)
         add("androidTestImplementation", Libraries.AndroidX.Test.rules)
         add("androidTestImplementation", Libraries.AndroidX.Test.runner)
+        add("testImplementation", Libraries.AndroidX.Test.Extension.junitKtx)
     }
 
     private fun DependencyHandler.applyLifeCycleDependencies() {
