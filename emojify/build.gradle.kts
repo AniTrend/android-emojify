@@ -6,6 +6,7 @@ plugins {
 }
 
 dependencies {
+    implementation(Libraries.AndroidX.Core.coreKtx)
     implementation(Libraries.AndroidX.StartUp.startUpRuntime)
-    implementation(Libraries.JetBrains.KotlinX.Serialization.runtime)
+    implementation(Libraries.JetBrains.KotlinX.Serialization.json)
 }

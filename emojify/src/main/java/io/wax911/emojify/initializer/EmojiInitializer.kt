@@ -5,10 +5,9 @@ import android.content.res.AssetManager
 import androidx.startup.Initializer
 import io.wax911.emojify.EmojiManager
 import io.wax911.emojify.model.Emoji
-import kotlinx.serialization.builtins.list
+import kotlinx.serialization.SerializationException
+import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonConfiguration
-import kotlinx.serialization.json.JsonDecodingException
 import java.io.BufferedReader
 import java.io.IOException
 import java.io.InputStreamReader
@@ -22,17 +21,15 @@ class EmojiInitializer : Initializer<EmojiManager> {
      * @param path location where emoji data can be found
      *
      * @throws IOException when the provided [assetManager] cannot open [path]
-     * @throws JsonDecodingException when an error occurs during deserialization
+     * @throws SerializationException when an error occurs during deserialization
      */
-    @Throws(IOException::class, JsonDecodingException::class)
+    @Throws(IOException::class, SerializationException::class)
     fun initEmojiData(assetManager: AssetManager, path: String = DEFAULT_PATH): List<Emoji> {
         InputStreamReader(assetManager.open(path)).use { streamReader ->
             BufferedReader(streamReader).use { bufferedReader ->
-                val configuration = JsonConfiguration(isLenient = true)
-                val deserializer = Emoji.serializer().list
-                return Json(configuration).parse(
-                    deserializer, bufferedReader.readText()
-                )
+                val json = Json { isLenient = true }
+                val deserializer = ListSerializer(Emoji.serializer())
+                return json.decodeFromString(deserializer, bufferedReader.readText())
             }
         }
     }

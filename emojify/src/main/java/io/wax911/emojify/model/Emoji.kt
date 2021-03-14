@@ -107,7 +107,7 @@ data class Emoji (
     /**
      * Returns the String representation of the Emoji object.
      *
-     * **Example: **
+     * **Example:**
      * ```json
      * Emoji {
      *      description: 'smiling face with open mouth and smiling eyes',

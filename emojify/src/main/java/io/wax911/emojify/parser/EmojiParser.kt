@@ -5,7 +5,7 @@ import io.wax911.emojify.model.Emoji
 import io.wax911.emojify.parser.action.FitzpatrickAction
 import io.wax911.emojify.parser.candidate.AliasCandidate
 import io.wax911.emojify.parser.candidate.UnicodeCandidate
-import io.wax911.emojify.parser.common.EmojiTransformer
+import io.wax911.emojify.parser.transformer.EmojiTransformer
 import java.util.*
 import java.util.regex.Pattern
 
@@ -177,7 +177,7 @@ internal fun getAliasCandidates(input: String): List<AliasCandidate> {
  * When a fitzpatrick modifier is present with a IGNORE action, the modifier
  * will be ignored and will remain in the string.
  *
- * > `👦🏿` will be replaced by`&#128102;🏿`
+ * > `👦🏿` will be replaced by `&#128102;🏿`
  *
  * @param input the string to parse
  * @param fitzpatrickAction the action to apply for the fitzpatrick modifiers

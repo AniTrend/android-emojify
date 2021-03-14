@@ -4,7 +4,13 @@ import io.wax911.emojify.model.Emoji
 import io.wax911.emojify.util.Fitzpatrick
 import java.util.*
 
-
+/**
+ * Emoji candidate
+ *
+ * @param emoji
+ * @param fitzpatrick
+ * @param emojiStartIndex
+ */
 class UnicodeCandidate internal constructor(
     val emoji: Emoji?,
     fitzpatrick: String?,

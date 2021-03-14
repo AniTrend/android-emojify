@@ -1,5 +1,7 @@
 package io.wax911.emojify
 
+import androidx.annotation.VisibleForTesting
+import io.wax911.emojify.manager.IEmojiManager
 import io.wax911.emojify.model.Emoji
 import io.wax911.emojify.parser.getNextUnicodeCandidate
 import io.wax911.emojify.parser.removeAllEmojis
@@ -16,8 +18,8 @@ import java.util.*
  * @author [Vincent DURMONT](vdurmont@gmail.com)
  */
 class EmojiManager(
-    val emojiList: Collection<Emoji>
-) {
+    override val emojiList: Collection<Emoji>
+) : IEmojiManager {
 
     private val emojiByAlias by lazy {
         val aliasMap = HashMap<String, Emoji>()
@@ -52,7 +54,7 @@ class EmojiManager(
      *
      * @return the associated [Emoji]s, null if the tag is unknown
      */
-    fun getForTag(tag: String?): Collection<Emoji>? =
+    override fun getForTag(tag: String?): Collection<Emoji>? =
         tag?.let { emojiByTag[it] }
 
     /**
@@ -62,10 +64,11 @@ class EmojiManager(
      *
      * @return the associated [Emoji], null if the alias is unknown
      */
-    fun getForAlias(alias: String?): Emoji? =
+    override fun getForAlias(alias: String?): Emoji? =
         alias?.let { emojiByAlias[trimAlias(it)] }
 
-    private fun trimAlias(alias: String): String = alias.trim { it == ':' }
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    fun trimAlias(alias: String): String = alias.trim { it == ':' }
 
     /**
      * Returns the [Emoji] for a given unicode.
@@ -74,7 +77,7 @@ class EmojiManager(
      *
      * @return the associated [Emoji], null if the unicode is unknown
      */
-    fun getByUnicode(unicode: String?): Emoji? =
+    override fun getByUnicode(unicode: String?): Emoji? =
         unicode?.let { emojiTree.getEmoji(it) }
 
 
@@ -85,7 +88,7 @@ class EmojiManager(
      *
      * @return true if the string is an emoji's unicode, false else
      */
-    fun isEmoji(string: String?): Boolean {
+    override fun isEmoji(string: String?): Boolean {
         if (string == null) return false
 
         val unicodeCandidate = getNextUnicodeCandidate(string.toCharArray(), 0)
@@ -101,7 +104,7 @@ class EmojiManager(
      *
      * @return true if the string only contains emojis, false else
      */
-    fun isOnlyEmojis(string: String?): Boolean {
+    override fun isOnlyEmojis(string: String?): Boolean {
         return string != null && removeAllEmojis(string).isEmpty()
     }
 
@@ -115,12 +118,12 @@ class EmojiManager(
      * - [Matches.POSSIBLY] if char sequence matches prefix of an emoji
      * - [Matches.IMPOSSIBLE] if char sequence matches no emoji or prefix of an emoji
      */
-    fun isEmoji(sequence: CharArray): Matches = emojiTree.isEmoji(sequence)
+    override fun isEmoji(sequence: CharArray): Matches = emojiTree.isEmoji(sequence)
 
     /**
      * Returns all the tags in the database
      *
      * @return the tags
      */
-    fun getAllTags(): Collection<String> = emojiByTag.keys
+    override fun getAllTags(): Collection<String> = emojiByTag.keys
 }
