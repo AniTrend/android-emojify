@@ -1,6 +1,7 @@
 package io.wax911.emoji.buildSrc
 
 import io.wax911.emoji.buildSrc.common.Versions
+import io.wax911.emoji.buildSrc.module.Modules
 
 object Libraries {
     const val timber = "com.jakewharton.timber:timber:${Versions.timber}"
@@ -11,7 +12,7 @@ object Libraries {
     object Android {
 
         object Tools {
-            private const val version = "4.1.2"
+            private const val version = "4.1.3"
             const val buildGradle = "com.android.tools.build:gradle:$version"
         }
     }
@@ -36,8 +37,8 @@ object Libraries {
         }
 
         object Lifecycle {
-            private const val version = "2.2.0"
-            const val extensions = "androidx.lifecycle:lifecycle-extensions:$version"
+            private const val version = "2.3.0"
+            const val extensions = "androidx.lifecycle:lifecycle-extensions:2.2.0"
             const val runTimeKtx = "androidx.lifecycle:lifecycle-runtime-ktx:$version"
             const val liveDataKtx = "androidx.lifecycle:lifecycle-livedata-ktx:$version"
             const val viewModelKtx = "androidx.lifecycle:lifecycle-viewmodel-ktx:$version"
@@ -52,7 +53,7 @@ object Libraries {
         }
 
         object Recycler {
-            private const val version = "1.2.0-beta01"
+            private const val version = "1.2.0-rc01"
             const val recyclerView = "androidx.recyclerview:recyclerview:$version"
             const val recyclerViewSelection = "androidx.recyclerview:recyclerview-selection:$version"
         }
@@ -63,16 +64,30 @@ object Libraries {
         }
 
         object Test {
-            private const val version = "1.2.0"
+            private const val version = "1.3.0"
             const val core = "androidx.test:core:$version"
             const val runner = "androidx.test:runner:$version"
             const val rules = "androidx.test:rules:$version"
 
             object Extension {
-                private const val version = "1.1.1"
+                private const val version = "1.1.2"
                 const val junit = "androidx.test.ext:junit:$version"
                 const val junitKtx = "androidx.test.ext:junit-ktx:$version"
             }
+        }
+    }
+
+    object AniTrend {
+
+        object Emojify {
+            val emojify = Modules.Library.Emojify.path()
+        }
+    }
+
+    object CashApp {
+        object Turbine {
+            private const val version = "0.4.1"
+            const val turbine = "app.cash.turbine:turbine:$version"
         }
     }
 
@@ -87,12 +102,12 @@ object Libraries {
     object JetBrains {
 
         object Dokka {
-            private const val version = "0.10.1"
+            private const val version = "1.4.30"
             const val gradlePlugin = "org.jetbrains.dokka:dokka-gradle-plugin:$version"
         }
 
         object Kotlin {
-            private const val version = "1.4.31"
+            private const val version = "1.4.32"
             const val stdlib = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$version"
             const val reflect = "org.jetbrains.kotlin:kotlin-reflect:$version"
 
@@ -111,7 +126,7 @@ object Libraries {
 
         object KotlinX {
             object Coroutines {
-                private const val version = "1.4.2"
+                private const val version = "1.4.3"
                 const val core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$version"
                 const val android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$version"
                 const val test = "org.jetbrains.kotlinx:kotlinx-coroutines-test:$version"

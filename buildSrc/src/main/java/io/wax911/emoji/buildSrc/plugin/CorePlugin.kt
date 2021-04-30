@@ -1,6 +1,7 @@
 package io.wax911.emoji.buildSrc.plugin
 
 import io.wax911.emoji.buildSrc.plugin.components.configureAndroid
+import io.wax911.emoji.buildSrc.plugin.components.configureSpotless
 import io.wax911.emoji.buildSrc.plugin.components.configureDependencies
 import io.wax911.emoji.buildSrc.plugin.components.configureOptions
 import io.wax911.emoji.buildSrc.plugin.components.configurePlugins
@@ -36,8 +37,8 @@ open class CorePlugin : Plugin<Project> {
         project.configureAndroid()
         project.configureOptions()
         project.configureDependencies()
-
-        //project.availableExtensions()
-        //project.availableComponents()
+        project.configureSpotless()
+        project.availableExtensions()
+        project.availableComponents()
     }
 }

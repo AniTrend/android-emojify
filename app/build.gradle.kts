@@ -4,12 +4,8 @@ plugins {
     id("io.wax911.emojify")
 }
 
-android {
-
-}
-
 dependencies {
-    implementation(project(":emojify"))
+    implementation(project(Libraries.AniTrend.Emojify.emojify))
 
     implementation(Libraries.Google.Material.material)
     implementation(Libraries.AndroidX.ConstraintLayout.constraintLayout)

@@ -1,17 +1,30 @@
 package io.wax911.emoji.buildSrc.plugin.components
 
-import io.wax911.emoji.buildSrc.plugin.extensions.baseExtension
 import io.wax911.emoji.buildSrc.common.Versions
-import io.wax911.emoji.buildSrc.common.isLibraryModule
-import io.wax911.emoji.buildSrc.common.isSampleModule
-import io.wax911.emoji.buildSrc.plugin.extensions.baseAppExtension
-import io.wax911.emoji.buildSrc.plugin.extensions.libraryExtension
 import com.android.build.gradle.internal.dsl.DefaultConfig
+import io.wax911.emoji.buildSrc.plugin.extensions.*
+import io.wax911.emoji.buildSrc.plugin.extensions.baseAppExtension
+import io.wax911.emoji.buildSrc.plugin.extensions.baseExtension
+import io.wax911.emoji.buildSrc.plugin.extensions.spotlessExtension
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 import org.jetbrains.kotlin.gradle.dsl.KotlinCompile
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmCompile
 import java.io.File
+
+internal fun Project.configureSpotless() {
+    if (isLibraryModule())
+        spotlessExtension().run {
+            kotlin {
+                target("**/kotlin/**/*.kt")
+                targetExclude("$buildDir/**/*.kt", "bin/**/*.kt")
+                ktlint(Versions.ktlint).userData(
+                    mapOf("android" to "true")
+                )
+                licenseHeaderFile(rootProject.file("spotless/copyright.kt"))
+            }
+        }
+}
 
 @Suppress("UnstableApiUsage")
 private fun DefaultConfig.applyAdditionalConfiguration(project: Project) {
