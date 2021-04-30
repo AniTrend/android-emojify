@@ -1,9 +1,25 @@
+/*
+ * Copyright 2021 AniTrend
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package io.wax911.emojify.model
 
 import io.wax911.emojify.util.Fitzpatrick
+import java.nio.charset.Charset
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import java.nio.charset.Charset
 
 /**
  * @param aliases a list of aliases for this emoji
@@ -18,7 +34,7 @@ import java.nio.charset.Charset
  * @property htmlHex an html decimal representation of the emoji
  */
 @Serializable
-data class Emoji (
+data class Emoji(
     @SerialName("aliases") val aliases: List<String>? = null,
     @SerialName("description") val description: String? = null,
     @SerialName("emoji") val emoji: String,
@@ -69,17 +85,17 @@ data class Emoji (
      * @param fitzpatrick the fitzpatrick modifier or null
      *
      * @return the unicode representation
-     * 
+     *
      * @throws UnsupportedOperationException if the emoji doesn't support the Fitzpatrick modifiers
      */
     @Throws(UnsupportedOperationException::class)
     fun getUnicode(fitzpatrick: Fitzpatrick?): String {
         if (!supportsFitzpatrick)
             throw UnsupportedOperationException(
-                    """
+                """
                         Cannot get the unicode with a fitzpatrick modifier, 
                         the emoji doesn't support fitzpatrick.
-                    """.trimIndent()
+                """.trimIndent()
             )
         else if (fitzpatrick == null)
             return unicode
@@ -124,13 +140,13 @@ data class Emoji (
      */
     override fun toString(): String {
         return "Emoji{" +
-                "description:'" + description + '\''.toString() +
-                ", supportsFitzpatrick:" + supportsFitzpatrick +
-                ", aliases:" + aliases +
-                ", tags:" + tags +
-                ", unicode:'" + unicode + '\''.toString() +
-                ", htmlDec:'" + htmlDec + '\''.toString() +
-                ", htmlHex:'" + htmlHex + '\''.toString() +
-                '}'.toString()
+            "description:'" + description + '\''.toString() +
+            ", supportsFitzpatrick:" + supportsFitzpatrick +
+            ", aliases:" + aliases +
+            ", tags:" + tags +
+            ", unicode:'" + unicode + '\''.toString() +
+            ", htmlDec:'" + htmlDec + '\''.toString() +
+            ", htmlHex:'" + htmlHex + '\''.toString() +
+            '}'.toString()
     }
 }

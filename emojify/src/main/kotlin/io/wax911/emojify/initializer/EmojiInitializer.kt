@@ -1,3 +1,19 @@
+/*
+ * Copyright 2021 AniTrend
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package io.wax911.emojify.initializer
 
 import android.content.Context
@@ -5,12 +21,12 @@ import android.content.res.AssetManager
 import androidx.startup.Initializer
 import io.wax911.emojify.EmojiManager
 import io.wax911.emojify.model.Emoji
-import kotlinx.serialization.SerializationException
-import kotlinx.serialization.builtins.ListSerializer
-import kotlinx.serialization.json.Json
 import java.io.BufferedReader
 import java.io.IOException
 import java.io.InputStreamReader
+import kotlinx.serialization.SerializationException
+import kotlinx.serialization.builtins.ListSerializer
+import kotlinx.serialization.json.Json
 
 class EmojiInitializer : Initializer<EmojiManager> {
 
@@ -56,7 +72,6 @@ class EmojiInitializer : Initializer<EmojiManager> {
      * [Initializer] `A` as its dependency, then `A` gets initialized before `B`.
      */
     override fun dependencies() = emptyList<Class<out Initializer<*>>>()
-
 
     companion object {
         /**
