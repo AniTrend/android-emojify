@@ -36,7 +36,7 @@ class UnicodeCandidate internal constructor(
 
     val fitzpatrickType: String
         get() = if (hasFitzpatrick())
-            fitzpatrick?.name?.toLowerCase(Locale.ROOT) ?: ""
+            fitzpatrick?.name?.lowercase(Locale.ROOT) ?: ""
         else ""
 
     val fitzpatrickUnicode: String
