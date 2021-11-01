@@ -21,12 +21,11 @@ import android.content.res.AssetManager
 import androidx.startup.Initializer
 import io.wax911.emojify.EmojiManager
 import io.wax911.emojify.model.Emoji
-import java.io.BufferedReader
 import java.io.IOException
-import java.io.InputStreamReader
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.decodeFromStream
 
 class EmojiInitializer : Initializer<EmojiManager> {
 
@@ -41,12 +40,10 @@ class EmojiInitializer : Initializer<EmojiManager> {
      */
     @Throws(IOException::class, SerializationException::class)
     fun initEmojiData(assetManager: AssetManager, path: String = DEFAULT_PATH): List<Emoji> {
-        InputStreamReader(assetManager.open(path)).use { streamReader ->
-            BufferedReader(streamReader).use { bufferedReader ->
-                val json = Json { isLenient = true }
-                val deserializer = ListSerializer(Emoji.serializer())
-                return json.decodeFromString(deserializer, bufferedReader.readText())
-            }
+        assetManager.open(path).use { inputStream ->
+            val json = Json { isLenient = true }
+            val deserializer = ListSerializer(Emoji.serializer())
+            return json.decodeFromStream(deserializer, inputStream)
         }
     }
 
