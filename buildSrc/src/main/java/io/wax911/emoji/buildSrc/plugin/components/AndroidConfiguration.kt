@@ -43,8 +43,8 @@ private fun DefaultConfig.applyAdditionalConfiguration(project: Project) {
 internal fun Project.configureAndroid(): Unit = baseExtension().run {
     compileSdkVersion(Versions.compileSdk)
     defaultConfig {
-        minSdkVersion(Versions.minSdk)
-        targetSdkVersion(Versions.targetSdk)
+        minSdk = Versions.minSdk
+        targetSdk = Versions.targetSdk
         versionCode = Versions.versionCode
         versionName = Versions.versionName
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -65,9 +65,9 @@ internal fun Project.configureAndroid(): Unit = baseExtension().run {
     }
 
     packagingOptions {
-        exclude("META-INF/NOTICE.txt")
-        exclude("META-INF/LICENSE")
-        exclude("META-INF/LICENSE.txt")
+        excludes.add("META-INF/NOTICE.txt")
+        excludes.add("META-INF/LICENSE")
+        excludes.add("META-INF/LICENSE.txt")
     }
 
     sourceSets {
@@ -103,7 +103,8 @@ internal fun Project.configureAndroid(): Unit = baseExtension().run {
                     compileArgs.add("-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi")
                     compileArgs.add("-Xopt-in=kotlinx.coroutines.FlowPreview")
                     compileArgs.add("-Xopt-in=kotlin.Experimental")
-                }
+                } else
+                    compileArgs.add("-Xopt-in=kotlinx.serialization.ExperimentalSerializationApi")
                 // Filter out modules that won't be using coroutines
                 freeCompilerArgs = compileArgs
             }
