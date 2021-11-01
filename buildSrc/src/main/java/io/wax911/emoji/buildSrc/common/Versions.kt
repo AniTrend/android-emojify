@@ -18,9 +18,9 @@ object Versions {
     const val versionCode = major * 100_000 + minor * 10_000 + patch * 1_000 + revision * 100
     val versionName = "$major.$minor.$patch-rc${revision.toVersion()}"
 
-    const val mockk = "1.11.0"
+    const val mockk = "1.12.0"
     const val junit = "4.13.2"
 
-    const val timber = "4.7.1"
+    const val timber = "5.0.1"
     const val ktlint = "0.40.0"
 }
