@@ -12,7 +12,7 @@ object Libraries {
     object Android {
 
         object Tools {
-            private const val version = "4.1.3"
+            private const val version = "7.0.3"
             const val buildGradle = "com.android.tools.build:gradle:$version"
         }
     }
@@ -20,13 +20,13 @@ object Libraries {
     object AndroidX {
 
         object Core {
-            private const val version = "1.3.0"
+            private const val version = "1.6.0"
             const val core = "androidx.core:core:$version"
             const val coreKtx = "androidx.core:core-ktx:$version"
         }
 
         object ConstraintLayout {
-            private const val version = "2.0.1"
+            private const val version = "2.1.1"
             const val constraintLayout = "androidx.constraintlayout:constraintlayout:$version"
             const val constraintLayoutSolver = "androidx.constraintlayout:constraintlayout-solver:$version"
         }
@@ -46,20 +46,20 @@ object Libraries {
         }
 
         object Paging {
-            private const val version = "3.0.0-beta01"
+            private const val version = "3.0.0"
             const val common = "androidx.paging:paging-common-ktx:$version"
             const val runtime = "androidx.paging:paging-runtime:$version"
             const val runtimeKtx = "androidx.paging:paging-runtime-ktx:$version"
         }
 
         object Recycler {
-            private const val version = "1.2.0-rc01"
+            private const val version = "1.2.0"
             const val recyclerView = "androidx.recyclerview:recyclerview:$version"
             const val recyclerViewSelection = "androidx.recyclerview:recyclerview-selection:$version"
         }
 
         object StartUp {
-            private const val version = "1.0.0"
+            private const val version = "1.1.0"
             const val startUpRuntime = "androidx.startup:startup-runtime:$version"
         }
 
@@ -86,7 +86,7 @@ object Libraries {
 
     object CashApp {
         object Turbine {
-            private const val version = "0.4.1"
+            private const val version = "0.7.0"
             const val turbine = "app.cash.turbine:turbine:$version"
         }
     }
@@ -102,12 +102,12 @@ object Libraries {
     object JetBrains {
 
         object Dokka {
-            private const val version = "1.4.30"
+            private const val version = "1.5.31"
             const val gradlePlugin = "org.jetbrains.dokka:dokka-gradle-plugin:$version"
         }
 
         object Kotlin {
-            private const val version = "1.4.32"
+            private const val version = "1.5.31"
             const val stdlib = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$version"
             const val reflect = "org.jetbrains.kotlin:kotlin-reflect:$version"
 
@@ -126,14 +126,14 @@ object Libraries {
 
         object KotlinX {
             object Coroutines {
-                private const val version = "1.4.3"
+                private const val version = "1.5.2"
                 const val core = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$version"
                 const val android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$version"
                 const val test = "org.jetbrains.kotlinx:kotlinx-coroutines-test:$version"
             }
 
             object Serialization {
-                private const val version = "1.1.0"
+                private const val version = "1.3.0"
                 const val json = "org.jetbrains.kotlinx:kotlinx-serialization-json:$version"
             }
         }
