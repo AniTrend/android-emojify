@@ -86,7 +86,7 @@ object Libraries {
 
     object CashApp {
         object Turbine {
-            private const val version = "0.4.1"
+            private const val version = "0.7.0"
             const val turbine = "app.cash.turbine:turbine:$version"
         }
     }
