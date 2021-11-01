@@ -17,7 +17,7 @@
 package io.wax911.emojify.manager
 
 import io.wax911.emojify.model.Emoji
-import io.wax911.emojify.util.tree.Matches
+import io.wax911.emojify.util.trie.Matches
 
 /**
  * Emoji manager contract

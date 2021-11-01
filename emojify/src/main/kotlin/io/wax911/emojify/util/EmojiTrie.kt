@@ -17,10 +17,10 @@
 package io.wax911.emojify.util
 
 import io.wax911.emojify.model.Emoji
-import io.wax911.emojify.util.tree.Matches
-import io.wax911.emojify.util.tree.Node
+import io.wax911.emojify.util.trie.Matches
+import io.wax911.emojify.util.trie.Node
 
-class EmojiTree(emojis: Collection<Emoji>) {
+class EmojiTrie(emojis: Collection<Emoji>) {
     private val root = Node()
 
     init {

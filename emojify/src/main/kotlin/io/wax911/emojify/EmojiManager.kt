@@ -21,8 +21,8 @@ import io.wax911.emojify.manager.IEmojiManager
 import io.wax911.emojify.model.Emoji
 import io.wax911.emojify.parser.getNextUnicodeCandidate
 import io.wax911.emojify.parser.removeAllEmojis
-import io.wax911.emojify.util.EmojiTree
-import io.wax911.emojify.util.tree.Matches
+import io.wax911.emojify.util.EmojiTrie
+import io.wax911.emojify.util.trie.Matches
 
 /**
  * Holds the loaded emojis and provides search functions.
@@ -57,8 +57,8 @@ class EmojiManager(
         emojiTagMap
     }
 
-    private val emojiTree: EmojiTree by lazy {
-        EmojiTree(emojiList)
+    private val emojiTrie: EmojiTrie by lazy {
+        EmojiTrie(emojiList)
     }
 
     /**
@@ -92,7 +92,7 @@ class EmojiManager(
      * @return the associated [Emoji], null if the unicode is unknown
      */
     override fun getByUnicode(unicode: String?): Emoji? =
-        unicode?.let { emojiTree.getEmoji(it) }
+        unicode?.let { emojiTrie.getEmoji(it) }
 
     /**
      * Tests if a given String is an emoji.
@@ -131,7 +131,7 @@ class EmojiManager(
      * - [Matches.POSSIBLY] if char sequence matches prefix of an emoji
      * - [Matches.IMPOSSIBLE] if char sequence matches no emoji or prefix of an emoji
      */
-    override fun isEmoji(sequence: CharArray): Matches = emojiTree.isEmoji(sequence)
+    override fun isEmoji(sequence: CharArray): Matches = emojiTrie.isEmoji(sequence)
 
     /**
      * Returns all the tags in the database

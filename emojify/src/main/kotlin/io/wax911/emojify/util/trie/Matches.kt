@@ -14,32 +14,16 @@
  * limitations under the License.
  */
 
-package io.wax911.emojify.util.tree
-
-import io.wax911.emojify.model.Emoji
+package io.wax911.emojify.util.trie
 
 /**
- * Node representation of an emoji tree
- *
- * @see io.wax911.emojify.util.EmojiTree
+ * Emoji matching state representation
  */
-class Node {
-    private val children = HashMap<Char, Node>()
+sealed class Matches {
+    object EXACTLY : Matches()
+    object POSSIBLY : Matches()
+    object IMPOSSIBLE : Matches()
 
-    internal var emoji: Emoji? = null
-
-    internal val isEndOfEmoji: Boolean
-        get() = emoji != null
-
-    internal fun hasChild(child: Char): Boolean {
-        return children.containsKey(child)
-    }
-
-    internal fun addChild(child: Char) {
-        children[child] = Node()
-    }
-
-    internal fun getChild(child: Char): Node? {
-        return children[child]
-    }
+    fun exactMatch() = this is EXACTLY
+    fun impossibleMatch() = this is IMPOSSIBLE
 }
