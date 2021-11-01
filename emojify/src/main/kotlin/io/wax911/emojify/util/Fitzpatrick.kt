@@ -62,7 +62,7 @@ enum class Fitzpatrick constructor(val unicode: String) {
          */
         fun fitzpatrickFromType(type: String): Fitzpatrick? =
             runCatching {
-                valueOf(type.toUpperCase(Locale.ROOT))
+                valueOf(type.uppercase(Locale.ROOT))
             }.onFailure { it.printStackTrace() }.getOrNull()
     }
 }
