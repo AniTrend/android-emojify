@@ -20,7 +20,7 @@ object Libraries {
     object AndroidX {
 
         object Core {
-            private const val version = "1.3.0"
+            private const val version = "1.6.0"
             const val core = "androidx.core:core:$version"
             const val coreKtx = "androidx.core:core-ktx:$version"
         }
