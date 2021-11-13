@@ -1,8 +1,8 @@
 jdk:
   - openjdk11
 install:
-  - echo "Running clean, build, dokka and publishMavenPublicationToMavenLocal commands"
-  - ./gradlew clean build dokka
+  - echo "Running clean, build, publishMavenPublicationToMavenLocal commands"
+  - ./gradlew clean build
   - ./gradlew publishMavenPublicationToMavenLocal
 env:
   CI: "true"
