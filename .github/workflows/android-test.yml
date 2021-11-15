@@ -1,6 +1,11 @@
-name: Android test build
+name: Run unit tests
 
-on: [push, pull_request]
+on: 
+  push:
+    branches: [ develop ]
+  pull_request:
+    branches:
+      - develop
 
 jobs:
   build:
@@ -17,5 +22,5 @@ jobs:
 
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
-    - name: Test build with Gradle
-      run: ./gradlew emojify:test emojify:build
+    - name: Run tests 
+      run: ./gradlew emojify:test --stacktrace
