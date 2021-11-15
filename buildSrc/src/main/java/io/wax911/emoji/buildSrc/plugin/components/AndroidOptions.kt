@@ -63,7 +63,7 @@ private fun Project.configureDokka() {
     println("Applying additional tasks options for dokka and javadoc on ${project.path}")
 
     val dokka = tasks.named<DokkaTask>("dokkaHtml") {
-        outputDirectory.set(buildDir.resolve("docs/javadoc"))
+        outputDirectory.set(buildDir.resolve("docs/dokka"))
 
         // Set module name displayed in the final output
         moduleName.set(project.name)
