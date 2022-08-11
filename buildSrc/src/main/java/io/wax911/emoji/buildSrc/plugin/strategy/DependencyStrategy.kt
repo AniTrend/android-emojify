@@ -16,15 +16,17 @@ internal class DependencyStrategy(private val project: Project) {
 
     private fun DependencyHandler.applyDefaultDependencies() {
         implementation(Libraries.JetBrains.Kotlin.stdlib)
+        implementation(Libraries.JetBrains.Kotlin.reflect)
         // Testing libraries
         testImplementation(Libraries.junit)
-        testImplementation(Libraries.mockk)
+        testImplementation(Libraries.Mockk.mockk)
     }
 
     private fun DependencyHandler.applyTestDependencies() {
         androidTestImplementation(Libraries.AndroidX.Test.core)
         androidTestImplementation(Libraries.AndroidX.Test.rules)
         androidTestImplementation(Libraries.AndroidX.Test.runner)
+        androidTestImplementation(Libraries.Mockk.mockkAndroid)
         testImplementation(Libraries.AndroidX.Test.Extension.junitKtx)
     }
 
