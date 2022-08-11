@@ -1,4 +1,4 @@
-# Android Emojify &nbsp; &nbsp; [![Release](https://jitpack.io/v/wax911/android-emojify.svg?style=flat-square)](https://jitpack.io/#wax911/android-emojify) &nbsp; [![Codacy Badge](https://api.codacy.com/project/badge/Grade/30a8f983c55541cbb504671ecc32786c)](https://www.codacy.com/app/AniTrend/android-emojify?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=wax911/android-emojify&amp;utm_campaign=Badge_Grade) &nbsp; [![Build Status](https://travis-ci.org/AniTrend/android-emojify.svg?branch=master)](https://travis-ci.org/AniTrend/android-emojify) [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FAniTrend%2Fandroid-emojify.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FAniTrend%2Fandroid-emojify?ref=badge_shield)
+# Android Emojify &nbsp; &nbsp; [![Release](https://jitpack.io/v/wax911/android-emojify.svg?style=flat-square)](https://jitpack.io/#wax911/android-emojify) &nbsp; [![Codacy Badge](https://app.codacy.com/project/badge/Grade/6bace5612f8c4799ac86f104f5b2db0f)](https://www.codacy.com/gh/AniTrend/android-emojify/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=AniTrend/android-emojify&amp;utm_campaign=Badge_Grade) &nbsp; [![Build Status](https://travis-ci.org/AniTrend/android-emojify.svg?branch=master)](https://travis-ci.org/AniTrend/android-emojify) [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FAniTrend%2Fandroid-emojify.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FAniTrend%2Fandroid-emojify?ref=badge_shield)
 
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FAniTrend%2Fandroid-emojify.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2FAniTrend%2Fandroid-emojify?ref=badge_large)
 
@@ -6,7 +6,7 @@ This project is an android port of [vdurmont/emoji-java](https://github.com/vdur
 
 **This project is already being used in [AniTrend](https://anitrend.co/) and only aims to provide emojis from [emojipedia](https://emojipedia.org/)**
 
-- All class and function documentation on the **emojify** module can be found [here](https://javadoc.jitpack.io/com/github/anitrend/android-emojify/1.6.0-alpha01/javadoc/android-emojify)
+- All class and function documentation on the **emojify** module can be found [here](https://anitrend.github.io/android-emojify/)
 
 - All supported emojis can be found [here](./SUPPORTED.md)
 
