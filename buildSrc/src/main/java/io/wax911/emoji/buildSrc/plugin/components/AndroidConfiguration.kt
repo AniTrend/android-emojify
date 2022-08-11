@@ -1,6 +1,7 @@
 package io.wax911.emoji.buildSrc.plugin.components
 
 import io.wax911.emoji.buildSrc.common.Versions
+import io.wax911.emoji.buildSrc.common.Configuration
 import com.android.build.gradle.internal.dsl.DefaultConfig
 import io.wax911.emoji.buildSrc.plugin.extensions.*
 import io.wax911.emoji.buildSrc.plugin.extensions.baseAppExtension
@@ -26,6 +27,14 @@ internal fun Project.configureSpotless() {
         }
 }
 
+private fun Project.configureLint() = baseAppExtension().run {
+    lint {
+        abortOnError = false
+        ignoreWarnings = false
+        ignoreTestSources = true
+    }
+}
+
 @Suppress("UnstableApiUsage")
 private fun DefaultConfig.applyAdditionalConfiguration(project: Project) {
     if (project.isSampleModule()) {
@@ -41,12 +50,12 @@ private fun DefaultConfig.applyAdditionalConfiguration(project: Project) {
 }
 
 internal fun Project.configureAndroid(): Unit = baseExtension().run {
-    compileSdkVersion(Versions.compileSdk)
+    compileSdkVersion(Configuration.compileSdk)
     defaultConfig {
-        minSdk = Versions.minSdk
-        targetSdk = Versions.targetSdk
-        versionCode = Versions.versionCode
-        versionName = Versions.versionName
+        minSdk = Configuration.minSdk
+        targetSdk = Configuration.targetSdk
+        versionCode = Configuration.versionCode
+        versionName = Configuration.versionName
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         applyAdditionalConfiguration(project)
     }
@@ -65,9 +74,9 @@ internal fun Project.configureAndroid(): Unit = baseExtension().run {
     }
 
     packagingOptions {
-        excludes.add("META-INF/NOTICE.txt")
-        excludes.add("META-INF/LICENSE")
-        excludes.add("META-INF/LICENSE.txt")
+        resources.excludes.add("META-INF/NOTICE.txt")
+        resources.excludes.add("META-INF/LICENSE")
+        resources.excludes.add("META-INF/LICENSE.txt")
     }
 
     sourceSets {
@@ -82,15 +91,13 @@ internal fun Project.configureAndroid(): Unit = baseExtension().run {
         unitTests.isReturnDefaultValues = true
     }
 
-    lintOptions {
-        isAbortOnError = false
-        isIgnoreWarnings = false
-        isIgnoreTestSources = true
+    if (isSampleModule()) {
+        configureLint()
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
 
     tasks.withType(KotlinCompile::class.java) {
@@ -98,13 +105,13 @@ internal fun Project.configureAndroid(): Unit = baseExtension().run {
             allWarningsAsErrors = false
             kotlinOptions {
                 allWarningsAsErrors = false
-                val compileArgs = mutableListOf("-Xopt-in=kotlin.Experimental")
+                val compileArgs = mutableListOf("-opt-in=kotlin.Experimental")
                 if (isSampleModule()) {
-                    compileArgs.add("-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi")
-                    compileArgs.add("-Xopt-in=kotlinx.coroutines.FlowPreview")
-                    compileArgs.add("-Xopt-in=kotlin.Experimental")
+                    compileArgs.add("-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi")
+                    compileArgs.add("-opt-in=kotlinx.coroutines.FlowPreview")
+                    compileArgs.add("-opt-in=kotlin.Experimental")
                 } else
-                    compileArgs.add("-Xopt-in=kotlinx.serialization.ExperimentalSerializationApi")
+                    compileArgs.add("-opt-in=kotlinx.serialization.ExperimentalSerializationApi")
                 // Filter out modules that won't be using coroutines
                 freeCompilerArgs = compileArgs
             }
@@ -113,7 +120,7 @@ internal fun Project.configureAndroid(): Unit = baseExtension().run {
 
     tasks.withType(KotlinJvmCompile::class.java) {
         kotlinOptions {
-            jvmTarget = "1.8"
+            jvmTarget = "11"
         }
     }
 }
