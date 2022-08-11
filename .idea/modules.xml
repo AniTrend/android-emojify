@@ -4,8 +4,16 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/android-emojify.iml" filepath="$PROJECT_DIR$/.idea/modules/android-emojify.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/android-emojify.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/android-emojify.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/android-emojify.app.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/android-emojify.app.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/android-emojify.app.main.iml" filepath="$PROJECT_DIR$/.idea/modules/app/android-emojify.app.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/android-emojify.app.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/app/android-emojify.app.unitTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/android-emojify.buildSrc.iml" filepath="$PROJECT_DIR$/.idea/modules/android-emojify.buildSrc.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/android-emojify.buildSrc.main.iml" filepath="$PROJECT_DIR$/.idea/modules/android-emojify.buildSrc.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/android-emojify.buildSrc.test.iml" filepath="$PROJECT_DIR$/.idea/modules/android-emojify.buildSrc.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/emojify/android-emojify.emojify.iml" filepath="$PROJECT_DIR$/.idea/modules/emojify/android-emojify.emojify.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/emojify/android-emojify.emojify.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/emojify/android-emojify.emojify.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/emojify/android-emojify.emojify.main.iml" filepath="$PROJECT_DIR$/.idea/modules/emojify/android-emojify.emojify.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/emojify/android-emojify.emojify.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/emojify/android-emojify.emojify.unitTest.iml" />
     </modules>
   </component>
 </project>
