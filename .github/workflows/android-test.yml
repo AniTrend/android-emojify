@@ -4,23 +4,52 @@ on:
   push:
     branches: [ develop ]
   pull_request:
-    branches:
-      - develop
+    paths-ignore:
+      - "app/src/main/**"
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
+    - uses: gradle/wrapper-validation-action@v1
     - name: set up JDK 11
-      uses: actions/setup-java@v2
+      uses: actions/setup-java@v3
       with:
         java-version: '11'
         distribution: 'adopt'
-
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
-    - name: Run tests 
+    - name: Run tests
       run: ./gradlew emojify:test --stacktrace
+
+  android:
+    runs-on: macos-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        api-level:
+          - 21
+          - 24
+          - 26
+          - 29
+    steps:
+      - uses: actions/checkout@v3
+      - uses: gradle/wrapper-validation-action@v1
+      - uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+      - uses: gradle/gradle-build-action@v2
+      - name: Run Tests
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: ${{ matrix.api-level }}
+          script: ./gradlew connectedCheck
+        env:
+          API_LEVEL: ${{ matrix.api-level }}
+      - name: Publish Test Report
+        uses: mikepenz/action-junit-report@v3
+        if: always() # always run even if the previous step fails
+        with:
+          report_paths: '**/build/test-results/test/TEST-*.xml'
