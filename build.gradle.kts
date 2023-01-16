@@ -7,9 +7,9 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath(io.wax911.emoji.buildSrc.Libraries.Android.Tools.buildGradle)
-        classpath(io.wax911.emoji.buildSrc.Libraries.JetBrains.Kotlin.Gradle.plugin)
-        classpath(io.wax911.emoji.buildSrc.Libraries.JetBrains.Kotlin.Serialization.serialization)
+        classpath(libs.android.gradle.plugin)
+        classpath(libs.jetbrains.kotlin.gradle)
+        classpath(libs.jetbrains.kotlin.serialization)
     }
 }
 
