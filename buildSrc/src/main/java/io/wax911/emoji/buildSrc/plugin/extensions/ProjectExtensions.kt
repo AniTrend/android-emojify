@@ -12,6 +12,7 @@ import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.reporting.ReportingExtension
 import org.gradle.api.tasks.SourceSetContainer
 import org.gradle.kotlin.dsl.getByType
+import org.gradle.accessors.dm.LibrariesForLibs
 import org.jetbrains.kotlin.gradle.dsl.KotlinAndroidProjectExtension
 import org.jetbrains.kotlin.gradle.testing.internal.KotlinTestsRegistry
 import io.wax911.emoji.buildSrc.module.Modules
@@ -21,6 +22,9 @@ fun Project.isSampleModule() =
 
 fun Project.isLibraryModule() =
     name == Modules.Library.Emojify.id
+
+internal val Project.libs: LibrariesForLibs get() =
+    extensions.getByType<LibrariesForLibs>()
 
 internal fun Project.baseExtension() =
     extensions.getByType<BaseExtension>()

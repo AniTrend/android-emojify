@@ -1,47 +1,46 @@
 package io.wax911.emoji.buildSrc.plugin.strategy
 
-import io.wax911.emoji.buildSrc.Libraries
-import io.wax911.emoji.buildSrc.plugin.extensions.isSampleModule
+import io.wax911.emoji.buildSrc.plugin.extensions.*
+import io.wax911.emoji.buildSrc.plugin.extensions.androidTestImplementation
 import io.wax911.emoji.buildSrc.plugin.extensions.implementation
 import io.wax911.emoji.buildSrc.plugin.extensions.testImplementation
-import io.wax911.emoji.buildSrc.plugin.extensions.androidTestImplementation
 import org.gradle.api.Project
 import org.gradle.api.artifacts.dsl.DependencyHandler
 
 internal class DependencyStrategy(private val project: Project) {
 
     private fun DependencyHandler.applyLoggingDependencies() {
-        implementation(Libraries.timber)
+        implementation(project.libs.timber)
     }
 
     private fun DependencyHandler.applyDefaultDependencies() {
-        implementation(Libraries.JetBrains.Kotlin.stdlib)
-        implementation(Libraries.JetBrains.Kotlin.reflect)
+        implementation(project.libs.jetbrains.kotlin.stdlib.jdk8)
+        implementation(project.libs.jetbrains.kotlin.reflect)
         // Testing libraries
-        testImplementation(Libraries.junit)
-        testImplementation(Libraries.Mockk.mockk)
+        testImplementation(project.libs.junit)
+        testImplementation(project.libs.mockk)
     }
 
     private fun DependencyHandler.applyTestDependencies() {
-        androidTestImplementation(Libraries.AndroidX.Test.core)
-        androidTestImplementation(Libraries.AndroidX.Test.rules)
-        androidTestImplementation(Libraries.AndroidX.Test.runner)
-        androidTestImplementation(Libraries.Mockk.mockkAndroid)
-        testImplementation(Libraries.AndroidX.Test.Extension.junitKtx)
+        androidTestImplementation(project.libs.androidx.test.core.ktx)
+        androidTestImplementation(project.libs.androidx.test.rules)
+        androidTestImplementation(project.libs.androidx.test.runner)
+        androidTestImplementation(project.libs.mockk.android)
+        testImplementation(project.libs.androidx.test.ext.junit.ktx)
     }
 
     private fun DependencyHandler.applyLifeCycleDependencies() {
-        implementation(Libraries.AndroidX.Lifecycle.liveDataCoreKtx)
-        implementation(Libraries.AndroidX.Lifecycle.runTimeKtx)
-        implementation(Libraries.AndroidX.Lifecycle.liveDataKtx)
-        implementation(Libraries.AndroidX.Lifecycle.extensions)
+        implementation(project.libs.androidx.lifecycle.livedata.core.ktx)
+        implementation(project.libs.androidx.lifecycle.runtime.ktx)
+        implementation(project.libs.androidx.lifecycle.livedata.ktx)
+        implementation(project.libs.androidx.lifecycle.extensions)
     }
 
     private fun DependencyHandler.applyCoroutinesDependencies() {
-        implementation(Libraries.JetBrains.KotlinX.Coroutines.android)
-        implementation(Libraries.JetBrains.KotlinX.Coroutines.core)
-        testImplementation(Libraries.JetBrains.KotlinX.Coroutines.test)
-        androidTestImplementation(Libraries.CashApp.Turbine.turbine)
+        implementation(project.libs.jetbrains.kotlinx.coroutines.android)
+        implementation(project.libs.jetbrains.kotlinx.coroutines.core)
+        testImplementation(project.libs.jetbrains.kotlinx.coroutines.test)
+        androidTestImplementation(project.libs.cash.turbine)
     }
 
     fun applyDependenciesOn(handler: DependencyHandler) {

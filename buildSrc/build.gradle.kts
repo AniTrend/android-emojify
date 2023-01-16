@@ -1,8 +1,10 @@
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmCompile
+import org.gradle.accessors.dm.LibrariesForLibs
 
 plugins {
     `kotlin-dsl`
     `maven-publish`
+    `version-catalog`
 }
 
 repositories {
@@ -27,29 +29,28 @@ java {
     targetCompatibility = JavaVersion.VERSION_11
 }
 
-val buildToolsVersion = "7.2.1"
-val kotlinVersion = "1.6.21"
-val dokkaVersion = "1.6.21"
-val manesVersion = "0.38.0"
-val spotlessVersion = "6.9.0"
+val libs = extensions.getByType<LibrariesForLibs>()
 
 dependencies {
-    /* Depend on the android gradle plugin, since we want to access it in our plugin */
-    implementation("com.android.tools.build:gradle:$buildToolsVersion")
+    /** Depend on the android gradle plugin, since we want to access it in our plugin */
+    implementation(libs.android.gradle.plugin)
 
-    /* Depend on the kotlin plugin, since we want to access it in our plugin */
-    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
+    /** Depend on the kotlin plugin, since we want to access it in our plugin */
+    implementation(libs.jetbrains.kotlin.gradle)
 
-    /* Depend on the dokka plugin, since we want to access it in our plugin */
-    implementation("org.jetbrains.dokka:dokka-gradle-plugin:$dokkaVersion")
+    /** Depend on the dokka plugin, since we want to access it in our plugin */
+    implementation(libs.jetbrains.dokka.gradle)
 
     /** Dependency management */
-    implementation("com.github.ben-manes:gradle-versions-plugin:$manesVersion")
+    implementation(libs.gradle.versions)
 
     /** Spotless */
-    implementation("com.diffplug.spotless:spotless-plugin-gradle:$spotlessVersion")
+    implementation(libs.spotless.gradle)
 
-    /* Depend on the default Gradle API's since we want to build a custom plugin */
+    /** Depend on the default Gradle API's since we want to build a custom plugin */
     implementation(gradleApi())
     implementation(localGroovy())
+
+    /** Work around to include ../.gradle/LibrariesForLibs generated file for version catalog */
+    implementation(files(libs.javaClass.superclass.protectionDomain.codeSource.location))
 }

@@ -1,12 +1,10 @@
-import io.wax911.emoji.buildSrc.Libraries
-
 plugins {
     id("io.wax911.emojify")
     id("kotlinx-serialization")
 }
 
 dependencies {
-    implementation(Libraries.AndroidX.Core.coreKtx)
-    implementation(Libraries.AndroidX.StartUp.startUpRuntime)
-    implementation(Libraries.JetBrains.KotlinX.Serialization.json)
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.startup.runtime)
+    implementation(libs.jetbrains.kotlinx.serialization.json)
 }

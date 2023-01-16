@@ -7,11 +7,11 @@ plugins {
 dependencies {
     implementation(project(Libraries.AniTrend.Emojify.emojify))
 
-    implementation(Libraries.Google.Material.material)
-    implementation(Libraries.AndroidX.ConstraintLayout.constraintLayout)
+    implementation(libs.google.android.material)
+    implementation(libs.androidx.constraintlayout)
 
-    implementation(Libraries.JetBrains.KotlinX.Coroutines.android)
-    implementation(Libraries.JetBrains.KotlinX.Coroutines.core)
+    implementation(libs.jetbrains.kotlinx.coroutines.android)
+    implementation(libs.jetbrains.kotlinx.coroutines.core)
 
-    implementation(Libraries.AndroidX.StartUp.startUpRuntime)
+    implementation(libs.androidx.startup.runtime)
 }
