@@ -1,4 +1,4 @@
-name: Run unit tests
+name: gradle-unit-test
 
 on: 
   push:

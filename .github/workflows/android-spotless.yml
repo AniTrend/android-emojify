@@ -1,4 +1,4 @@
-name: Run spotless check
+name: gradle-lint-check
 
 on: 
   push:

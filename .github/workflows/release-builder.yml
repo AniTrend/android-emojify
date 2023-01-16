@@ -1,4 +1,4 @@
-name: Release builder
+name: release-builder
 
 on:
   push:

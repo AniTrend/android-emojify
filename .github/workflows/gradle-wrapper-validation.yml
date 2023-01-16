@@ -1,4 +1,4 @@
-name: "Validate Gradle Wrapper"
+name: gradle-wrapper-validation
 on: [push, pull_request]
 
 jobs:
