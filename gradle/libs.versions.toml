@@ -12,7 +12,7 @@ androidx-paging = "3.0.0"
 androidx-recycler = "1.2.1"
 androidx-test-ext = "1.1.5"
 
-google-android-material = "1.7.0"
+google-android-material = "1.8.0"
 
 jetbrains-dokka = "1.7.20"
 jetbrains-kotlin = "1.7.10"
