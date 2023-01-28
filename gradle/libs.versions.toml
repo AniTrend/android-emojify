@@ -20,7 +20,7 @@ jetbrains-kotlinx-coroutines = "1.6.4"
 jetbrains-kotlinx-datetime = "0.2.1"
 jetbrains-kotlinx-serialization = "1.3.3"
 
-mockk = "1.12.8"
+mockk = "1.13.4"
 
 
 [plugins]
