@@ -83,6 +83,6 @@ jetbrains-kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 mockk-android = { module = "io.mockk:mockk-android", version.ref = "mockk" }
 
-gradle-versions = { module = "com.github.ben-manes:gradle-versions-plugin", version = "0.45.0" }
+gradle-versions = { module = "com.github.ben-manes:gradle-versions-plugin", version = "0.46.0" }
 
 spotless-gradle = { module = "com.diffplug.spotless:spotless-plugin-gradle", version = "6.15.0" }
