@@ -63,7 +63,7 @@ androidx-test-rules = { module = "androidx.test:rules", version = "1.5.0" }
 
 androidx-test-ext-junit-ktx =  { module = "androidx.test.ext:junit-ktx", version.ref = "androidx-test-ext" }
 
-cash-turbine = { module = "app.cash.turbine:turbine", version = "0.12.3" }
+cash-turbine = { module = "app.cash.turbine:turbine", version = "0.13.0" }
 
 google-android-material = { module = "com.google.android.material:material", version.ref = "google-android-material" }
 
