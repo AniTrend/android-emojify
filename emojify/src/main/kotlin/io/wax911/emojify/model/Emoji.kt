@@ -17,9 +17,9 @@
 package io.wax911.emojify.model
 
 import io.wax911.emojify.util.Fitzpatrick
-import java.nio.charset.Charset
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import java.nio.charset.Charset
 
 /**
  * @param aliases a list of aliases for this emoji

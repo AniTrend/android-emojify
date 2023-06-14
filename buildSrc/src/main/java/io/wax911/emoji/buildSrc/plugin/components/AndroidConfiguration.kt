@@ -95,8 +95,14 @@ internal fun Project.configureAndroid(): Unit = baseExtension().run {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+
+    tasks.withType(KotlinJvmCompile::class.java) {
+        kotlinOptions {
+            jvmTarget = "17"
+        }
     }
 
     tasks.withType(KotlinCompile::class.java) {
@@ -114,12 +120,6 @@ internal fun Project.configureAndroid(): Unit = baseExtension().run {
                 // Filter out modules that won't be using coroutines
                 freeCompilerArgs = compileArgs
             }
-        }
-    }
-
-    tasks.withType(KotlinJvmCompile::class.java) {
-        kotlinOptions {
-            jvmTarget = "11"
         }
     }
 }

@@ -1,4 +1,3 @@
-import org.jetbrains.kotlin.gradle.dsl.KotlinJvmCompile
 import org.gradle.accessors.dm.LibrariesForLibs
 
 plugins {
@@ -17,19 +16,6 @@ repositories {
         setUrl("https://plugins.gradle.org/m2/")
     }
 }
-
-tasks.withType(KotlinJvmCompile::class.java) {
-    kotlinOptions {
-        jvmTarget = "11"
-    }
-}
-
-java {
-    sourceCompatibility = JavaVersion.VERSION_11
-    targetCompatibility = JavaVersion.VERSION_11
-}
-
-val libs = extensions.getByType<LibrariesForLibs>()
 
 dependencies {
     /** Depend on the android gradle plugin, since we want to access it in our plugin */

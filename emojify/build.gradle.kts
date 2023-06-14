@@ -8,3 +8,7 @@ dependencies {
     implementation(libs.androidx.startup.runtime)
     implementation(libs.jetbrains.kotlinx.serialization.json)
 }
+
+android {
+    namespace = "io.wax911.emojify"
+}

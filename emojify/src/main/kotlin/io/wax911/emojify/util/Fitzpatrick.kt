@@ -47,7 +47,8 @@ enum class Fitzpatrick constructor(val unicode: String) {
     /**
      * Fitzpatrick modifier of type 6 (black)
      */
-    TYPE_6("\uD83C\uDFFF");
+    TYPE_6("\uD83C\uDFFF"),
+    ;
 
     companion object {
 

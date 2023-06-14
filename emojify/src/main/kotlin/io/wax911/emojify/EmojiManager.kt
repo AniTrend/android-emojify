@@ -32,7 +32,7 @@ import io.wax911.emojify.util.trie.Matches
  * @author [Vincent DURMONT](vdurmont@gmail.com)
  */
 class EmojiManager(
-    override val emojiList: Collection<Emoji>
+    override val emojiList: Collection<Emoji>,
 ) : IEmojiManager {
 
     private val emojiByAlias by lazy {
@@ -49,8 +49,9 @@ class EmojiManager(
         val emojiTagMap = HashMap<String, MutableSet<Emoji>>()
         emojiList.forEach { emoji ->
             emoji.tags?.forEach { tag ->
-                if (emojiTagMap[tag] == null)
+                if (emojiTagMap[tag] == null) {
                     emojiTagMap[tag] = HashSet()
+                }
                 emojiTagMap[tag]?.add(emoji)
             }
         }

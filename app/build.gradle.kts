@@ -15,3 +15,7 @@ dependencies {
 
     implementation(libs.androidx.startup.runtime)
 }
+
+android {
+    namespace = "io.wax911.emojifysample"
+}
