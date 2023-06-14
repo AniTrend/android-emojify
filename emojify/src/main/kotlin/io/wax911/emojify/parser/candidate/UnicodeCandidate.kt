@@ -30,19 +30,23 @@ import java.util.Locale
 class UnicodeCandidate internal constructor(
     val emoji: Emoji?,
     fitzpatrick: String?,
-    val emojiStartIndex: Int
+    val emojiStartIndex: Int,
 ) {
     private val fitzpatrick: Fitzpatrick? = Fitzpatrick.fitzpatrickFromUnicode(fitzpatrick)
 
     val fitzpatrickType: String
-        get() = if (hasFitzpatrick())
+        get() = if (hasFitzpatrick()) {
             fitzpatrick?.name?.lowercase(Locale.ROOT) ?: ""
-        else ""
+        } else {
+            ""
+        }
 
     val fitzpatrickUnicode: String
-        get() = if (hasFitzpatrick())
+        get() = if (hasFitzpatrick()) {
             fitzpatrick?.unicode ?: ""
-        else ""
+        } else {
+            ""
+        }
 
     private val emojiEndIndex: Int
         get() = emojiStartIndex + (emoji?.unicode?.length ?: 0)

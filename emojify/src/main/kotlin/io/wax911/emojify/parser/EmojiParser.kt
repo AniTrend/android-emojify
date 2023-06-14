@@ -25,7 +25,7 @@ import io.wax911.emojify.parser.transformer.EmojiTransformer
 import java.util.regex.Pattern
 
 private val ALIAS_CANDIDATE_PATTERN = Pattern.compile(
-    "(?<=:)\\+?(\\w|\\||\\-)+(?=:)"
+    "(?<=:)\\+?(\\w|\\||\\-)+(?=:)",
 )
 
 /**
@@ -72,14 +72,18 @@ fun EmojiManager.parseToAliases(
                 FitzpatrickAction.PARSE -> {
                     return if (unicodeCandidate.hasFitzpatrick()) {
                         ":$alias|$fitzpatrickType:"
-                    } else ":$alias:"
+                    } else {
+                        ":$alias:"
+                    }
                 }
                 FitzpatrickAction.REMOVE -> return ":$alias:"
                 FitzpatrickAction.IGNORE -> return ":$alias:$fitzpatrickUnicode"
                 else -> {
                     return if (unicodeCandidate.hasFitzpatrick()) {
                         ":$alias|$fitzpatrickType:"
-                    } else ":$alias:"
+                    } else {
+                        ":$alias:"
+                    }
                 }
             }
         }
@@ -196,13 +200,14 @@ internal fun getAliasCandidates(input: String): List<AliasCandidate> {
 @JvmOverloads
 fun EmojiManager.parseToHtmlDecimal(
     input: String,
-    fitzpatrickAction: FitzpatrickAction = FitzpatrickAction.PARSE
+    fitzpatrickAction: FitzpatrickAction = FitzpatrickAction.PARSE,
 ): String {
     val emojiTransformer = object : EmojiTransformer {
         override fun transform(unicodeCandidate: UnicodeCandidate): String? {
             return when (fitzpatrickAction) {
                 FitzpatrickAction.PARSE,
-                FitzpatrickAction.REMOVE ->
+                FitzpatrickAction.REMOVE,
+                ->
                     unicodeCandidate.emoji?.htmlDec
                 FitzpatrickAction.IGNORE ->
                     unicodeCandidate.emoji?.htmlDec + unicodeCandidate.fitzpatrickUnicode
@@ -238,13 +243,14 @@ fun EmojiManager.parseToHtmlDecimal(
 @JvmOverloads
 fun EmojiManager.parseToHtmlHexadecimal(
     input: String,
-    fitzpatrickAction: FitzpatrickAction = FitzpatrickAction.PARSE
+    fitzpatrickAction: FitzpatrickAction = FitzpatrickAction.PARSE,
 ): String? {
     val emojiTransformer = object : EmojiTransformer {
         override fun transform(unicodeCandidate: UnicodeCandidate): String? {
             return when (fitzpatrickAction) {
                 FitzpatrickAction.PARSE,
-                FitzpatrickAction.REMOVE ->
+                FitzpatrickAction.REMOVE,
+                ->
                     unicodeCandidate.emoji?.htmlHex
                 FitzpatrickAction.IGNORE ->
                     unicodeCandidate.emoji?.htmlHex + unicodeCandidate.fitzpatrickUnicode
@@ -285,7 +291,9 @@ fun EmojiManager.removeEmojis(str: String, emojisToRemove: Collection<Emoji>): S
         override fun transform(unicodeCandidate: UnicodeCandidate): String {
             return if (!emojisToRemove.contains(unicodeCandidate.emoji)) {
                 unicodeCandidate.emoji?.unicode + unicodeCandidate.fitzpatrickUnicode
-            } else ""
+            } else {
+                ""
+            }
         }
     }
 
@@ -305,7 +313,9 @@ fun EmojiManager.removeAllEmojisExcept(str: String, emojisToKeep: Collection<Emo
         override fun transform(unicodeCandidate: UnicodeCandidate): String {
             return if (emojisToKeep.contains(unicodeCandidate.emoji)) {
                 unicodeCandidate.emoji?.unicode + unicodeCandidate.fitzpatrickUnicode
-            } else ""
+            } else {
+                ""
+            }
         }
     }
 
@@ -381,17 +391,18 @@ internal fun EmojiManager.getUnicodeCandidates(input: String): List<UnicodeCandi
  */
 internal fun EmojiManager.getNextUnicodeCandidate(
     chars: CharArray,
-    start: Int
+    start: Int,
 ): UnicodeCandidate? {
     for (i in start until chars.size) {
         val emojiEnd = getEmojiEndPos(chars, i)
 
         if (emojiEnd != -1) {
             val emoji = getByUnicode(String(chars, i, emojiEnd - i))
-            val fitzpatrickString = if (emojiEnd + 2 <= chars.size)
+            val fitzpatrickString = if (emojiEnd + 2 <= chars.size) {
                 String(chars, emojiEnd, 2)
-            else
+            } else {
                 null
+            }
             return UnicodeCandidate(emoji, fitzpatrickString, i)
         }
     }

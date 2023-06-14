@@ -27,8 +27,9 @@ class EmojiTrie(emojis: Collection<Emoji>) {
         emojis.forEach { emoji ->
             var tree: Node? = root
             emoji.unicode.toCharArray().forEach { c ->
-                if (tree?.hasChild(c) == false)
+                if (tree?.hasChild(c) == false) {
                     tree?.addChild(c)
+                }
                 tree = tree?.getChild(c)
             }
             tree?.emoji = emoji
@@ -47,19 +48,23 @@ class EmojiTrie(emojis: Collection<Emoji>) {
      * - [Matches.IMPOSSIBLE] if char sequence matches no emoji or prefix of an emoji
      */
     fun isEmoji(sequence: CharArray?): Matches {
-        if (sequence == null)
+        if (sequence == null) {
             return Matches.POSSIBLY
+        }
 
         var tree: Node? = root
         sequence.forEach { c ->
-            if (tree?.hasChild(c) == false)
+            if (tree?.hasChild(c) == false) {
                 return Matches.IMPOSSIBLE
+            }
             tree = tree?.getChild(c)
         }
 
-        return if (tree?.isEndOfEmoji == true)
+        return if (tree?.isEndOfEmoji == true) {
             Matches.EXACTLY
-        else Matches.POSSIBLY
+        } else {
+            Matches.POSSIBLY
+        }
     }
 
     /**
@@ -72,8 +77,9 @@ class EmojiTrie(emojis: Collection<Emoji>) {
     fun getEmoji(unicode: String): Emoji? {
         var tree: Node? = root
         unicode.toCharArray().forEach { c ->
-            if (tree?.hasChild(c) == false)
+            if (tree?.hasChild(c) == false) {
                 return null
+            }
             tree = tree?.getChild(c)
         }
         return tree?.emoji

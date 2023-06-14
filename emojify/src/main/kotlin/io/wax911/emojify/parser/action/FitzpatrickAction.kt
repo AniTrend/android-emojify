@@ -24,8 +24,10 @@ import io.wax911.emojify.util.Fitzpatrick
 sealed class FitzpatrickAction {
     /** Tries to match the Fitzpatrick modifier with the previous emoji */
     object PARSE : FitzpatrickAction()
+
     /** Removes the Fitzpatrick modifier from the string */
     object REMOVE : FitzpatrickAction()
+
     /** Ignores the [Fitzpatrick] modifier (it will stay in the string) */
     object IGNORE : FitzpatrickAction()
 }

@@ -21,11 +21,11 @@ import android.content.res.AssetManager
 import androidx.startup.Initializer
 import io.wax911.emojify.EmojiManager
 import io.wax911.emojify.model.Emoji
-import java.io.IOException
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromStream
+import java.io.IOException
 
 class EmojiInitializer : Initializer<EmojiManager> {
 

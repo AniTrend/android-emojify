@@ -21,7 +21,7 @@ import io.wax911.emojify.util.Fitzpatrick
 internal class AliasCandidate internal constructor(
     val fullString: String,
     val alias: String,
-    fitzpatrickString: String?
+    fitzpatrickString: String?,
 ) {
     val fitzpatrick: Fitzpatrick?
 
