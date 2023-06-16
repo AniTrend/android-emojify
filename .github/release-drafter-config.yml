@@ -10,10 +10,10 @@ categories:
       - 'bug fix'
   - title: '🧰 Maintenance'
     labels: 
-      - ':hammer_and_wrench: refactor'
-      - ':dagger: dependencies'
+      - 'refactor'
+      - 'dependencies'
 autolabeler:
-  - label: ':books: docs'
+  - label: 'docs'
     files:
       - '*.md'
     branch:
