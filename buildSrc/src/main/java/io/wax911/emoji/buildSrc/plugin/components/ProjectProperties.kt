@@ -1,4 +1,4 @@
-package io.wax911.emoji.buildSrc.plugins.components
+package io.wax911.emoji.buildSrc.plugin.components
 
 import org.gradle.api.Project
 import java.io.File
