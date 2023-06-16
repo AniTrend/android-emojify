@@ -6,10 +6,18 @@
     <link href="images/logo-icon.svg" rel="icon" type="image/svg">
     <script>var pathToRoot = "";</script>
     <script>const storage = localStorage.getItem("dokka-dark-mode")
-const savedDarkMode = storage ? JSON.parse(storage) : false
-if(savedDarkMode === true){
-    document.getElementsByTagName("html")[0].classList.add("theme-dark")
-}</script>
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
 <script type="text/javascript" src="scripts/sourceset_dependencies.js" async="async"></script>
 <link href="styles/style.css" rel="Stylesheet">
 <link href="styles/jetbrains-mono.css" rel="Stylesheet">
@@ -21,6 +29,7 @@ if(savedDarkMode === true){
 <script type="text/javascript" src="scripts/platform-content-handler.js" async="async"></script>
 <script type="text/javascript" src="scripts/main.js" defer="defer"></script>
 <script type="text/javascript" src="scripts/prism.js" async="async"></script>
+<script type="text/javascript" src="scripts/symbol-parameters-wrapper_deferred.js" defer="defer"></script>
 </head>
 <body>
 <div class="navigation-wrapper" id="navigation-wrapper">
@@ -33,10 +42,10 @@ if(savedDarkMode === true){
     <div>
     </div>
     <div class="pull-right d-flex">
-            <div class="filter-section" id="filter-section">
-                    <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":emojify:dokkaHtml/testFixturesRelease">common</button>
-                    <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":emojify:dokkaHtml/testRelease">androidJvm</button>
-            </div>
+        <div class="filter-section" id="filter-section">
+                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":emojify:dokkaHtml/testFixturesRelease">common</button>
+                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":emojify:dokkaHtml/testRelease">androidJvm</button>
+        </div>
         <button id="theme-toggle-button"><span id="theme-toggle"></span></button>
         <div id="searchBar"></div>
     </div>
@@ -52,8 +61,8 @@ if(savedDarkMode === true){
     <h1 class="cover"><span><span>emojify</span></span></h1>
   </div>
   <h2 class="">Packages</h2>
-  <div class="table"><a data-name="-1804499904%2FPackages%2F-934248497" anchor-label="io.wax911.emojify" id="-1804499904%2FPackages%2F-934248497" data-filterable-set=":emojify:dokkaHtml/testRelease :emojify:dokkaHtml/testFixturesRelease"></a>
-    <div class="table-row" data-filterable-current=":emojify:dokkaHtml/testRelease :emojify:dokkaHtml/testFixturesRelease" data-filterable-set=":emojify:dokkaHtml/testRelease :emojify:dokkaHtml/testFixturesRelease">
+  <div class="table"><a data-name="-1804499904%2FPackages%2F-934248497" anchor-label="io.wax911.emojify" id="-1804499904%2FPackages%2F-934248497" data-filterable-set=":emojify:dokkaHtml/testRelease,:emojify:dokkaHtml/testFixturesRelease"></a>
+    <div class="table-row" data-filterable-current=":emojify:dokkaHtml/testRelease,:emojify:dokkaHtml/testFixturesRelease" data-filterable-set=":emojify:dokkaHtml/testRelease,:emojify:dokkaHtml/testFixturesRelease">
       <div>
         <div class="main-subrow ">
           <div class=""><span class="inline-flex">
@@ -71,8 +80,8 @@ if(savedDarkMode === true){
         <div></div>
       </div>
     </div>
-<a data-name="-367494092%2FPackages%2F-934248497" anchor-label="io.wax911.emojify.initializer" id="-367494092%2FPackages%2F-934248497" data-filterable-set=":emojify:dokkaHtml/testRelease :emojify:dokkaHtml/testFixturesRelease"></a>
-    <div class="table-row" data-filterable-current=":emojify:dokkaHtml/testRelease :emojify:dokkaHtml/testFixturesRelease" data-filterable-set=":emojify:dokkaHtml/testRelease :emojify:dokkaHtml/testFixturesRelease">
+<a data-name="-367494092%2FPackages%2F-934248497" anchor-label="io.wax911.emojify.initializer" id="-367494092%2FPackages%2F-934248497" data-filterable-set=":emojify:dokkaHtml/testRelease,:emojify:dokkaHtml/testFixturesRelease"></a>
+    <div class="table-row" data-filterable-current=":emojify:dokkaHtml/testRelease,:emojify:dokkaHtml/testFixturesRelease" data-filterable-set=":emojify:dokkaHtml/testRelease,:emojify:dokkaHtml/testFixturesRelease">
       <div>
         <div class="main-subrow ">
           <div class=""><span class="inline-flex">
@@ -90,8 +99,8 @@ if(savedDarkMode === true){
         <div></div>
       </div>
     </div>
-<a data-name="-948361921%2FPackages%2F-934248497" anchor-label="io.wax911.emojify.manager" id="-948361921%2FPackages%2F-934248497" data-filterable-set=":emojify:dokkaHtml/testRelease :emojify:dokkaHtml/testFixturesRelease"></a>
-    <div class="table-row" data-filterable-current=":emojify:dokkaHtml/testRelease :emojify:dokkaHtml/testFixturesRelease" data-filterable-set=":emojify:dokkaHtml/testRelease :emojify:dokkaHtml/testFixturesRelease">
+<a data-name="-948361921%2FPackages%2F-934248497" anchor-label="io.wax911.emojify.manager" id="-948361921%2FPackages%2F-934248497" data-filterable-set=":emojify:dokkaHtml/testRelease,:emojify:dokkaHtml/testFixturesRelease"></a>
+    <div class="table-row" data-filterable-current=":emojify:dokkaHtml/testRelease,:emojify:dokkaHtml/testFixturesRelease" data-filterable-set=":emojify:dokkaHtml/testRelease,:emojify:dokkaHtml/testFixturesRelease">
       <div>
         <div class="main-subrow ">
           <div class=""><span class="inline-flex">
@@ -109,8 +118,8 @@ if(savedDarkMode === true){
         <div></div>
       </div>
     </div>
-<a data-name="535194043%2FPackages%2F-934248497" anchor-label="io.wax911.emojify.model" id="535194043%2FPackages%2F-934248497" data-filterable-set=":emojify:dokkaHtml/testRelease :emojify:dokkaHtml/testFixturesRelease"></a>
-    <div class="table-row" data-filterable-current=":emojify:dokkaHtml/testRelease :emojify:dokkaHtml/testFixturesRelease" data-filterable-set=":emojify:dokkaHtml/testRelease :emojify:dokkaHtml/testFixturesRelease">
+<a data-name="535194043%2FPackages%2F-934248497" anchor-label="io.wax911.emojify.model" id="535194043%2FPackages%2F-934248497" data-filterable-set=":emojify:dokkaHtml/testRelease,:emojify:dokkaHtml/testFixturesRelease"></a>
+    <div class="table-row" data-filterable-current=":emojify:dokkaHtml/testRelease,:emojify:dokkaHtml/testFixturesRelease" data-filterable-set=":emojify:dokkaHtml/testRelease,:emojify:dokkaHtml/testFixturesRelease">
       <div>
         <div class="main-subrow ">
           <div class=""><span class="inline-flex">
@@ -128,8 +137,8 @@ if(savedDarkMode === true){
         <div></div>
       </div>
     </div>
-<a data-name="-2072194223%2FPackages%2F-934248497" anchor-label="io.wax911.emojify.parser" id="-2072194223%2FPackages%2F-934248497" data-filterable-set=":emojify:dokkaHtml/testRelease :emojify:dokkaHtml/testFixturesRelease"></a>
-    <div class="table-row" data-filterable-current=":emojify:dokkaHtml/testRelease :emojify:dokkaHtml/testFixturesRelease" data-filterable-set=":emojify:dokkaHtml/testRelease :emojify:dokkaHtml/testFixturesRelease">
+<a data-name="-2072194223%2FPackages%2F-934248497" anchor-label="io.wax911.emojify.parser" id="-2072194223%2FPackages%2F-934248497" data-filterable-set=":emojify:dokkaHtml/testRelease,:emojify:dokkaHtml/testFixturesRelease"></a>
+    <div class="table-row" data-filterable-current=":emojify:dokkaHtml/testRelease,:emojify:dokkaHtml/testFixturesRelease" data-filterable-set=":emojify:dokkaHtml/testRelease,:emojify:dokkaHtml/testFixturesRelease">
       <div>
         <div class="main-subrow ">
           <div class=""><span class="inline-flex">
@@ -147,8 +156,8 @@ if(savedDarkMode === true){
         <div></div>
       </div>
     </div>
-<a data-name="-84090249%2FPackages%2F-934248497" anchor-label="io.wax911.emojify.parser.action" id="-84090249%2FPackages%2F-934248497" data-filterable-set=":emojify:dokkaHtml/testRelease :emojify:dokkaHtml/testFixturesRelease"></a>
-    <div class="table-row" data-filterable-current=":emojify:dokkaHtml/testRelease :emojify:dokkaHtml/testFixturesRelease" data-filterable-set=":emojify:dokkaHtml/testRelease :emojify:dokkaHtml/testFixturesRelease">
+<a data-name="-84090249%2FPackages%2F-934248497" anchor-label="io.wax911.emojify.parser.action" id="-84090249%2FPackages%2F-934248497" data-filterable-set=":emojify:dokkaHtml/testRelease,:emojify:dokkaHtml/testFixturesRelease"></a>
+    <div class="table-row" data-filterable-current=":emojify:dokkaHtml/testRelease,:emojify:dokkaHtml/testFixturesRelease" data-filterable-set=":emojify:dokkaHtml/testRelease,:emojify:dokkaHtml/testFixturesRelease">
       <div>
         <div class="main-subrow ">
           <div class=""><span class="inline-flex">
@@ -166,8 +175,8 @@ if(savedDarkMode === true){
         <div></div>
       </div>
     </div>
-<a data-name="-1899045530%2FPackages%2F-934248497" anchor-label="io.wax911.emojify.parser.candidate" id="-1899045530%2FPackages%2F-934248497" data-filterable-set=":emojify:dokkaHtml/testRelease :emojify:dokkaHtml/testFixturesRelease"></a>
-    <div class="table-row" data-filterable-current=":emojify:dokkaHtml/testRelease :emojify:dokkaHtml/testFixturesRelease" data-filterable-set=":emojify:dokkaHtml/testRelease :emojify:dokkaHtml/testFixturesRelease">
+<a data-name="-1899045530%2FPackages%2F-934248497" anchor-label="io.wax911.emojify.parser.candidate" id="-1899045530%2FPackages%2F-934248497" data-filterable-set=":emojify:dokkaHtml/testRelease,:emojify:dokkaHtml/testFixturesRelease"></a>
+    <div class="table-row" data-filterable-current=":emojify:dokkaHtml/testRelease,:emojify:dokkaHtml/testFixturesRelease" data-filterable-set=":emojify:dokkaHtml/testRelease,:emojify:dokkaHtml/testFixturesRelease">
       <div>
         <div class="main-subrow ">
           <div class=""><span class="inline-flex">
@@ -185,8 +194,8 @@ if(savedDarkMode === true){
         <div></div>
       </div>
     </div>
-<a data-name="-1496472084%2FPackages%2F-934248497" anchor-label="io.wax911.emojify.parser.common" id="-1496472084%2FPackages%2F-934248497" data-filterable-set=":emojify:dokkaHtml/testRelease :emojify:dokkaHtml/testFixturesRelease"></a>
-    <div class="table-row" data-filterable-current=":emojify:dokkaHtml/testRelease :emojify:dokkaHtml/testFixturesRelease" data-filterable-set=":emojify:dokkaHtml/testRelease :emojify:dokkaHtml/testFixturesRelease">
+<a data-name="-1496472084%2FPackages%2F-934248497" anchor-label="io.wax911.emojify.parser.common" id="-1496472084%2FPackages%2F-934248497" data-filterable-set=":emojify:dokkaHtml/testRelease,:emojify:dokkaHtml/testFixturesRelease"></a>
+    <div class="table-row" data-filterable-current=":emojify:dokkaHtml/testRelease,:emojify:dokkaHtml/testFixturesRelease" data-filterable-set=":emojify:dokkaHtml/testRelease,:emojify:dokkaHtml/testFixturesRelease">
       <div>
         <div class="main-subrow ">
           <div class=""><span class="inline-flex">
@@ -204,8 +213,8 @@ if(savedDarkMode === true){
         <div></div>
       </div>
     </div>
-<a data-name="706967868%2FPackages%2F-934248497" anchor-label="io.wax911.emojify.parser.transformer" id="706967868%2FPackages%2F-934248497" data-filterable-set=":emojify:dokkaHtml/testRelease :emojify:dokkaHtml/testFixturesRelease"></a>
-    <div class="table-row" data-filterable-current=":emojify:dokkaHtml/testRelease :emojify:dokkaHtml/testFixturesRelease" data-filterable-set=":emojify:dokkaHtml/testRelease :emojify:dokkaHtml/testFixturesRelease">
+<a data-name="706967868%2FPackages%2F-934248497" anchor-label="io.wax911.emojify.parser.transformer" id="706967868%2FPackages%2F-934248497" data-filterable-set=":emojify:dokkaHtml/testRelease,:emojify:dokkaHtml/testFixturesRelease"></a>
+    <div class="table-row" data-filterable-current=":emojify:dokkaHtml/testRelease,:emojify:dokkaHtml/testFixturesRelease" data-filterable-set=":emojify:dokkaHtml/testRelease,:emojify:dokkaHtml/testFixturesRelease">
       <div>
         <div class="main-subrow ">
           <div class=""><span class="inline-flex">
@@ -223,8 +232,8 @@ if(savedDarkMode === true){
         <div></div>
       </div>
     </div>
-<a data-name="559097204%2FPackages%2F-934248497" anchor-label="io.wax911.emojify.util" id="559097204%2FPackages%2F-934248497" data-filterable-set=":emojify:dokkaHtml/testRelease :emojify:dokkaHtml/testFixturesRelease"></a>
-    <div class="table-row" data-filterable-current=":emojify:dokkaHtml/testRelease :emojify:dokkaHtml/testFixturesRelease" data-filterable-set=":emojify:dokkaHtml/testRelease :emojify:dokkaHtml/testFixturesRelease">
+<a data-name="559097204%2FPackages%2F-934248497" anchor-label="io.wax911.emojify.util" id="559097204%2FPackages%2F-934248497" data-filterable-set=":emojify:dokkaHtml/testRelease,:emojify:dokkaHtml/testFixturesRelease"></a>
+    <div class="table-row" data-filterable-current=":emojify:dokkaHtml/testRelease,:emojify:dokkaHtml/testFixturesRelease" data-filterable-set=":emojify:dokkaHtml/testRelease,:emojify:dokkaHtml/testFixturesRelease">
       <div>
         <div class="main-subrow ">
           <div class=""><span class="inline-flex">
@@ -242,8 +251,8 @@ if(savedDarkMode === true){
         <div></div>
       </div>
     </div>
-<a data-name="-1450820904%2FPackages%2F-934248497" anchor-label="io.wax911.emojify.util.trie" id="-1450820904%2FPackages%2F-934248497" data-filterable-set=":emojify:dokkaHtml/testRelease :emojify:dokkaHtml/testFixturesRelease"></a>
-    <div class="table-row" data-filterable-current=":emojify:dokkaHtml/testRelease :emojify:dokkaHtml/testFixturesRelease" data-filterable-set=":emojify:dokkaHtml/testRelease :emojify:dokkaHtml/testFixturesRelease">
+<a data-name="-1450820904%2FPackages%2F-934248497" anchor-label="io.wax911.emojify.util.trie" id="-1450820904%2FPackages%2F-934248497" data-filterable-set=":emojify:dokkaHtml/testRelease,:emojify:dokkaHtml/testFixturesRelease"></a>
+    <div class="table-row" data-filterable-current=":emojify:dokkaHtml/testRelease,:emojify:dokkaHtml/testFixturesRelease" data-filterable-set=":emojify:dokkaHtml/testRelease,:emojify:dokkaHtml/testFixturesRelease">
       <div>
         <div class="main-subrow ">
           <div class=""><span class="inline-flex">
@@ -263,10 +272,11 @@ if(savedDarkMode === true){
     </div>
   </div>
 </div>
-        <div class="footer"><span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2023 Copyright</span><span
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2023 Copyright</span><span
                 class="pull-right"><span>Generated by </span><a
                 href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
-        </div>
+      </div>
     </div>
 </div>
 </body>
