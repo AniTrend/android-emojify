@@ -1,31 +1,30 @@
 ---
 name: Feature Request
-about: Got a suggestion? Then this is what you should use
-
+about: Suggest an idea or feature for this project
+labels: ["feature request"]
 ---
 
-# Issue Guidelines
+# AniTrend Issue Guidelines
 
-Before opening a new issue, please take a moment to review our [**community guidelines**](https://github.com/AniTrend/android-emojify/blob/master/CONTRIBUTING.md) to make the contribution process easy and effective for everyone involved.
+Before opening a new issue, please take a moment to review our [**community guidelines**](https://github.com/AniTrend/android-emojify/blob/develop/CONTRIBUTING.md) to make the contribution process easy and effective for everyone involved.
 
 **You may find an answer in already closed issues**:
 https://github.com/AniTrend/android-emojify/issues?q=is%3Aissue+is%3Aclosed
 
 
 ## Feature Information
-<!-- Is your feature request related to a problem? Please describe. -->
-
-A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
+<!-- Is your feature request related to a problem? Please describe and be concise. -->
 
 
 ## Solution Information
-<!-- Describe the solution you'd like -->
-
-A clear and concise description of what you want to happen.
-
-**Describe alternatives you've considered**
-A clear and concise description of any alternative solutions or features you've considered.
+<!-- 
+If you have any ideas regarding the creation of the feature please list them here, 
+and if not please remove this section
+-->
 
 
-## Additional context
-Add any other context or screenshots about the feature request here.
+## Additional Context
+<!-- 
+Any other information you might want to share, or that doesn't fit into any of the above headings.
+If not please remove this section
+-->
