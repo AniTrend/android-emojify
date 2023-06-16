@@ -6,7 +6,7 @@ on:
       - '*'
 
 jobs:
-  build:
+  generate-release-file:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code

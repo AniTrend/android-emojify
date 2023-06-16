@@ -23,7 +23,7 @@ jobs:
     - name: Run tests
       run: ./gradlew emojify:test --stacktrace
 
-  android-test:
+  instrumented-test:
     runs-on: macos-latest
     strategy:
       fail-fast: false
