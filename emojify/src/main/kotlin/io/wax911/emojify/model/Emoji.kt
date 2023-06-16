@@ -95,10 +95,9 @@ data class Emoji(
                 """
                         Cannot get the unicode with a fitzpatrick modifier, 
                         the emoji doesn't support fitzpatrick.
-                """.trimIndent()
+                """.trimIndent(),
             )
-        }
-        else if (fitzpatrick == null) {
+        } else if (fitzpatrick == null) {
             return unicode
         }
         return unicode + fitzpatrick.unicode
