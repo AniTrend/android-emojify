@@ -90,15 +90,17 @@ data class Emoji(
      */
     @Throws(UnsupportedOperationException::class)
     fun getUnicode(fitzpatrick: Fitzpatrick?): String {
-        if (!supportsFitzpatrick)
+        if (!supportsFitzpatrick) {
             throw UnsupportedOperationException(
                 """
                         Cannot get the unicode with a fitzpatrick modifier, 
                         the emoji doesn't support fitzpatrick.
                 """.trimIndent()
             )
-        else if (fitzpatrick == null)
+        }
+        else if (fitzpatrick == null) {
             return unicode
+        }
         return unicode + fitzpatrick.unicode
     }
 
