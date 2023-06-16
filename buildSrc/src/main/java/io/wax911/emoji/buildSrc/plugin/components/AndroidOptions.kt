@@ -6,7 +6,7 @@ import org.gradle.kotlin.dsl.get
 import org.jetbrains.dokka.gradle.DokkaTask
 import io.wax911.emoji.buildSrc.plugin.extensions.baseExtension
 import io.wax911.emoji.buildSrc.plugin.extensions.publishingExtension
-import io.wax911.emoji.buildSrc.common.Configuration
+import io.wax911.emoji.buildSrc.plugin.extensions.props
 import io.wax911.emoji.buildSrc.plugin.extensions.isLibraryModule
 import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.kotlin.dsl.getValue
@@ -23,7 +23,7 @@ private fun Project.createMavenPublicationUsing(sourcesJar: Jar) {
         create("maven", MavenPublication::class.java) {
             groupId = "io.wax911.emoji"
             artifactId = project.name
-            version = Configuration.versionName
+            version = props[PropertyTypes.VERSION]
 
             artifact(sourcesJar)
             artifact("${project.buildDir}/outputs/aar/${project.name}-release.aar")
