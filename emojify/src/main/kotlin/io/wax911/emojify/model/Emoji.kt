@@ -41,7 +41,7 @@ data class Emoji(
     @SerialName("emojiChar") val emojiChar: String,
     @SerialName("supports_fitzpatrick") val supportsFitzpatrick: Boolean = false,
     @SerialName("supports_gender") val supportsGender: Boolean = false,
-    @SerialName("tags") val tags: List<String>? = null
+    @SerialName("tags") val tags: List<String>? = null,
 ) {
     var unicode: String = ""
     var htmlDec: String = ""
@@ -90,15 +90,16 @@ data class Emoji(
      */
     @Throws(UnsupportedOperationException::class)
     fun getUnicode(fitzpatrick: Fitzpatrick?): String {
-        if (!supportsFitzpatrick)
+        if (!supportsFitzpatrick) {
             throw UnsupportedOperationException(
                 """
                         Cannot get the unicode with a fitzpatrick modifier, 
                         the emoji doesn't support fitzpatrick.
-                """.trimIndent()
+                """.trimIndent(),
             )
-        else if (fitzpatrick == null)
+        } else if (fitzpatrick == null) {
             return unicode
+        }
         return unicode + fitzpatrick.unicode
     }
 

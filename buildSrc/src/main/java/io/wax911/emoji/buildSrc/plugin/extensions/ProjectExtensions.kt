@@ -16,6 +16,7 @@ import org.gradle.accessors.dm.LibrariesForLibs
 import org.jetbrains.kotlin.gradle.dsl.KotlinAndroidProjectExtension
 import org.jetbrains.kotlin.gradle.testing.internal.KotlinTestsRegistry
 import io.wax911.emoji.buildSrc.module.Modules
+import io.wax911.emoji.buildSrc.plugin.components.PropertiesReader
 
 fun Project.isSampleModule() =
     name == Modules.App.Sample.id
@@ -25,6 +26,9 @@ fun Project.isLibraryModule() =
 
 internal val Project.libs: LibrariesForLibs get() =
     extensions.getByType<LibrariesForLibs>()
+
+internal val Project.props: PropertiesReader
+    get() = PropertiesReader(this)
 
 internal fun Project.baseExtension() =
     extensions.getByType<BaseExtension>()

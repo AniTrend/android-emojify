@@ -1,6 +1,5 @@
 package io.wax911.emoji.buildSrc.plugin.components
 
-import io.wax911.emoji.buildSrc.common.Configuration
 import com.android.build.gradle.internal.dsl.DefaultConfig
 import io.wax911.emoji.buildSrc.plugin.extensions.*
 import io.wax911.emoji.buildSrc.plugin.extensions.baseAppExtension
@@ -49,12 +48,12 @@ private fun DefaultConfig.applyAdditionalConfiguration(project: Project) {
 }
 
 internal fun Project.configureAndroid(): Unit = baseExtension().run {
-    compileSdkVersion(Configuration.compileSdk)
+    compileSdkVersion(33)
     defaultConfig {
-        minSdk = Configuration.minSdk
-        targetSdk = Configuration.targetSdk
-        versionCode = Configuration.versionCode
-        versionName = Configuration.versionName
+        minSdk = 23
+        targetSdk = 33
+        versionCode = props[PropertyTypes.CODE].toInt()
+        versionName = props[PropertyTypes.VERSION]
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         applyAdditionalConfiguration(project)
     }
