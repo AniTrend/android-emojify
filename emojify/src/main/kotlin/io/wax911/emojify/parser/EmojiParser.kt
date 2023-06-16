@@ -61,7 +61,7 @@ private val ALIAS_CANDIDATE_PATTERN = Pattern.compile(
 @JvmOverloads
 fun EmojiManager.parseToAliases(
     input: String,
-    fitzpatrickAction: FitzpatrickAction = FitzpatrickAction.PARSE
+    fitzpatrickAction: FitzpatrickAction = FitzpatrickAction.PARSE,
 ): String {
     val emojiTransformer = object : EmojiTransformer {
         override fun transform(unicodeCandidate: UnicodeCandidate): String {

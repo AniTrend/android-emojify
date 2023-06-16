@@ -41,7 +41,7 @@ data class Emoji(
     @SerialName("emojiChar") val emojiChar: String,
     @SerialName("supports_fitzpatrick") val supportsFitzpatrick: Boolean = false,
     @SerialName("supports_gender") val supportsGender: Boolean = false,
-    @SerialName("tags") val tags: List<String>? = null
+    @SerialName("tags") val tags: List<String>? = null,
 ) {
     var unicode: String = ""
     var htmlDec: String = ""
