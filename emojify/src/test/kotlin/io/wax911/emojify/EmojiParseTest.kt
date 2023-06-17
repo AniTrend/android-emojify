@@ -1,43 +1,39 @@
+/*
+ * Copyright 2023 AniTrend
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package io.wax911.emojify
 
-import androidx.startup.AppInitializer
-import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
-import androidx.test.platform.app.InstrumentationRegistry
-import io.wax911.emojify.initializer.EmojiInitializer
+import io.wax911.emojify.core.EmojiLoader
 import io.wax911.emojify.model.Emoji
-import io.wax911.emojify.parser.*
 import io.wax911.emojify.parser.action.FitzpatrickAction
+import io.wax911.emojify.parser.extractEmojis
+import io.wax911.emojify.parser.getAliasCandidates
+import io.wax911.emojify.parser.parseToAliases
+import io.wax911.emojify.parser.parseToHtmlDecimal
+import io.wax911.emojify.parser.parseToHtmlHexadecimal
+import io.wax911.emojify.parser.parseToUnicode
+import io.wax911.emojify.parser.removeAllEmojis
+import io.wax911.emojify.parser.removeAllEmojisExcept
+import io.wax911.emojify.parser.removeEmojis
+import io.wax911.emojify.parser.replaceAllEmojis
 import io.wax911.emojify.util.Fitzpatrick
 import org.junit.Assert
-import org.junit.Before
 import org.junit.Test
-import org.junit.runner.RunWith
 
-/**
- * Instrumentation test, which will execute on an Android device.
- *
- * @see [Testing documentation](http://d.android.com/tools/testing)
- */
-@RunWith(AndroidJUnit4ClassRunner::class)
-class EmojiParseTest {
-
-    private val context by lazy { InstrumentationRegistry.getInstrumentation().context }
-
-    private val emojiManager by lazy {
-        AppInitializer.getInstance(context)
-            .initializeComponent(EmojiInitializer::class.java)
-    }
-
-    @Before
-    fun testApplicationContext() {
-        Assert.assertNotNull(context)
-    }
-
-    @Before
-    fun testEmojiLoading() {
-        Assert.assertNotNull(emojiManager)
-        Assert.assertTrue(emojiManager.emojiList.isNotEmpty())
-    }
+class EmojiParseTest : EmojiLoader() {
 
     @Test
     fun parseToAliases_replaces_the_emojis_by_one_of_their_aliases() {
@@ -49,8 +45,8 @@ class EmojiParseTest {
 
         // THEN
         Assert.assertEquals(
-                "An :grinning:awesome :smiley:string with a few :wink:emojis!",
-                result
+            "An :grinning:awesome :smiley:string with a few :wink:emojis!",
+            result,
         )
     }
 
@@ -65,11 +61,10 @@ class EmojiParseTest {
 
         // THEN
         Assert.assertEquals(
-                "An :)awesome :)string with a few :)emojis!",
-                result
+            "An :)awesome :)string with a few :)emojis!",
+            result,
         )
     }
-
 
     @Test
     fun parseToAliases_REPLACE_with_a_fitzpatrick_modifier() {
@@ -139,8 +134,8 @@ class EmojiParseTest {
         // WHEN
         val result = emojiManager.parseToAliases(str)
 
-        //With greedy parsing, this will give :man::woman::boy:
-        //THEN
+        // With greedy parsing, this will give :man::woman::boy:
+        // THEN
         Assert.assertEquals(":family_man_woman_boy:", result)
     }
 
@@ -152,7 +147,7 @@ class EmojiParseTest {
         // WHEN
         val result = emojiManager.parseToAliases(str)
 
-        //THEN
+        // THEN
         Assert.assertEquals(":woman::man::boy:", result)
     }
 
@@ -166,8 +161,8 @@ class EmojiParseTest {
 
         // THEN
         Assert.assertEquals(
-                "An &#128512;awesome &#128515;string with a few &#128521;emojis!",
-                result
+            "An &#128512;awesome &#128515;string with a few &#128521;emojis!",
+            result,
         )
     }
 
@@ -178,8 +173,8 @@ class EmojiParseTest {
 
         // WHEN
         val result = emojiManager.parseToHtmlDecimal(
-                str,
-                FitzpatrickAction.PARSE
+            str,
+            FitzpatrickAction.PARSE,
         )
 
         // THEN
@@ -193,8 +188,8 @@ class EmojiParseTest {
 
         // WHEN
         val result = emojiManager.parseToHtmlDecimal(
-                str,
-                FitzpatrickAction.REMOVE
+            str,
+            FitzpatrickAction.REMOVE,
         )
 
         // THEN
@@ -208,8 +203,8 @@ class EmojiParseTest {
 
         // WHEN
         val result = emojiManager.parseToHtmlDecimal(
-                str,
-                FitzpatrickAction.IGNORE
+            str,
+            FitzpatrickAction.IGNORE,
         )
 
         // THEN
@@ -226,8 +221,8 @@ class EmojiParseTest {
 
         // THEN
         Assert.assertEquals(
-                "An &#x1f600;awesome &#x1f603;string with a few &#x1f609;emojis!",
-                result
+            "An &#x1f600;awesome &#x1f603;string with a few &#x1f609;emojis!",
+            result,
         )
     }
 
@@ -238,8 +233,8 @@ class EmojiParseTest {
 
         // WHEN
         val result = emojiManager.parseToHtmlHexadecimal(
-                str,
-                FitzpatrickAction.PARSE
+            str,
+            FitzpatrickAction.PARSE,
         )
 
         // THEN
@@ -253,8 +248,8 @@ class EmojiParseTest {
 
         // WHEN
         val result = emojiManager.parseToHtmlHexadecimal(
-                str,
-                FitzpatrickAction.REMOVE
+            str,
+            FitzpatrickAction.REMOVE,
         )
 
         // THEN
@@ -268,8 +263,8 @@ class EmojiParseTest {
 
         // WHEN
         val result = emojiManager.parseToHtmlHexadecimal(
-                str,
-                FitzpatrickAction.IGNORE
+            str,
+            FitzpatrickAction.IGNORE,
         )
 
         // THEN
@@ -298,8 +293,8 @@ class EmojiParseTest {
 
         // THEN
         Assert.assertEquals(
-                "An \uD83D\uDC4Dawesome 😃string 😄with a few 😉emojis!",
-                result
+            "An \uD83D\uDC4Dawesome 😃string 😄with a few 😉emojis!",
+            result,
         )
     }
 
@@ -313,8 +308,8 @@ class EmojiParseTest {
 
         // THEN
         Assert.assertEquals(
-                "An \uD83D\uDC4Eawesome 😃string 😄with a few 😉emojis!",
-                result
+            "An \uD83D\uDC4Eawesome 😃string 😄with a few 😉emojis!",
+            result,
         )
     }
 
@@ -328,8 +323,8 @@ class EmojiParseTest {
 
         // THEN
         Assert.assertEquals(
-                "An \uD83D\uDC4Dawesome 😃string 😄with a few 😉emojis!",
-                result
+            "An \uD83D\uDC4Dawesome 😃string 😄with a few 😉emojis!",
+            result,
         )
     }
 
@@ -576,6 +571,5 @@ class EmojiParseTest {
         Assert.assertEquals("😀", result[0])
         Assert.assertEquals("😃", result[1])
         Assert.assertEquals("😉", result[2])
-
     }
 }
