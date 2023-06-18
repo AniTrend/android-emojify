@@ -24,9 +24,9 @@ jobs:
       run: chmod +x gradlew
     - name: Run tests
       run: |
-        ./gradlew emojify:preTest --stacktrace
+        ./gradlew emojify:preTest
         ./gradlew emojify:test --stacktrace
-        ./gradlew emojify:postTest --stacktrace
+        ./gradlew emojify:postTest
     - name: Publish Test Report
       uses: mikepenz/action-junit-report@v3
       if: always() # always run even if the previous step fails
@@ -39,10 +39,8 @@ jobs:
       fail-fast: false
       matrix:
         api-level:
-          - 21
-          - 24
-          - 26
-          - 29
+          - 23
+          - 33
     steps:
       - uses: actions/checkout@v3
       - uses: gradle/wrapper-validation-action@v1
@@ -58,8 +56,4 @@ jobs:
           script: ./gradlew connectedCheck
         env:
           API_LEVEL: ${{ matrix.api-level }}
-      - name: Publish Test Report
-        uses: mikepenz/action-junit-report@v3
-        if: always() # always run even if the previous step fails
-        with:
-          report_paths: '**/build/test-results/test/TEST-*.xml'
+
