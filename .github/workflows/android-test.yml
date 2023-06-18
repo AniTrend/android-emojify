@@ -1,4 +1,4 @@
-name: gradle-unit-test
+name: android-test
 
 on: 
   push:
@@ -10,7 +10,7 @@ on:
       - "app/src/main/**"
 
 jobs:
-  unit-test:
+  unit:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
@@ -23,18 +23,24 @@ jobs:
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
     - name: Run tests
-      run: ./gradlew emojify:test --stacktrace
+      run: |
+        ./gradlew emojify:preTest
+        ./gradlew emojify:test --stacktrace
+        ./gradlew emojify:postTest
+    - name: Publish Test Report
+      uses: mikepenz/action-junit-report@v3
+      if: always() # always run even if the previous step fails
+      with:
+        report_paths: '**/build/test-results/test/TEST-*.xml'
 
-  instrumented-test:
+  instrumented:
     runs-on: macos-latest
     strategy:
       fail-fast: false
       matrix:
         api-level:
-          - 21
-          - 24
-          - 26
-          - 29
+          - 23
+          - 33
     steps:
       - uses: actions/checkout@v3
       - uses: gradle/wrapper-validation-action@v1
@@ -50,8 +56,4 @@ jobs:
           script: ./gradlew connectedCheck
         env:
           API_LEVEL: ${{ matrix.api-level }}
-      - name: Publish Test Report
-        uses: mikepenz/action-junit-report@v3
-        if: always() # always run even if the previous step fails
-        with:
-          report_paths: '**/build/test-results/test/TEST-*.xml'
+
