@@ -1,4 +1,4 @@
-name: gradle-unit-test
+name: android-test
 
 on: 
   push:
@@ -10,7 +10,7 @@ on:
       - "app/src/main/**"
 
 jobs:
-  unit-test:
+  unit:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
@@ -33,7 +33,7 @@ jobs:
       with:
         report_paths: '**/build/test-results/test/TEST-*.xml'
 
-  instrumented-test:
+  instrumented:
     runs-on: macos-latest
     strategy:
       fail-fast: false
