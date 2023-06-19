@@ -23,10 +23,15 @@ import io.wax911.emojify.util.trie.Node
 class EmojiTrie(emojis: Collection<Emoji>) {
     private val root = Node()
 
+    var maxDepth = 0
+
     init {
+        var maximumDepth = 0
         emojis.forEach { emoji ->
             var tree: Node? = root
-            emoji.unicode.toCharArray().forEach { c ->
+            val chars = emoji.unicode.toCharArray()
+            maximumDepth = maximumDepth.coerceAtLeast(chars.size)
+            chars.forEach { c ->
                 if (tree?.hasChild(c) == false) {
                     tree?.addChild(c)
                 }
@@ -34,6 +39,7 @@ class EmojiTrie(emojis: Collection<Emoji>) {
             }
             tree?.emoji = emoji
         }
+        maxDepth = maximumDepth
     }
 
     /**
@@ -47,17 +53,29 @@ class EmojiTrie(emojis: Collection<Emoji>) {
      * - [Matches.POSSIBLY] if char sequence matches prefix of an emoji
      * - [Matches.IMPOSSIBLE] if char sequence matches no emoji or prefix of an emoji
      */
-    fun isEmoji(sequence: CharArray?): Matches {
+    @Throws(ArrayIndexOutOfBoundsException::class)
+    @JvmOverloads
+    fun isEmoji(
+        sequence: CharArray?,
+        start: Int = 0,
+        end: Int = sequence?.size ?: 0,
+    ): Matches {
         if (sequence == null) {
             return Matches.POSSIBLY
         }
 
+        if (start < 0 || start > end || end > sequence.size) {
+            throw ArrayIndexOutOfBoundsException(
+                "start " + start + ", end " + end + ", length " + sequence.size,
+            )
+        }
+
         var tree: Node? = root
-        sequence.forEach { c ->
-            if (tree?.hasChild(c) == false) {
+        for (index in start until end) {
+            if (tree?.hasChild(sequence[index]) == false) {
                 return Matches.IMPOSSIBLE
             }
-            tree = tree?.getChild(c)
+            tree = tree?.getChild(sequence[index])
         }
 
         return if (tree?.isEndOfEmoji == true) {
@@ -74,13 +92,25 @@ class EmojiTrie(emojis: Collection<Emoji>) {
      *
      * @return Emoji instance if unicode matches and emoji, null otherwise.
      */
-    fun getEmoji(unicode: String): Emoji? {
+    @Throws(ArrayIndexOutOfBoundsException::class)
+    @JvmOverloads
+    fun getEmoji(
+        unicode: CharArray,
+        start: Int = 0,
+        end: Int = unicode.size,
+    ): Emoji? {
+        if (start < 0 || start > end || end > unicode.size) {
+            throw ArrayIndexOutOfBoundsException(
+                "start " + start + ", end " + end + ", length " + unicode.size,
+            )
+        }
+
         var tree: Node? = root
-        unicode.toCharArray().forEach { c ->
-            if (tree?.hasChild(c) == false) {
+        for (index in start until end) {
+            if (tree?.hasChild(unicode[index]) == false) {
                 return null
             }
-            tree = tree?.getChild(c)
+            tree = tree?.getChild(unicode[index])
         }
         return tree?.emoji
     }

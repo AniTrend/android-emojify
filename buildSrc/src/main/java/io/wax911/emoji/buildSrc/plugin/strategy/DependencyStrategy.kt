@@ -1,8 +1,9 @@
 package io.wax911.emoji.buildSrc.plugin.strategy
 
-import io.wax911.emoji.buildSrc.plugin.extensions.*
 import io.wax911.emoji.buildSrc.plugin.extensions.androidTestImplementation
 import io.wax911.emoji.buildSrc.plugin.extensions.implementation
+import io.wax911.emoji.buildSrc.plugin.extensions.isSampleModule
+import io.wax911.emoji.buildSrc.plugin.extensions.libs
 import io.wax911.emoji.buildSrc.plugin.extensions.testImplementation
 import org.gradle.api.Project
 import org.gradle.api.artifacts.dsl.DependencyHandler

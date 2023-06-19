@@ -22,11 +22,7 @@ import io.wax911.emojify.parser.action.FitzpatrickAction
 import io.wax911.emojify.parser.candidate.AliasCandidate
 import io.wax911.emojify.parser.candidate.UnicodeCandidate
 import io.wax911.emojify.parser.transformer.EmojiTransformer
-import java.util.regex.Pattern
-
-private val ALIAS_CANDIDATE_PATTERN = Pattern.compile(
-    "(?<=:)\\+?(\\w|\\||\\-)+(?=:)",
-)
+import io.wax911.emojify.util.Fitzpatrick
 
 /**
  * Replaces the emoji's unicode occurrences by one of their alias
@@ -64,7 +60,7 @@ fun EmojiManager.parseToAliases(
     fitzpatrickAction: FitzpatrickAction = FitzpatrickAction.PARSE,
 ): String {
     val emojiTransformer = object : EmojiTransformer {
-        override fun transform(unicodeCandidate: UnicodeCandidate): String {
+        override fun invoke(unicodeCandidate: UnicodeCandidate): String {
             val alias = unicodeCandidate.emoji?.aliases?.get(0)
             val fitzpatrickType = unicodeCandidate.fitzpatrickType
             val fitzpatrickUnicode = unicodeCandidate.fitzpatrickUnicode
@@ -76,6 +72,7 @@ fun EmojiManager.parseToAliases(
                         ":$alias:"
                     }
                 }
+
                 FitzpatrickAction.REMOVE -> return ":$alias:"
                 FitzpatrickAction.IGNORE -> return ":$alias:$fitzpatrickUnicode"
                 else -> {
@@ -101,9 +98,7 @@ fun EmojiManager.parseToAliases(
  */
 fun EmojiManager.replaceAllEmojis(str: String, replacementString: String): String {
     val emojiTransformer = object : EmojiTransformer {
-        override fun transform(unicodeCandidate: UnicodeCandidate): String {
-            return replacementString
-        }
+        override fun invoke(unicodeCandidate: UnicodeCandidate) = replacementString
     }
 
     return parseFromUnicode(str, emojiTransformer)
@@ -125,53 +120,100 @@ fun EmojiManager.replaceAllEmojis(str: String, replacementString: String): Strin
  * their unicode.
  */
 fun EmojiManager.parseToUnicode(input: String): String {
-    // Get all the potential aliases
-    val candidates = getAliasCandidates(input)
+    val sb = StringBuilder(input.length)
 
-    // Replace the aliases by their unicode
-    var result = input
-    for (candidate in candidates) {
-        getForAlias(candidate.alias)?.apply {
-            if (supportsFitzpatrick || !supportsFitzpatrick && candidate.fitzpatrick == null) {
-                var replacement = unicode
-                if (candidate.fitzpatrick != null) {
-                    replacement += candidate.fitzpatrick.unicode
-                }
-                result = result.replace(":${candidate.fullString}:", replacement)
-            }
+    var last = 0
+    while (last < input.length) {
+        var alias: AliasCandidate? = aliasCandidateAt(input, last)
+        if (alias == null) {
+            alias = htmlEncodedEmojiAt(input, last)
         }
+
+        if (alias != null) {
+            sb.append(alias.emoji.unicode)
+            last = alias.endIndex
+
+            if (alias.fitzpatrick != null) {
+                sb.append(alias.fitzpatrick!!.unicode)
+            }
+        } else {
+            sb.append(input[last])
+        }
+        last++
     }
 
-    // Replace the html
-    for (emoji in emojiList) {
-        result = result.replace(emoji.htmlHex, emoji.unicode)
-        result = result.replace(emoji.htmlDec, emoji.unicode)
-    }
-
-    return result
+    return sb.toString()
 }
 
-internal fun getAliasCandidates(input: String): List<AliasCandidate> {
-    val candidates = ArrayList<AliasCandidate>()
+internal fun EmojiManager.aliasCandidateAt(input: String, start: Int): AliasCandidate? {
+    if (input.length < start + 2 || input[start] != ':') return null; // Aliases start with :
+    val aliasEnd: Int = input.indexOf(':', start + 2) // Alias must be at least 1 char in length
+    if (aliasEnd == -1) return null // No alias end found
 
-    var matcher = ALIAS_CANDIDATE_PATTERN.matcher(input)
-    matcher = matcher.useTransparentBounds(true)
-    while (matcher.find()) {
-        val match = matcher.group()
-        if (!match.contains("|")) {
-            candidates.add(AliasCandidate(match, match, null))
-        } else {
-            val splits = match.split("\\|".toRegex())
-                .dropLastWhile { it.isEmpty() }
-                .toTypedArray()
-            if (splits.size == 2 || splits.size > 2) {
-                candidates.add(AliasCandidate(match, splits.first(), splits[1]))
-            } else {
-                candidates.add(AliasCandidate(match, match, null))
-            }
-        }
+    val fitzpatrickStart: Int = input.indexOf('|', start + 2)
+    if (fitzpatrickStart != -1 && fitzpatrickStart < aliasEnd) {
+        val emoji = getForAlias(input.substring(start, fitzpatrickStart)) ?: return null // Not a valid alias
+        if (!emoji.supportsFitzpatrick) return null // Fitzpatrick was specified, but the emoji does not support it
+        val fitzpatrick =
+            Fitzpatrick.fitzpatrickFromType(input.substring(fitzpatrickStart + 1, aliasEnd))
+        return AliasCandidate(emoji, fitzpatrick, start, aliasEnd)
     }
-    return candidates
+
+    val emoji = getForAlias(input.substring(start, aliasEnd)) ?: return null // Not a valid alias
+
+    return AliasCandidate(
+        emoji = emoji,
+        fitzpatrick = null,
+        startIndex = start,
+        endIndex = aliasEnd,
+    )
+}
+
+internal fun EmojiManager.htmlEncodedEmojiAt(input: String, start: Int): AliasCandidate? {
+    if (input.length < start + 4 || input[start] != '&' || input[start + 1] != '#') return null
+
+    var longestEmoji: Emoji? = null
+    var longestCodePointEnd = -1
+    val chars = CharArray(emojiTrie.maxDepth)
+    var charsIndex = 0
+    var codePointStart = start
+    do {
+        val codePointEnd =
+            input.indexOf(';', codePointStart + 3) // Code point must be at least 1 char in length
+        if (codePointEnd == -1) break
+
+        try {
+            val radix = if (input[codePointStart + 2] == 'x') 16 else 10
+            val codePoint =
+                input.substring(codePointStart + 2 + radix / 16, codePointEnd).toInt(radix)
+            charsIndex += Character.toChars(codePoint, chars, charsIndex)
+        } catch (e: NumberFormatException) {
+            break
+        } catch (e: IllegalArgumentException) {
+            break
+        }
+        val foundEmoji = emojiTrie.getEmoji(chars, 0, charsIndex)
+        if (foundEmoji != null) {
+            longestEmoji = foundEmoji
+            longestCodePointEnd = codePointEnd
+        }
+        codePointStart = codePointEnd + 1
+    } while (
+        input.length > codePointStart + 4 &&
+        input[codePointStart] == '&' &&
+        input[codePointStart + 1] == '#' &&
+        charsIndex < chars.size &&
+        !emojiTrie.isEmoji(chars, 0, charsIndex).impossibleMatch()
+    )
+
+    if (longestEmoji == null) return null
+
+    return AliasCandidate(
+        emoji = longestEmoji,
+        fitzpatrick = null,
+        startIndex = start,
+        endIndex = longestCodePointEnd,
+    )
 }
 
 /**
@@ -203,12 +245,13 @@ fun EmojiManager.parseToHtmlDecimal(
     fitzpatrickAction: FitzpatrickAction = FitzpatrickAction.PARSE,
 ): String {
     val emojiTransformer = object : EmojiTransformer {
-        override fun transform(unicodeCandidate: UnicodeCandidate): String? {
+        override fun invoke(unicodeCandidate: UnicodeCandidate): String? {
             return when (fitzpatrickAction) {
                 FitzpatrickAction.PARSE,
                 FitzpatrickAction.REMOVE,
                 ->
                     unicodeCandidate.emoji?.htmlDec
+
                 FitzpatrickAction.IGNORE ->
                     unicodeCandidate.emoji?.htmlDec + unicodeCandidate.fitzpatrickUnicode
             }
@@ -244,14 +287,15 @@ fun EmojiManager.parseToHtmlDecimal(
 fun EmojiManager.parseToHtmlHexadecimal(
     input: String,
     fitzpatrickAction: FitzpatrickAction = FitzpatrickAction.PARSE,
-): String? {
+): String {
     val emojiTransformer = object : EmojiTransformer {
-        override fun transform(unicodeCandidate: UnicodeCandidate): String? {
+        override fun invoke(unicodeCandidate: UnicodeCandidate): String? {
             return when (fitzpatrickAction) {
                 FitzpatrickAction.PARSE,
                 FitzpatrickAction.REMOVE,
                 ->
                     unicodeCandidate.emoji?.htmlHex
+
                 FitzpatrickAction.IGNORE ->
                     unicodeCandidate.emoji?.htmlHex + unicodeCandidate.fitzpatrickUnicode
             }
@@ -270,9 +314,7 @@ fun EmojiManager.parseToHtmlHexadecimal(
  */
 fun EmojiManager.removeAllEmojis(str: String): String {
     val emojiTransformer = object : EmojiTransformer {
-        override fun transform(unicodeCandidate: UnicodeCandidate): String {
-            return ""
-        }
+        override fun invoke(unicodeCandidate: UnicodeCandidate) = ""
     }
 
     return parseFromUnicode(str, emojiTransformer)
@@ -288,7 +330,7 @@ fun EmojiManager.removeAllEmojis(str: String): String {
  */
 fun EmojiManager.removeEmojis(str: String, emojisToRemove: Collection<Emoji>): String {
     val emojiTransformer = object : EmojiTransformer {
-        override fun transform(unicodeCandidate: UnicodeCandidate): String {
+        override fun invoke(unicodeCandidate: UnicodeCandidate): String {
             return if (!emojisToRemove.contains(unicodeCandidate.emoji)) {
                 unicodeCandidate.emoji?.unicode + unicodeCandidate.fitzpatrickUnicode
             } else {
@@ -310,7 +352,7 @@ fun EmojiManager.removeEmojis(str: String, emojisToRemove: Collection<Emoji>): S
  */
 fun EmojiManager.removeAllEmojisExcept(str: String, emojisToKeep: Collection<Emoji>): String {
     val emojiTransformer = object : EmojiTransformer {
-        override fun transform(unicodeCandidate: UnicodeCandidate): String {
+        override fun invoke(unicodeCandidate: UnicodeCandidate): String {
             return if (emojisToKeep.contains(unicodeCandidate.emoji)) {
                 unicodeCandidate.emoji?.unicode + unicodeCandidate.fitzpatrickUnicode
             } else {
@@ -333,12 +375,12 @@ fun EmojiManager.removeAllEmojisExcept(str: String, emojisToKeep: Collection<Emo
  */
 fun EmojiManager.parseFromUnicode(input: String, transformer: EmojiTransformer): String {
     var prev = 0
-    val sb = StringBuilder()
-    val replacements = getUnicodeCandidates(input)
+    val sb = StringBuilder(input.length)
+    val replacements = unicodeCandidates(input)
     for (candidate in replacements) {
         sb.append(input.substring(prev, candidate.emojiStartIndex))
 
-        sb.append(transformer.transform(candidate))
+        sb.append(transformer(candidate))
         prev = candidate.fitzpatrickEndIndex
     }
 
@@ -346,14 +388,15 @@ fun EmojiManager.parseFromUnicode(input: String, transformer: EmojiTransformer):
 }
 
 fun EmojiManager.extractEmojis(input: String): List<String> {
-    val emojis = getUnicodeCandidates(input)
-    val result = ArrayList<String>()
-    for (emoji in emojis) {
-        emoji.emoji?.also {
-            result.add(it.unicode)
+    return unicodeCandidates(input)
+        .mapNotNull { unicodeCandidate ->
+            val emoji = unicodeCandidate.emoji
+            if (emoji?.supportsFitzpatrick == true && unicodeCandidate.hasFitzpatrick()) {
+                emoji.getUnicode(unicodeCandidate.fitzpatrick)
+            } else {
+                emoji?.unicode
+            }
         }
-    }
-    return result
 }
 
 /**
@@ -367,13 +410,13 @@ fun EmojiManager.extractEmojis(input: String): List<String> {
  * @param input String to find all unicode emojis in
  * @return List of UnicodeCandidates for each unicode emote in text
  */
-internal fun EmojiManager.getUnicodeCandidates(input: String): List<UnicodeCandidate> {
+internal fun EmojiManager.unicodeCandidates(input: String): List<UnicodeCandidate> {
     val inputCharArray = input.toCharArray()
     val candidates = ArrayList<UnicodeCandidate>()
     var next: UnicodeCandidate?
     var i = 0
     do {
-        next = getNextUnicodeCandidate(inputCharArray, i)?.apply {
+        next = nextUnicodeCandidate(inputCharArray, i)?.apply {
             candidates.add(this)
             i = fitzpatrickEndIndex
         }
@@ -389,21 +432,21 @@ internal fun EmojiManager.getUnicodeCandidates(input: String): List<UnicodeCandi
  * @param start starting index for search
  * @return the next UnicodeCandidate or null if no UnicodeCandidate is found after start index
  */
-internal fun EmojiManager.getNextUnicodeCandidate(
+internal fun EmojiManager.nextUnicodeCandidate(
     chars: CharArray,
     start: Int,
 ): UnicodeCandidate? {
-    for (i in start until chars.size) {
-        val emojiEnd = getEmojiEndPos(chars, i)
+    for (index in start until chars.size) {
+        val emojiEnd = emojiEndPosition(chars, index)
 
         if (emojiEnd != -1) {
-            val emoji = getByUnicode(String(chars, i, emojiEnd - i))
+            val emoji = getByUnicode(String(chars, index, emojiEnd - index))
             val fitzpatrickString = if (emojiEnd + 2 <= chars.size) {
                 String(chars, emojiEnd, 2)
             } else {
                 null
             }
-            return UnicodeCandidate(emoji, fitzpatrickString, i)
+            return UnicodeCandidate(emoji, fitzpatrickString, index)
         }
     }
 
@@ -423,7 +466,7 @@ internal fun EmojiManager.getNextUnicodeCandidate(
  *
  * @return the end index of the unicode emoji starting at startPos. -1 if not found
  */
-internal fun EmojiManager.getEmojiEndPos(text: CharArray, startPos: Int): Int {
+internal fun EmojiManager.emojiEndPosition(text: CharArray, startPos: Int): Int {
     var best = -1
     for (j in startPos + 1..text.size) {
         val status = isEmoji(text.copyOfRange(startPos, j))

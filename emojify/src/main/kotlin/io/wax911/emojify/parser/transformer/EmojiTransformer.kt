@@ -27,5 +27,5 @@ interface EmojiTransformer {
      *
      * @return Transformation result for the [unicodeCandidate]
      */
-    fun transform(unicodeCandidate: UnicodeCandidate): String?
+    operator fun invoke(unicodeCandidate: UnicodeCandidate): String?
 }

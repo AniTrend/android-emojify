@@ -18,7 +18,9 @@ package io.wax911.emojify
 
 import io.wax911.emojify.core.EmojiLoader
 import io.wax911.emojify.model.Emoji
-import org.junit.Assert
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
@@ -33,7 +35,7 @@ class EmojiManagerTest : EmojiLoader() {
         val trimmed = emojiManager.trimAlias(alias)
 
         // THEN
-        Assert.assertEquals("smile", trimmed)
+        assertEquals("smile", trimmed)
     }
 
     @Test
@@ -44,7 +46,7 @@ class EmojiManagerTest : EmojiLoader() {
         val emojis = emojiManager.getForTag("jkahsgdfjksghfjkshf")
 
         // THEN
-        Assert.assertNull(emojis)
+        assertNull(emojis)
     }
 
     @Test
@@ -55,7 +57,7 @@ class EmojiManagerTest : EmojiLoader() {
         val emojis = emojiManager.getForTag("happy")
 
         // THEN
-        Assert.assertEquals(4, emojis!!.size)
+        assertEquals(4, emojis!!.size)
         assertTrue(
             emojis.containsAliases(
                 "smile",
@@ -74,7 +76,7 @@ class EmojiManagerTest : EmojiLoader() {
         val emoji = emojiManager.getForAlias("jkahsgdfjksghfjkshf")
 
         // THEN
-        Assert.assertNull(emoji)
+        assertNull(emoji)
     }
 
     @Test
@@ -85,7 +87,7 @@ class EmojiManagerTest : EmojiLoader() {
         val emoji = emojiManager.getForAlias("smile")
 
         // THEN
-        Assert.assertEquals(
+        assertEquals(
             "smiling face with open mouth and smiling eyes",
             emoji!!.description,
         )
@@ -99,7 +101,7 @@ class EmojiManagerTest : EmojiLoader() {
         val emoji = emojiManager.getForAlias(":smile:")
 
         // THEN
-        Assert.assertEquals(
+        assertEquals(
             "smiling face with open mouth and smiling eyes",
             emoji!!.description,
         )
@@ -138,7 +140,7 @@ class EmojiManagerTest : EmojiLoader() {
         val isEmoji = emojiManager.isEmoji(str)
 
         // THEN
-        Assert.assertFalse(isEmoji)
+        assertFalse(isEmoji)
     }
 
     @Test
@@ -150,7 +152,7 @@ class EmojiManagerTest : EmojiLoader() {
         val isEmoji = emojiManager.isEmoji(str)
 
         // THEN
-        Assert.assertFalse(isEmoji)
+        assertFalse(isEmoji)
     }
 
     @Test
@@ -186,7 +188,7 @@ class EmojiManagerTest : EmojiLoader() {
         val isEmoji = emojiManager.isOnlyEmojis(str)
 
         // THEN
-        Assert.assertFalse(isEmoji)
+        assertFalse(isEmoji)
     }
 
     @Test
@@ -198,7 +200,7 @@ class EmojiManagerTest : EmojiLoader() {
 
         // THEN
         // We know the number of distinct tags int the...!
-        Assert.assertEquals(656, tags.size)
+        assertEquals(656, tags.size)
     }
 
     @Test
@@ -211,13 +213,13 @@ class EmojiManagerTest : EmojiLoader() {
         // THEN
         val unicodes = HashSet<String>()
         for (emoji in emojis) {
-            Assert.assertFalse(
+            assertFalse(
                 "Duplicate: " + emoji.description!!,
                 unicodes.contains(emoji.unicode),
             )
             unicodes.add(emoji.unicode)
         }
-        Assert.assertEquals(unicodes.size, emojis.size)
+        assertEquals(unicodes.size, emojis.size)
     }
 
     @Test
@@ -238,7 +240,7 @@ class EmojiManagerTest : EmojiLoader() {
                 aliases.add(alias)
             }
         }
-        Assert.assertEquals("Duplicates: $duplicates", duplicates.size, 0)
+        assertEquals("Duplicates: $duplicates", duplicates.size, 0)
     }
 
     companion object {

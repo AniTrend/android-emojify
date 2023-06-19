@@ -9,8 +9,7 @@ private fun Project.applyModulePlugin() {
         plugins.apply("org.jetbrains.dokka")
         plugins.apply("com.diffplug.spotless")
         plugins.apply("maven-publish")
-    }
-    else
+    } else
         plugins.apply("com.android.application")
 }
 

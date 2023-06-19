@@ -2,24 +2,24 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:showIn="@layout/activity_main"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+    android:orientation="vertical"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:showIn="@layout/activity_main">
 
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/edit_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:background="@android:color/transparent"
+        android:gravity="top"
         android:hint="Enter some text.."
         android:inputType="textMultiLine"
-        android:layout_gravity="top"
-        android:textSize="14sp"
-        android:padding="10dp"
-        android:gravity="top"
         android:lines="5"
-        android:background="@android:color/transparent"/>
+        android:padding="10dp"
+        android:textSize="14sp" />
 
     <View
         android:layout_width="match_parent"
@@ -27,20 +27,20 @@
         android:background="@color/colorPrimaryDark" />
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/toEmoji"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:clickable="true"
             android:foreground="?selectableItemBackground"
             android:padding="10dp"
             android:text="Emoji"
             android:textSize="12sp"
-            android:textStyle="bold"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:textStyle="bold" />
 
         <Space
             android:layout_width="10dp"
@@ -48,15 +48,15 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/toHtml"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:clickable="true"
+            android:focusable="true"
             android:foreground="?selectableItemBackground"
             android:padding="10dp"
             android:text="Html"
             android:textSize="12sp"
-            android:textStyle="bold"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:focusable="true" />
+            android:textStyle="bold" />
 
         <Space
             android:layout_width="10dp"
@@ -64,15 +64,15 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/toHexHtml"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:clickable="true"
+            android:focusable="true"
             android:foreground="?selectableItemBackground"
             android:padding="10dp"
             android:text="Hex"
             android:textSize="12sp"
-            android:textStyle="bold"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:focusable="true" />
+            android:textStyle="bold" />
 
         <Space
             android:layout_width="10dp"
@@ -80,15 +80,15 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/toShortCode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:clickable="true"
+            android:focusable="true"
             android:foreground="?selectableItemBackground"
             android:padding="10dp"
             android:text="Short"
             android:textSize="12sp"
-            android:textStyle="bold"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:focusable="true" />
+            android:textStyle="bold" />
 
     </LinearLayout>
 

@@ -1,14 +1,16 @@
 package io.wax911.emojifysample
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.AppCompatEditText
 import android.text.Editable
 import android.text.Spanned
 import android.text.SpannedString
 import android.view.View
 import android.widget.Toast
-import io.wax911.emojify.parser.*
+import androidx.appcompat.app.AppCompatActivity
+import io.wax911.emojify.parser.parseToAliases
+import io.wax911.emojify.parser.parseToHtmlDecimal
+import io.wax911.emojify.parser.parseToHtmlHexadecimal
+import io.wax911.emojify.parser.parseToUnicode
 import io.wax911.emojifysample.databinding.ActivityMainBinding
 import io.wax911.emojifysample.ext.emojiManager
 
@@ -43,12 +45,17 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 // alternatively you could convert your hexHtml to emoji by using Html.fromHtml()
                 //e.g. convertedText = Html.fromHtml(EmojiParser.parseToHtmlHexadecimal(textContent.toString()));
                 convertedText = SpannedString(emojiManager().parseToUnicode(textContent.toString()))
+
             R.id.toHtml ->
                 // alternatively you could convert your hexHtml to emoji by using Html.fromHtml()
                 //e.g. convertedText = Html.fromHtml(EmojiParser.parseToHtmlDecimal(textContent.toString()));
-                convertedText = SpannedString(emojiManager().parseToHtmlDecimal(textContent.toString()))
+                convertedText =
+                    SpannedString(emojiManager().parseToHtmlDecimal(textContent.toString()))
+
             R.id.toHexHtml ->
-                convertedText = SpannedString(emojiManager().parseToHtmlHexadecimal(textContent.toString()))
+                convertedText =
+                    SpannedString(emojiManager().parseToHtmlHexadecimal(textContent.toString()))
+
             R.id.toShortCode ->
                 convertedText = SpannedString(emojiManager().parseToAliases(textContent.toString()))
         }

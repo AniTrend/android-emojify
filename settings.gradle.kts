@@ -1,4 +1,4 @@
-rootProject.name= "android-emojify"
+rootProject.name = "android-emojify"
 include(":emojify")
 
 if (!System.getenv().containsKey("CI"))

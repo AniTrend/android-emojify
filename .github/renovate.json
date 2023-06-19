@@ -3,7 +3,13 @@
   "extends": [
     "config:base"
   ],
-  "labels": ["dependencies"],
-  "baseBranches": ["develop"],
-  "schedule": ["every weekend"]
+  "labels": [
+    "dependencies"
+  ],
+  "baseBranches": [
+    "develop"
+  ],
+  "schedule": [
+    "every weekend"
+  ]
 }
