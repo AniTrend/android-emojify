@@ -1,10 +1,13 @@
 package io.wax911.emoji.buildSrc.plugin.extensions
 
-import org.gradle.api.Project
 import com.android.build.gradle.BaseExtension
 import com.android.build.gradle.LibraryExtension
 import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
 import com.diffplug.gradle.spotless.SpotlessExtension
+import io.wax911.emoji.buildSrc.module.Modules
+import io.wax911.emoji.buildSrc.plugin.components.PropertiesReader
+import org.gradle.accessors.dm.LibrariesForLibs
+import org.gradle.api.Project
 import org.gradle.api.internal.plugins.DefaultArtifactPublicationSet
 import org.gradle.api.plugins.ExtraPropertiesExtension
 import org.gradle.api.plugins.JavaPluginExtension
@@ -12,11 +15,8 @@ import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.reporting.ReportingExtension
 import org.gradle.api.tasks.SourceSetContainer
 import org.gradle.kotlin.dsl.getByType
-import org.gradle.accessors.dm.LibrariesForLibs
 import org.jetbrains.kotlin.gradle.dsl.KotlinAndroidProjectExtension
 import org.jetbrains.kotlin.gradle.testing.internal.KotlinTestsRegistry
-import io.wax911.emoji.buildSrc.module.Modules
-import io.wax911.emoji.buildSrc.plugin.components.PropertiesReader
 
 fun Project.isSampleModule() =
     name == Modules.App.Sample.id
@@ -24,8 +24,9 @@ fun Project.isSampleModule() =
 fun Project.isLibraryModule() =
     name == Modules.Library.Emojify.id
 
-internal val Project.libs: LibrariesForLibs get() =
-    extensions.getByType<LibrariesForLibs>()
+internal val Project.libs: LibrariesForLibs
+    get() =
+        extensions.getByType<LibrariesForLibs>()
 
 internal val Project.props: PropertiesReader
     get() = PropertiesReader(this)
