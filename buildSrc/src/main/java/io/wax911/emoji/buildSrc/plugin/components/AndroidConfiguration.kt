@@ -104,13 +104,11 @@ internal fun Project.configureAndroid(): Unit = baseExtension().run {
             allWarningsAsErrors = false
             kotlinOptions {
                 allWarningsAsErrors = false
-                val compileArgs = mutableListOf("-opt-in=kotlin.Experimental")
+                val compileArgs = mutableListOf<String>()
                 if (isSampleModule()) {
                     compileArgs.add("-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi")
                     compileArgs.add("-opt-in=kotlinx.coroutines.FlowPreview")
-                    compileArgs.add("-opt-in=kotlin.Experimental")
-                } else
-                    compileArgs.add("-opt-in=kotlinx.serialization.ExperimentalSerializationApi")
+                }
                 // Filter out modules that won't be using coroutines
                 freeCompilerArgs = compileArgs
             }
