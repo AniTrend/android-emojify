@@ -71,7 +71,7 @@ class EmojiTrie(emojis: Collection<Emoji>) {
         }
 
         var tree: Node? = root
-        for (index in start until sequence.size) {
+        for (index in start until end) {
             if (tree?.hasChild(sequence[index]) == false) {
                 return Matches.IMPOSSIBLE
             }

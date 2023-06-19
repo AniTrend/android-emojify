@@ -198,7 +198,8 @@ internal fun EmojiManager.htmlEncodedEmojiAt(input: String, start: Int): AliasCa
             longestCodePointEnd = codePointEnd
         }
         codePointStart = codePointEnd + 1
-    } while (input.length > codePointStart + 4 &&
+    } while (
+        input.length > codePointStart + 4 &&
         input[codePointStart] == '&' &&
         input[codePointStart + 1] == '#' &&
         charsIndex < chars.size &&
@@ -374,7 +375,7 @@ fun EmojiManager.removeAllEmojisExcept(str: String, emojisToKeep: Collection<Emo
  */
 fun EmojiManager.parseFromUnicode(input: String, transformer: EmojiTransformer): String {
     var prev = 0
-    val sb = StringBuilder()
+    val sb = StringBuilder(input.length)
     val replacements = unicodeCandidates(input)
     for (candidate in replacements) {
         sb.append(input.substring(prev, candidate.emojiStartIndex))

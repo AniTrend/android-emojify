@@ -19,6 +19,7 @@ package io.wax911.emojify.model
 import io.wax911.emojify.util.Fitzpatrick
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import java.io.UnsupportedEncodingException
 import java.nio.charset.Charset
 
 /**
@@ -51,7 +52,13 @@ data class Emoji(
         runCatching {
             /** Upon init, we initialize optional properties: [unicode], [htmlDec] and [htmlHex] */
             initializeProperties()
-        }.onFailure { it.printStackTrace() }
+        }.onFailure {
+            if (it is UnsupportedEncodingException) {
+                throw RuntimeException(it)
+            } else {
+                it.printStackTrace()
+            }
+        }
     }
 
     @Throws(Exception::class)

@@ -108,7 +108,8 @@ internal fun Project.configureAndroid(): Unit = baseExtension().run {
                 if (isSampleModule()) {
                     compileArgs.add("-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi")
                     compileArgs.add("-opt-in=kotlinx.coroutines.FlowPreview")
-                }
+                } else
+                    compileArgs.add("-opt-in=kotlinx.serialization.ExperimentalSerializationApi")
                 // Filter out modules that won't be using coroutines
                 freeCompilerArgs = compileArgs
             }
