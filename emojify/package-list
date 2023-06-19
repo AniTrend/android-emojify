@@ -52,12 +52,9 @@ $dokka.location:io.wax911.emojify.parser.candidate/UnicodeCandidate/fitzpatrickE
 $dokka.location:io.wax911.emojify.parser.candidate/UnicodeCandidate/fitzpatrickType/#/PointingToDeclaration/emojify/io.wax911.emojify.parser.candidate/[common]-unicode-candidate/fitzpatrick-type.html
 $dokka.location:io.wax911.emojify.parser.candidate/UnicodeCandidate/fitzpatrickUnicode/#/PointingToDeclaration/emojify/io.wax911.emojify.parser.candidate/[common]-unicode-candidate/fitzpatrick-unicode.html
 $dokka.location:io.wax911.emojify.parser.candidate/UnicodeCandidate/hasFitzpatrick/#/PointingToDeclaration/emojify/io.wax911.emojify.parser.candidate/[common]-unicode-candidate/has-fitzpatrick.html
-$dokka.location:io.wax911.emojify.parser.common////PointingToDeclaration/emojify/io.wax911.emojify.parser.common/index.html
-$dokka.location:io.wax911.emojify.parser.common/EmojiTransformer///PointingToDeclaration/emojify/io.wax911.emojify.parser.common/[common]-emoji-transformer/index.html
-$dokka.location:io.wax911.emojify.parser.common/EmojiTransformer/transform/#io.wax911.emojify.parser.candidate.UnicodeCandidate/PointingToDeclaration/emojify/io.wax911.emojify.parser.common/[common]-emoji-transformer/transform.html
 $dokka.location:io.wax911.emojify.parser.transformer////PointingToDeclaration/emojify/io.wax911.emojify.parser.transformer/index.html
 $dokka.location:io.wax911.emojify.parser.transformer/EmojiTransformer///PointingToDeclaration/emojify/io.wax911.emojify.parser.transformer/[common]-emoji-transformer/index.html
-$dokka.location:io.wax911.emojify.parser.transformer/EmojiTransformer/transform/#io.wax911.emojify.parser.candidate.UnicodeCandidate/PointingToDeclaration/emojify/io.wax911.emojify.parser.transformer/[common]-emoji-transformer/transform.html
+$dokka.location:io.wax911.emojify.parser.transformer/EmojiTransformer/invoke/#io.wax911.emojify.parser.candidate.UnicodeCandidate/PointingToDeclaration/emojify/io.wax911.emojify.parser.transformer/[common]-emoji-transformer/invoke.html
 $dokka.location:io.wax911.emojify.parser////PointingToDeclaration/emojify/io.wax911.emojify.parser/index.html
 $dokka.location:io.wax911.emojify.parser//extractEmojis/io.wax911.emojify.EmojiManager#kotlin.String/PointingToDeclaration/emojify/io.wax911.emojify.parser/[common]extract-emojis.html
 $dokka.location:io.wax911.emojify.parser//parseFromUnicode/io.wax911.emojify.EmojiManager#kotlin.String#io.wax911.emojify.parser.transformer.EmojiTransformer/PointingToDeclaration/emojify/io.wax911.emojify.parser/[common]parse-from-unicode.html
@@ -81,8 +78,9 @@ $dokka.location:io.wax911.emojify.util.trie/Node/Node/#/PointingToDeclaration/e
 $dokka.location:io.wax911.emojify.util////PointingToDeclaration/emojify/io.wax911.emojify.util/index.html
 $dokka.location:io.wax911.emojify.util/EmojiTrie///PointingToDeclaration/emojify/io.wax911.emojify.util/[common]-emoji-trie/index.html
 $dokka.location:io.wax911.emojify.util/EmojiTrie/EmojiTrie/#kotlin.collections.Collection[io.wax911.emojify.model.Emoji]/PointingToDeclaration/emojify/io.wax911.emojify.util/[common]-emoji-trie/-emoji-trie.html
-$dokka.location:io.wax911.emojify.util/EmojiTrie/getEmoji/#kotlin.String/PointingToDeclaration/emojify/io.wax911.emojify.util/[common]-emoji-trie/get-emoji.html
-$dokka.location:io.wax911.emojify.util/EmojiTrie/isEmoji/#kotlin.CharArray?/PointingToDeclaration/emojify/io.wax911.emojify.util/[common]-emoji-trie/is-emoji.html
+$dokka.location:io.wax911.emojify.util/EmojiTrie/getEmoji/#kotlin.CharArray#kotlin.Int#kotlin.Int/PointingToDeclaration/emojify/io.wax911.emojify.util/[common]-emoji-trie/get-emoji.html
+$dokka.location:io.wax911.emojify.util/EmojiTrie/isEmoji/#kotlin.CharArray?#kotlin.Int#kotlin.Int/PointingToDeclaration/emojify/io.wax911.emojify.util/[common]-emoji-trie/is-emoji.html
+$dokka.location:io.wax911.emojify.util/EmojiTrie/maxDepth/#/PointingToDeclaration/emojify/io.wax911.emojify.util/[common]-emoji-trie/max-depth.html
 $dokka.location:io.wax911.emojify.util/Fitzpatrick.Companion///PointingToDeclaration/emojify/io.wax911.emojify.util/[common]-fitzpatrick/-companion/index.html
 $dokka.location:io.wax911.emojify.util/Fitzpatrick.Companion/fitzpatrickFromType/#kotlin.String/PointingToDeclaration/emojify/io.wax911.emojify.util/[common]-fitzpatrick/-companion/fitzpatrick-from-type.html
 $dokka.location:io.wax911.emojify.util/Fitzpatrick.Companion/fitzpatrickFromUnicode/#kotlin.String?/PointingToDeclaration/emojify/io.wax911.emojify.util/[common]-fitzpatrick/-companion/fitzpatrick-from-unicode.html
@@ -129,14 +127,13 @@ $dokka.location:io.wax911.emojify/EmojiManagerTest/isOnlyEmojis_for_random_strin
 $dokka.location:io.wax911.emojify/EmojiManagerTest/no_duplicate_alias/#/PointingToDeclaration/emojify/io.wax911.emojify/[common]-emoji-manager-test/no_duplicate_alias.html
 $dokka.location:io.wax911.emojify/EmojiParseTest///PointingToDeclaration/emojify/io.wax911.emojify/[common]-emoji-parse-test/index.html
 $dokka.location:io.wax911.emojify/EmojiParseTest/EmojiParseTest/#/PointingToDeclaration/emojify/io.wax911.emojify/[common]-emoji-parse-test/-emoji-parse-test.html
+$dokka.location:io.wax911.emojify/EmojiParseTest/aliasCandidateAt_with_a_fitzpatrick_modifier/#/PointingToDeclaration/emojify/io.wax911.emojify/[common]-emoji-parse-test/alias-candidate-at_with_a_fitzpatrick_modifier.html
+$dokka.location:io.wax911.emojify/EmojiParseTest/aliasCandidateAt_with_one_alias/#/PointingToDeclaration/emojify/io.wax911.emojify/[common]-emoji-parse-test/alias-candidate-at_with_one_alias.html
+$dokka.location:io.wax911.emojify/EmojiParseTest/aliasCandidateAt_with_one_alias_an_another_colon_after/#/PointingToDeclaration/emojify/io.wax911.emojify/[common]-emoji-parse-test/alias-candidate-at_with_one_alias_an_another_colon_after.html
+$dokka.location:io.wax911.emojify/EmojiParseTest/aliasCandidateAt_with_one_alias_an_another_colon_before_after/#/PointingToDeclaration/emojify/io.wax911.emojify/[common]-emoji-parse-test/alias-candidate-at_with_one_alias_an_another_colon_before_after.html
+$dokka.location:io.wax911.emojify/EmojiParseTest/aliasCandidateAt_with_one_alias_an_another_colon_right_after/#/PointingToDeclaration/emojify/io.wax911.emojify/[common]-emoji-parse-test/alias-candidate-at_with_one_alias_an_another_colon_right_after.html
 $dokka.location:io.wax911.emojify/EmojiParseTest/extractEmojis/#/PointingToDeclaration/emojify/io.wax911.emojify/[common]-emoji-parse-test/extract-emojis.html
-$dokka.location:io.wax911.emojify/EmojiParseTest/getAliasCanditates_with_a_fitzpatrick_modifier/#/PointingToDeclaration/emojify/io.wax911.emojify/[common]-emoji-parse-test/get-alias-canditates_with_a_fitzpatrick_modifier.html
-$dokka.location:io.wax911.emojify/EmojiParseTest/getAliasCanditates_with_one_alias/#/PointingToDeclaration/emojify/io.wax911.emojify/[common]-emoji-parse-test/get-alias-canditates_with_one_alias.html
-$dokka.location:io.wax911.emojify/EmojiParseTest/getAliasCanditates_with_one_alias_an_another_colon_after/#/PointingToDeclaration/emojify/io.wax911.emojify/[common]-emoji-parse-test/get-alias-canditates_with_one_alias_an_another_colon_after.html
-$dokka.location:io.wax911.emojify/EmojiParseTest/getAliasCanditates_with_one_alias_an_another_colon_before_after/#/PointingToDeclaration/emojify/io.wax911.emojify/[common]-emoji-parse-test/get-alias-canditates_with_one_alias_an_another_colon_before_after.html
-$dokka.location:io.wax911.emojify/EmojiParseTest/getAliasCanditates_with_one_alias_an_another_colon_right_after/#/PointingToDeclaration/emojify/io.wax911.emojify/[common]-emoji-parse-test/get-alias-canditates_with_one_alias_an_another_colon_right_after.html
-$dokka.location:io.wax911.emojify/EmojiParseTest/getAliasCanditates_with_two_aliases/#/PointingToDeclaration/emojify/io.wax911.emojify/[common]-emoji-parse-test/get-alias-canditates_with_two_aliases.html
-$dokka.location:io.wax911.emojify/EmojiParseTest/getAliasCanditates_with_two_aliases_sharing_a_colon/#/PointingToDeclaration/emojify/io.wax911.emojify/[common]-emoji-parse-test/get-alias-canditates_with_two_aliases_sharing_a_colon.html
+$dokka.location:io.wax911.emojify/EmojiParseTest/extractEmojis_withFitzpatrickModifiers/#/PointingToDeclaration/emojify/io.wax911.emojify/[common]-emoji-parse-test/extract-emojis_with-fitzpatrick-modifiers.html
 $dokka.location:io.wax911.emojify/EmojiParseTest/parseToAliases_IGNORE_with_a_fitzpatrick_modifier/#/PointingToDeclaration/emojify/io.wax911.emojify/[common]-emoji-parse-test/parse-to-aliases_-i-g-n-o-r-e_with_a_fitzpatrick_modifier.html
 $dokka.location:io.wax911.emojify/EmojiParseTest/parseToAliases_IGNORE_without_a_fitzpatrick_modifier/#/PointingToDeclaration/emojify/io.wax911.emojify/[common]-emoji-parse-test/parse-to-aliases_-i-g-n-o-r-e_without_a_fitzpatrick_modifier.html
 $dokka.location:io.wax911.emojify/EmojiParseTest/parseToAliases_NG_and_nigeria/#/PointingToDeclaration/emojify/io.wax911.emojify/[common]-emoji-parse-test/parse-to-aliases_-n-g_and_nigeria.html
@@ -146,6 +143,7 @@ $dokka.location:io.wax911.emojify/EmojiParseTest/parseToAliases_REPLACE_with_a_f
 $dokka.location:io.wax911.emojify/EmojiParseTest/parseToAliases_continuous_non_overlapping_emojis/#/PointingToDeclaration/emojify/io.wax911.emojify/[common]-emoji-parse-test/parse-to-aliases_continuous_non_overlapping_emojis.html
 $dokka.location:io.wax911.emojify/EmojiParseTest/parseToAliases_couplekiss_woman_woman/#/PointingToDeclaration/emojify/io.wax911.emojify/[common]-emoji-parse-test/parse-to-aliases_couplekiss_woman_woman.html
 $dokka.location:io.wax911.emojify/EmojiParseTest/parseToAliases_replaces_the_emojis_by_one_of_their_aliases/#/PointingToDeclaration/emojify/io.wax911.emojify/[common]-emoji-parse-test/parse-to-aliases_replaces_the_emojis_by_one_of_their_aliases.html
+$dokka.location:io.wax911.emojify/EmojiParseTest/parseToAliases_with_first_medal/#/PointingToDeclaration/emojify/io.wax911.emojify/[common]-emoji-parse-test/parse-to-aliases_with_first_medal.html
 $dokka.location:io.wax911.emojify/EmojiParseTest/parseToAliases_with_long_overlapping_emoji/#/PointingToDeclaration/emojify/io.wax911.emojify/[common]-emoji-parse-test/parse-to-aliases_with_long_overlapping_emoji.html
 $dokka.location:io.wax911.emojify/EmojiParseTest/parseToHtmlDecimal_IGNORE_with_a_fitzpatrick_modifier/#/PointingToDeclaration/emojify/io.wax911.emojify/[common]-emoji-parse-test/parse-to-html-decimal_-i-g-n-o-r-e_with_a_fitzpatrick_modifier.html
 $dokka.location:io.wax911.emojify/EmojiParseTest/parseToHtmlDecimal_PARSE_with_a_fitzpatrick_modifier/#/PointingToDeclaration/emojify/io.wax911.emojify/[common]-emoji-parse-test/parse-to-html-decimal_-p-a-r-s-e_with_a_fitzpatrick_modifier.html
@@ -157,16 +155,26 @@ $dokka.location:io.wax911.emojify/EmojiParseTest/parseToHtmlHexadecimal_REMOVE_w
 $dokka.location:io.wax911.emojify/EmojiParseTest/parseToHtmlHexadecimal_replaces_the_emojis_by_their_htm_hex_representation/#/PointingToDeclaration/emojify/io.wax911.emojify/[common]-emoji-parse-test/parse-to-html-hexadecimal_replaces_the_emojis_by_their_htm_hex_representation.html
 $dokka.location:io.wax911.emojify/EmojiParseTest/parseToUnicode_replaces_the_aliases_and_the_html_by_their_emoji/#/PointingToDeclaration/emojify/io.wax911.emojify/[common]-emoji-parse-test/parse-to-unicode_replaces_the_aliases_and_the_html_by_their_emoji.html
 $dokka.location:io.wax911.emojify/EmojiParseTest/parseToUnicode_with_a_fitzpatrick_modifier/#/PointingToDeclaration/emojify/io.wax911.emojify/[common]-emoji-parse-test/parse-to-unicode_with_a_fitzpatrick_modifier.html
-$dokka.location:io.wax911.emojify/EmojiParseTest/parseToUnicode_with_an_unsupported_fitzpatrick_modifier_does_not_replace/#/PointingToDeclaration/emojify/io.wax911.emojify/[common]-emoji-parse-test/parse-to-unicode_with_an_unsupported_fitzpatrick_modifier_does_not_replace.html
+$dokka.location:io.wax911.emojify/EmojiParseTest/parseToUnicode_with_an_unsupported_fitzpatrick_modifier_doesnt_replace/#/PointingToDeclaration/emojify/io.wax911.emojify/[common]-emoji-parse-test/parse-to-unicode_with_an_unsupported_fitzpatrick_modifier_doesnt_replace.html
 $dokka.location:io.wax911.emojify/EmojiParseTest/parseToUnicode_with_the_keycap_asterisk_emoji_replaces_the_alias_by_the_emoji/#/PointingToDeclaration/emojify/io.wax911.emojify/[common]-emoji-parse-test/parse-to-unicode_with_the_keycap_asterisk_emoji_replaces_the_alias_by_the_emoji.html
-$dokka.location:io.wax911.emojify/EmojiParseTest/parseToUnicode_with_the_thumbs_up_emoji_in_hex_replaces_the_alias_by_the_emoji/#/PointingToDeclaration/emojify/io.wax911.emojify/[common]-emoji-parse-test/parse-to-unicode_with_the_thumbs_up_emoji_in_hex_replaces_the_alias_by_the_emoji.html
-$dokka.location:io.wax911.emojify/EmojiParseTest/parseToUnicode_with_the_thumbs_up_emoji_replaces_the_alias_by_the_emoji/#/PointingToDeclaration/emojify/io.wax911.emojify/[common]-emoji-parse-test/parse-to-unicode_with_the_thumbs_up_emoji_replaces_the_alias_by_the_emoji.html
 $dokka.location:io.wax911.emojify/EmojiParseTest/parseToUnicode_with_the_thumbsdown_emoji_replaces_the_alias_by_the_emoji/#/PointingToDeclaration/emojify/io.wax911.emojify/[common]-emoji-parse-test/parse-to-unicode_with_the_thumbsdown_emoji_replaces_the_alias_by_the_emoji.html
+$dokka.location:io.wax911.emojify/EmojiParseTest/parseToUnicode_with_the_thumbsup_emoji_in_hex_replaces_the_alias_by_the_emoji/#/PointingToDeclaration/emojify/io.wax911.emojify/[common]-emoji-parse-test/parse-to-unicode_with_the_thumbsup_emoji_in_hex_replaces_the_alias_by_the_emoji.html
+$dokka.location:io.wax911.emojify/EmojiParseTest/parseToUnicode_with_the_thumbsup_emoji_replaces_the_alias_by_the_emoji/#/PointingToDeclaration/emojify/io.wax911.emojify/[common]-emoji-parse-test/parse-to-unicode_with_the_thumbsup_emoji_replaces_the_alias_by_the_emoji.html
 $dokka.location:io.wax911.emojify/EmojiParseTest/removeAllEmojisExcept_removes_all_the_emojis_from_the_string_except_those_in_the_iterable/#/PointingToDeclaration/emojify/io.wax911.emojify/[common]-emoji-parse-test/remove-all-emojis-except_removes_all_the_emojis_from_the_string_except_those_in_the_iterable.html
 $dokka.location:io.wax911.emojify/EmojiParseTest/removeAllEmojis_removes_all_the_emojis_from_the_string/#/PointingToDeclaration/emojify/io.wax911.emojify/[common]-emoji-parse-test/remove-all-emojis_removes_all_the_emojis_from_the_string.html
 $dokka.location:io.wax911.emojify/EmojiParseTest/removeEmojis_only_removes_the_emojis_in_the_iterable_from_the_string/#/PointingToDeclaration/emojify/io.wax911.emojify/[common]-emoji-parse-test/remove-emojis_only_removes_the_emojis_in_the_iterable_from_the_string.html
 $dokka.location:io.wax911.emojify/EmojiParseTest/replaceAllEmojis_replace_the_emojis_by_string/#/PointingToDeclaration/emojify/io.wax911.emojify/[common]-emoji-parse-test/replace-all-emojis_replace_the_emojis_by_string.html
 $dokka.location:io.wax911.emojify/EmojiParseTest/test_with_a_new_flag/#/PointingToDeclaration/emojify/io.wax911.emojify/[common]-emoji-parse-test/test_with_a_new_flag.html
+$dokka.location:io.wax911.emojify/EmojiTest.Companion///PointingToDeclaration/emojify/io.wax911.emojify/[common]-emoji-test/-companion/index.html
+$dokka.location:io.wax911.emojify/EmojiTest.Companion/FITZPATRICK_CODEPOINTS/#/PointingToDeclaration/emojify/io.wax911.emojify/[common]-emoji-test/-companion/-f-i-t-z-p-a-t-r-i-c-k_-c-o-d-e-p-o-i-n-t-s.html
+$dokka.location:io.wax911.emojify/EmojiTest.Companion/createEmojiList/#/PointingToDeclaration/emojify/io.wax911.emojify/[common]-emoji-test/-companion/create-emoji-list.html
+$dokka.location:io.wax911.emojify/EmojiTest///PointingToDeclaration/emojify/io.wax911.emojify/[common]-emoji-test/index.html
+$dokka.location:io.wax911.emojify/EmojiTest/EmojiTest/#kotlin.String#io.wax911.emojify.parser.action.FitzpatrickAction/PointingToDeclaration/emojify/io.wax911.emojify/[common]-emoji-test/-emoji-test.html
+$dokka.location:io.wax911.emojify/EmojiTest/check emoji fitzpatrick flag/#/PointingToDeclaration/emojify/io.wax911.emojify/[common]-emoji-test/check emoji fitzpatrick flag.html
+$dokka.location:io.wax911.emojify/EmojiTest/check that emoji can be parsed to aliases/#/PointingToDeclaration/emojify/io.wax911.emojify/[common]-emoji-test/check that emoji can be parsed to aliases.html
+$dokka.location:io.wax911.emojify/EmojiTest/check that emoji can be parsed to htmlDecimal/#/PointingToDeclaration/emojify/io.wax911.emojify/[common]-emoji-test/check that emoji can be parsed to html-decimal.html
+$dokka.location:io.wax911.emojify/EmojiTest/check that emoji can be parsed to htmlHexadecimal/#/PointingToDeclaration/emojify/io.wax911.emojify/[common]-emoji-test/check that emoji can be parsed to html-hexadecimal.html
+$dokka.location:io.wax911.emojify/EmojiTest/checkEmojiExisting/#/PointingToDeclaration/emojify/io.wax911.emojify/[common]-emoji-test/check-emoji-existing.html
 $dokka.location:io.wax911.emojify/EmojiUtilTest///PointingToDeclaration/emojify/io.wax911.emojify/[common]-emoji-util-test/index.html
 $dokka.location:io.wax911.emojify/EmojiUtilTest/EmojiUtilTest/#/PointingToDeclaration/emojify/io.wax911.emojify/[common]-emoji-util-test/-emoji-util-test.html
 $dokka.location:io.wax911.emojify/EmojiUtilTest/surrogateToHTMLTest/#/PointingToDeclaration/emojify/io.wax911.emojify/[common]-emoji-util-test/surrogate-to-h-t-m-l-test.html
@@ -192,7 +200,6 @@ io.wax911.emojify.model
 io.wax911.emojify.parser
 io.wax911.emojify.parser.action
 io.wax911.emojify.parser.candidate
-io.wax911.emojify.parser.common
 io.wax911.emojify.parser.transformer
 io.wax911.emojify.util
 io.wax911.emojify.util.trie
