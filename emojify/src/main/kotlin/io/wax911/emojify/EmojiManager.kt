@@ -19,7 +19,7 @@ package io.wax911.emojify
 import androidx.annotation.VisibleForTesting
 import io.wax911.emojify.manager.IEmojiManager
 import io.wax911.emojify.model.Emoji
-import io.wax911.emojify.parser.getNextUnicodeCandidate
+import io.wax911.emojify.parser.nextUnicodeCandidate
 import io.wax911.emojify.parser.removeAllEmojis
 import io.wax911.emojify.util.EmojiTrie
 import io.wax911.emojify.util.trie.Matches
@@ -58,7 +58,7 @@ class EmojiManager(
         emojiTagMap
     }
 
-    private val emojiTrie: EmojiTrie by lazy {
+    internal val emojiTrie: EmojiTrie by lazy {
         EmojiTrie(emojiList)
     }
 
@@ -83,7 +83,13 @@ class EmojiManager(
         alias?.let { emojiByAlias[trimAlias(it)] }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    fun trimAlias(alias: String): String = alias.trim { it == ':' }
+    fun trimAlias(alias: String): String {
+        val len = alias.length
+        return alias.substring(
+            if (alias.first() == ':') 1 else 0,
+            if (alias.last() == ':') len - 1 else len,
+        )
+    }
 
     /**
      * Returns the [Emoji] for a given unicode.
@@ -93,7 +99,7 @@ class EmojiManager(
      * @return the associated [Emoji], null if the unicode is unknown
      */
     override fun getByUnicode(unicode: String?): Emoji? =
-        unicode?.let { emojiTrie.getEmoji(it) }
+        unicode?.let { emojiTrie.getEmoji(it.toCharArray()) }
 
     /**
      * Tests if a given String is an emoji.
@@ -105,7 +111,7 @@ class EmojiManager(
     override fun isEmoji(string: String?): Boolean {
         if (string == null) return false
 
-        val unicodeCandidate = getNextUnicodeCandidate(string.toCharArray(), 0)
+        val unicodeCandidate = nextUnicodeCandidate(string.toCharArray(), 0)
         return unicodeCandidate != null &&
             unicodeCandidate.emojiStartIndex == 0 &&
             unicodeCandidate.fitzpatrickEndIndex == string.length

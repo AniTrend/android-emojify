@@ -32,7 +32,7 @@ class UnicodeCandidate internal constructor(
     fitzpatrick: String?,
     val emojiStartIndex: Int,
 ) {
-    private val fitzpatrick: Fitzpatrick? = Fitzpatrick.fitzpatrickFromUnicode(fitzpatrick)
+    internal val fitzpatrick: Fitzpatrick? = Fitzpatrick.fitzpatrickFromUnicode(fitzpatrick)
 
     val fitzpatrickType: String
         get() = if (hasFitzpatrick()) {

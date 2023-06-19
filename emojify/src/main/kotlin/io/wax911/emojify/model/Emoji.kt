@@ -93,7 +93,7 @@ data class Emoji(
         if (!supportsFitzpatrick) {
             throw UnsupportedOperationException(
                 """
-                        Cannot get the unicode with a fitzpatrick modifier, 
+                        Cannot get the unicode with a fitzpatrick modifier,
                         the emoji doesn't support fitzpatrick.
                 """.trimIndent(),
             )
