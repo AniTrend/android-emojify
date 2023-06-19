@@ -9,7 +9,7 @@ categories:
     labels:
       - 'bug fix'
   - title: '🧰 Maintenance'
-    labels: 
+    labels:
       - 'refactor'
       - 'dependencies'
 autolabeler:
