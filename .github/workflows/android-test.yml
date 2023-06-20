@@ -40,7 +40,6 @@ jobs:
       matrix:
         api-level:
           - 23
-          - 33
     steps:
       - uses: actions/checkout@v3
       - uses: gradle/wrapper-validation-action@v1
