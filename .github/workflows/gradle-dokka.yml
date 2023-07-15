@@ -21,7 +21,7 @@ jobs:
         run: ./gradlew emojify:dokkaHtml
 
       - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@v4.4.2
+        uses: JamesIves/github-pages-deploy-action@v4.4.3
         with:
           branch: docs # The branch the action should deploy to.
           folder: emojify/build/docs/dokka # The folder the action should deploy.
