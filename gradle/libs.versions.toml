@@ -1,7 +1,7 @@
 [versions]
 ktlint = "0.49.1"
 
-gradle-plugin = "8.1.1"
+gradle-plugin = "8.1.2"
 
 androidx-core = "1.12.0"
 androidx-emoji = "1.1.0"
