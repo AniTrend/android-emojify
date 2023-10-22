@@ -9,6 +9,9 @@ on:
     paths-ignore:
       - "app/src/main/**"
 
+permissions:
+  checks: write
+
 jobs:
   unit:
     runs-on: ubuntu-latest
@@ -59,4 +62,4 @@ jobs:
         uses: mikepenz/action-junit-report@v4
         if: always() # always run even if the previous step fails
         with:
-          report_paths: '**/build/test-results/**/TEST-*.xml'
+          report_paths: '**/build/androidTest-results/**/TEST-*.xml'
