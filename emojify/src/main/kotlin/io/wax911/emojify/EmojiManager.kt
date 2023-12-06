@@ -34,7 +34,6 @@ import io.wax911.emojify.util.trie.Matches
 class EmojiManager(
     override val emojiList: Collection<Emoji>,
 ) : IEmojiManager {
-
     private val emojiByAlias by lazy {
         val aliasMap = HashMap<String, Emoji>()
         emojiList.forEach { emoji ->
@@ -69,8 +68,7 @@ class EmojiManager(
      *
      * @return the associated [Emoji]s, null if the tag is unknown
      */
-    override fun getForTag(tag: String?): Collection<Emoji>? =
-        tag?.let { emojiByTag[it] }
+    override fun getForTag(tag: String?): Collection<Emoji>? = tag?.let { emojiByTag[it] }
 
     /**
      * Returns the [Emoji] for a given alias.
@@ -79,8 +77,7 @@ class EmojiManager(
      *
      * @return the associated [Emoji], null if the alias is unknown
      */
-    override fun getForAlias(alias: String?): Emoji? =
-        alias?.let { emojiByAlias[trimAlias(it)] }
+    override fun getForAlias(alias: String?): Emoji? = alias?.let { emojiByAlias[trimAlias(it)] }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     fun trimAlias(alias: String): String {
@@ -98,8 +95,7 @@ class EmojiManager(
      *
      * @return the associated [Emoji], null if the unicode is unknown
      */
-    override fun getByUnicode(unicode: String?): Emoji? =
-        unicode?.let { emojiTrie.getEmoji(it.toCharArray()) }
+    override fun getByUnicode(unicode: String?): Emoji? = unicode?.let { emojiTrie.getEmoji(it.toCharArray()) }
 
     /**
      * Tests if a given String is an emoji.

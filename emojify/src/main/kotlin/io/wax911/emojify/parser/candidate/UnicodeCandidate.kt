@@ -35,18 +35,20 @@ class UnicodeCandidate internal constructor(
     internal val fitzpatrick: Fitzpatrick? = Fitzpatrick.fitzpatrickFromUnicode(fitzpatrick)
 
     val fitzpatrickType: String
-        get() = if (hasFitzpatrick()) {
-            fitzpatrick?.name?.lowercase(Locale.ROOT) ?: ""
-        } else {
-            ""
-        }
+        get() =
+            if (hasFitzpatrick()) {
+                fitzpatrick?.name?.lowercase(Locale.ROOT) ?: ""
+            } else {
+                ""
+            }
 
     val fitzpatrickUnicode: String
-        get() = if (hasFitzpatrick()) {
-            fitzpatrick?.unicode ?: ""
-        } else {
-            ""
-        }
+        get() =
+            if (hasFitzpatrick()) {
+                fitzpatrick?.unicode ?: ""
+            } else {
+                ""
+            }
 
     private val emojiEndIndex: Int
         get() = emojiStartIndex + (emoji?.unicode?.length ?: 0)
