@@ -14,9 +14,7 @@ internal fun Project.configureSpotless() {
             kotlin {
                 target("**/kotlin/**/*.kt")
                 targetExclude("$buildDir/**/*.kt", "**/test/**/*.kt", "bin/**/*.kt")
-                ktlint(libs.versions.ktlint.get()).userData(
-                    mapOf("android" to "true"),
-                )
+                ktlint(libs.versions.ktlint.get())
                 licenseHeaderFile(rootProject.file("spotless/copyright.kt"))
             }
         }
