@@ -100,8 +100,8 @@ data class Emoji(
         if (!supportsFitzpatrick) {
             throw UnsupportedOperationException(
                 """
-                        Cannot get the unicode with a fitzpatrick modifier,
-                        the emoji doesn't support fitzpatrick.
+                Cannot get the unicode with a fitzpatrick modifier,
+                the emoji doesn't support fitzpatrick.
                 """.trimIndent(),
             )
         } else if (fitzpatrick == null) {
@@ -110,10 +110,11 @@ data class Emoji(
         return unicode + fitzpatrick.unicode
     }
 
-    override fun equals(other: Any?) = when (other) {
-        is Emoji -> other.unicode == unicode
-        else -> super.equals(other)
-    }
+    override fun equals(other: Any?) =
+        when (other) {
+            is Emoji -> other.unicode == unicode
+            else -> super.equals(other)
+        }
 
     override fun hashCode(): Int {
         var result = description?.hashCode() ?: 0

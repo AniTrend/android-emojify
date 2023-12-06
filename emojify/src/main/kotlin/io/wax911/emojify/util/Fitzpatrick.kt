@@ -51,12 +51,10 @@ enum class Fitzpatrick constructor(val unicode: String) {
     ;
 
     companion object {
-
         /**
          * @return [Fitzpatrick] or null if no [unicode] matches the supported types
          */
-        fun fitzpatrickFromUnicode(unicode: String?): Fitzpatrick? =
-            values().find { it.unicode == unicode }
+        fun fitzpatrickFromUnicode(unicode: String?): Fitzpatrick? = values().find { it.unicode == unicode }
 
         /**
          * @return [Fitzpatrick] or null if no [type] the available enum names

@@ -28,7 +28,6 @@ import kotlinx.serialization.json.decodeFromStream
 import java.io.IOException
 
 class EmojiInitializer : Initializer<EmojiManager> {
-
     /**
      * Initializes emoji objects from an asset file in the library directory
      *
@@ -39,7 +38,10 @@ class EmojiInitializer : Initializer<EmojiManager> {
      * @throws SerializationException when an error occurs during deserialization
      */
     @Throws(IOException::class, SerializationException::class)
-    fun initEmojiData(assetManager: AssetManager, path: String = DEFAULT_PATH): List<Emoji> {
+    fun initEmojiData(
+        assetManager: AssetManager,
+        path: String = DEFAULT_PATH,
+    ): List<Emoji> {
         assetManager.open(path).use { inputStream ->
             val json = Json { isLenient = true }
             val deserializer = ListSerializer(Emoji.serializer())
@@ -54,10 +56,11 @@ class EmojiInitializer : Initializer<EmojiManager> {
      */
     override fun create(context: Context): EmojiManager {
         val emojiManagerDefault = EmojiManager(emptyList())
-        val result = runCatching {
-            val emojis = initEmojiData(context.assets)
-            EmojiManager(emojis)
-        }.onFailure { it.printStackTrace() }
+        val result =
+            runCatching {
+                val emojis = initEmojiData(context.assets)
+                EmojiManager(emojis)
+            }.onFailure { it.printStackTrace() }
         return result.getOrNull() ?: emojiManagerDefault
     }
 
