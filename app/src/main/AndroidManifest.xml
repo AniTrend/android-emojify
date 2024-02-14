@@ -19,18 +19,19 @@
             </intent-filter>
         </activity>
 
-        <provider
-            android:name="androidx.startup.InitializationProvider"
-            android:authorities="${applicationId}.androidx-startup"
-            android:exported="false"
-            tools:node="merge">
+<!--        <provider-->
+<!--            android:name="androidx.startup.InitializationProvider"-->
+<!--            android:authorities="${applicationId}.androidx-startup"-->
+<!--            android:exported="false"-->
+<!--            tools:node="merge">-->
 <!--            <meta-data-->
 <!--                android:name="io.wax911.emojifysample.CustomEmojiInitializer"-->
 <!--                android:value="androidx.startup" />-->
-            <meta-data
-                android:name="io.wax911.emojify.initializer.EmojiInitializer"
-                android:value="androidx.startup" />
-        </provider>
+<!--            <meta-data-->
+<!--                android:name="io.wax911.emojify.initializer.EmojiInitializer"-->
+<!--                android:value="androidx.startup"-->
+<!--                tools:node="remove" />-->
+<!--        </provider>-->
     </application>
 
 </manifest>
