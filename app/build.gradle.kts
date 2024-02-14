@@ -10,6 +10,8 @@ dependencies {
     implementation(libs.google.android.material)
     implementation(libs.androidx.constraintlayout)
 
+    implementation(libs.moshi.kotlin)
+
     implementation(libs.jetbrains.kotlinx.coroutines.android)
     implementation(libs.jetbrains.kotlinx.coroutines.core)
 
