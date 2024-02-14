@@ -177,6 +177,8 @@ dependencies {
 Don't know how to do that?? Take a look at
 the [application class example](./app/src/main/java/io/wax911/emojifysample/App.kt)
 
+**In order for EmojiInitilizer to work you need to add in your build.gradle `implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2"`
+
 ```kotlin
 class App : Application() {
 
