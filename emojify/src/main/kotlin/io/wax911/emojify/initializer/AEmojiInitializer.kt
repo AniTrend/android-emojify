@@ -25,7 +25,6 @@ import kotlinx.serialization.SerializationException
 import java.io.IOException
 
 abstract class AEmojiInitializer : Initializer<EmojiManager> {
-
     abstract val serializer: IEmojiDeserializer
 
     /**
