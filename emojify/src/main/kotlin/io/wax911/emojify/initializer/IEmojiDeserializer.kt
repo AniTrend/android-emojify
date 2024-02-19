@@ -19,6 +19,10 @@ package io.wax911.emojify.initializer
 import io.wax911.emojify.model.Emoji
 import java.io.InputStream
 
+/**
+ * Interface to implement if user wants to use a custom deserializer.
+ * For more information on the necessary steps refer to README.md
+ */
 interface IEmojiDeserializer {
     /**
      * Decodes the given [InputStream] to an object of type List<[Emoji]>

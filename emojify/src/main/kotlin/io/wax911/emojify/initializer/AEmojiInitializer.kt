@@ -24,6 +24,9 @@ import io.wax911.emojify.model.Emoji
 import kotlinx.serialization.SerializationException
 import java.io.IOException
 
+/**
+ * Abstract the logic of Initializer<EmojiManager> so that
+ */
 abstract class AEmojiInitializer : Initializer<EmojiManager> {
     abstract val serializer: IEmojiDeserializer
 

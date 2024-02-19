@@ -1,5 +1,8 @@
 package io.wax911.emojifysample
 
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -17,6 +20,24 @@ class CustomEmojiInitializer: AEmojiInitializer() {
         override fun decodeFromStream(inputStream: InputStream): List<Emoji> {
             val myType = Types.newParameterizedType(List::class.java, Emoji::class.java)
             return moshi.adapter<List<Emoji>>(myType).fromJson(inputStream.source().buffer()) ?: listOf()
+        }
+    }
+
+    class JacksonDeserializer: IEmojiDeserializer {
+        private val jackson = ObjectMapper()
+
+        override fun decodeFromStream(inputStream: InputStream): List<Emoji> {
+            val myType = jackson.typeFactory.constructCollectionType(List::class.java, Emoji::class.java)
+            return jackson.readValue(inputStream, myType)
+        }
+    }
+
+    class GsonDeserializer: IEmojiDeserializer {
+        private val gson = Gson()
+
+        override fun decodeFromStream(inputStream: InputStream): List<Emoji> {
+            val myType = TypeToken.getParameterized(List::class.java, Emoji::class.java).type
+            return gson.fromJson(inputStream.reader(), myType)
         }
     }
 
