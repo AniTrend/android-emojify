@@ -27,7 +27,7 @@ import java.io.IOException
 /**
  * Abstract the logic of Initializer<EmojiManager> so that
  */
-abstract class AEmojiInitializer : Initializer<EmojiManager> {
+abstract class AbstractEmojiInitializer : Initializer<EmojiManager> {
     abstract val serializer: IEmojiDeserializer
 
     /**

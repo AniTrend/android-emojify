@@ -19,10 +19,10 @@ package io.wax911.emojify.initializer
 import io.wax911.emojify.deserializer.KotlinxDeserializer
 
 /**
- * Default Implementation of AEmojiInitializer
+ * Default Implementation of AbstractEmojiInitializer
  * **Note: You need to have kotlinx.serialization gradle implementation in your project to work**
  */
-class EmojiInitializer : AEmojiInitializer() {
+class EmojiInitializer : AbstractEmojiInitializer() {
     /**
      * Kotlinx implementation is needed in your project for this to work
      */

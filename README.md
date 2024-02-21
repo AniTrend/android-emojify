@@ -201,7 +201,7 @@ class App : Application() {
 
 #### Step 1. Create Custom EmojiInitializer and implement IEmojiDeserializer (moshi for this example)
 ```kotlin
-class CustomEmojiInitializer: AEmojiInitializer() {
+class CustomEmojiInitializer: AbstractEmojiInitializer() {
   class MoshiDeserializer: IEmojiDeserializer {
     private val moshi = Moshi.Builder().addLast(KotlinJsonAdapterFactory()).build()
 
