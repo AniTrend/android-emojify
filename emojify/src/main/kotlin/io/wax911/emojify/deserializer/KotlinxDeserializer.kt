@@ -23,6 +23,9 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromStream
 import java.io.InputStream
 
+/**
+ * Default implementation for kotlinx-serialization
+ */
 class KotlinxDeserializer : IEmojiDeserializer {
     private val json = Json { isLenient = true }
 
