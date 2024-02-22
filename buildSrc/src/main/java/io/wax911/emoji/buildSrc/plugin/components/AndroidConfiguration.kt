@@ -44,7 +44,7 @@ private fun DefaultConfig.applyAdditionalConfiguration(project: Project) {
 internal fun Project.configureAndroid(): Unit = baseExtension().run {
     compileSdkVersion(34)
     defaultConfig {
-        minSdk = 23
+        minSdk = 21
         targetSdk = 34
         versionCode = props[PropertyTypes.CODE].toInt()
         versionName = props[PropertyTypes.VERSION]

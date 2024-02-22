@@ -16,15 +16,16 @@
 
 package io.wax911.emojify.initializer
 
-import io.wax911.emojify.deserializer.KotlinxDeserializer
+import io.wax911.emojify.model.Emoji
+import java.io.InputStream
 
 /**
- * Default Implementation of AbstractEmojiInitializer
- * **Note: You need to have kotlinx.serialization gradle implementation in your project to work**
+ * Interface to implement if user wants to use a custom deserializer.
+ * For more information on the necessary steps refer to README.md
  */
-class EmojiInitializer : AbstractEmojiInitializer() {
+interface IEmojiDeserializer {
     /**
-     * Kotlinx implementation is needed in your project for this to work
+     * Decodes the given [InputStream] to an object of type List<[Emoji]>
      */
-    override val serializer: IEmojiDeserializer = KotlinxDeserializer()
+    fun decodeFromStream(inputStream: InputStream): List<Emoji>
 }

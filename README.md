@@ -177,6 +177,8 @@ dependencies {
 Don't know how to do that?? Take a look at
 the [application class example](./app/src/main/java/io/wax911/emojifysample/App.kt)
 
+**In order for EmojiInitilizer to work you need to add in your build.gradle `implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2"`
+
 ```kotlin
 class App : Application() {
 
@@ -191,6 +193,60 @@ class App : Application() {
             .initializeComponent(EmojiInitializer::class.java)
     }
 }
+```
+
+### Optional - Custom Serializer
+
+`EmojiInitializer` is using kotlinx.serialization as default serializer. If you wish to use another serializer
+
+#### Step 1. Create Custom EmojiInitializer and implement IEmojiDeserializer (moshi for this example)
+```kotlin
+class CustomEmojiInitializer: AbstractEmojiInitializer() {
+  class MoshiDeserializer: IEmojiDeserializer {
+    private val moshi = Moshi.Builder().addLast(KotlinJsonAdapterFactory()).build()
+
+    override fun decodeFromStream(inputStream: InputStream): List<Emoji> {
+      val myType = Types.newParameterizedType(List::class.java, Emoji::class.java)
+      return moshi.adapter<List<Emoji>>(myType).fromJson(inputStream.source().buffer()) ?: listOf()
+    }
+  }
+
+  override val serializer: IEmojiDeserializer = MoshiDeserializer()
+}
+```
+
+#### Step 2. Modify your application class
+```kotlin
+class App : Application() {
+
+    /**
+     * Application scope bound emojiManager, you could keep a reference to this object in a
+     * dependency injector framework like as a singleton in `Hilt`, `Dagger` or `Koin`
+     */
+    internal val emojiManager: EmojiManager by lazy {
+        // should already be initialized if we haven't disabled initialization in manifest
+        // see: https://developer.android.com/topic/libraries/app-startup#disable-individual
+        AppInitializer.getInstance(this)
+            .initializeComponent(CustomEmojiInitializer::class.java)
+    }
+}
+```
+
+#### Step 3. Modify AndroidManifest.xml of your application
+```xml
+<provider
+    android:name="androidx.startup.InitializationProvider"
+    android:authorities="${applicationId}.androidx-startup"
+    android:exported="false"
+    tools:node="merge">
+    <meta-data
+        android:name="com.package.CustomEmojiInitializer"
+        android:value="androidx.startup" />
+    <meta-data
+        android:name="io.wax911.emojify.initializer.EmojiInitializer"
+        android:value="androidx.startup"
+        tools:node="remove" />
+</provider>
 ```
 
 ## Screenshots

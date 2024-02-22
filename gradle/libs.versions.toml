@@ -1,4 +1,6 @@
 [versions]
+gson = "2.10.1"
+jackson-databind = "2.16.0"
 ktlint = "1.0.1"
 
 gradle-plugin = "8.2.2"
@@ -21,6 +23,7 @@ jetbrains-kotlinx-datetime = "0.5.0"
 jetbrains-kotlinx-serialization = "1.6.2"
 
 mockk = "1.13.9"
+moshi-kotlin = "1.15.0"
 
 
 [plugins]
@@ -28,6 +31,9 @@ gradle-versions = { id = "com.github.ben-manes.versions", version = "0.51.0" }
 
 
 [libraries]
+gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
+jackson-databind = { module = "com.fasterxml.jackson.core:jackson-databind", version.ref = "jackson-databind" }
+moshi-kotlin = { module = "com.squareup.moshi:moshi-kotlin", version.ref = "moshi-kotlin" }
 timber = { module = "com.jakewharton.timber:timber", version = "5.0.1" }
 junit = { module = "junit:junit", version = "4.13.2" }
 
