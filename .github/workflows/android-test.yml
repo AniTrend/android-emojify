@@ -50,7 +50,7 @@ jobs:
         with:
           java-version: '17'
           distribution: 'adopt'
-      - uses: gradle/gradle-build-action@v2
+      - uses: gradle/gradle-build-action@v3
       - name: Run Tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
