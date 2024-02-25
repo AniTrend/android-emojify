@@ -1,8 +1,14 @@
 jdk:
   - openjdk17
+before_install:
+  - echo "Running pre-build setup"
+  - ./gradlew emojify:preTest
 install:
   - echo "Running clean, build, publishMavenPublicationToMavenLocal commands"
   - ./gradlew clean build
   - ./gradlew publishMavenPublicationToMavenLocal
+after_install:
+  - echo "Cleaning up post installation"
+  - ./gradlew emojify:postTest
 env:
   CI: "true"
