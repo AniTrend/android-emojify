@@ -47,7 +47,7 @@ jobs:
         run: cat gradle/version.properties
 
       - name: Push auto generated version file
-        uses: stefanzweifel/git-auto-commit-action@v4
+        uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "automation: update version.properties"
           branch: platform/update-version-meta-data
