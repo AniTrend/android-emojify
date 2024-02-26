@@ -45,7 +45,7 @@ abstract class AbstractEmojiInitializer : Initializer<EmojiManager> {
         path: String = DEFAULT_PATH,
     ): List<Emoji> {
         return assetManager.open(path).use { inputStream ->
-            serializer.decodeFromStream(inputStream)
+            serializer.decodeFromStream(inputStream).map { it.toEmoji() }
         }
     }
 

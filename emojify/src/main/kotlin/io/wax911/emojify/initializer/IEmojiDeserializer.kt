@@ -16,7 +16,7 @@
 
 package io.wax911.emojify.initializer
 
-import io.wax911.emojify.model.Emoji
+import io.wax911.emojify.model.AbstractEmoji
 import java.io.InputStream
 
 /**
@@ -25,7 +25,7 @@ import java.io.InputStream
  */
 interface IEmojiDeserializer {
     /**
-     * Decodes the given [InputStream] to an object of type List<[Emoji]>
+     * Decodes the given [InputStream] to an object of type List<[AbstractEmoji]>
      */
-    fun decodeFromStream(inputStream: InputStream): List<Emoji>
+    fun decodeFromStream(inputStream: InputStream): List<AbstractEmoji>
 }
