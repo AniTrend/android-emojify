@@ -30,6 +30,9 @@ import java.io.InputStream
  */
 class KotlinxDeserializer : IEmojiDeserializer {
     private val json = Json { isLenient = true }
+    /**
+     * Default implementation of AbstractEmoji for kotlinx-serialization
+     */
     @Serializable
     data class KotlinXEmoji(
         @SerialName("aliases") override val aliases: List<String>? = null,

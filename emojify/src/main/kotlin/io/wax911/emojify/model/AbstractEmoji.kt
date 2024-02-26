@@ -21,5 +21,8 @@ abstract class AbstractEmoji(
     @Suppress("unused")
     constructor(): this(null, null, "", "", false, false, null)
 
+    /**
+     * Convert the parser-specific implementation to Emoji
+     */
     fun toEmoji() = Emoji(aliases, description, emoji, emojiChar, supportsFitzpatrick, supportsGender, tags)
 }
