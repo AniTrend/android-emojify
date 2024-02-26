@@ -177,7 +177,7 @@ dependencies {
 Don't know how to do that?? Take a look at
 the [application class example](./app/src/main/java/io/wax911/emojifysample/App.kt)
 
-**In order for EmojiInitilizer to work you need to add in your build.gradle `implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2"`
+**In order for EmojiInitilizer to work you need to add in your build.gradle `implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2"`**
 
 ```kotlin
 class App : Application() {
@@ -204,10 +204,20 @@ class App : Application() {
 class CustomEmojiInitializer: AbstractEmojiInitializer() {
   class MoshiDeserializer: IEmojiDeserializer {
     private val moshi = Moshi.Builder().addLast(KotlinJsonAdapterFactory()).build()
+    @JsonClass(generateAdapter = true)
+    data class MoshiEmoji(
+      @Json(name = "aliases") override val aliases: List<String>? = null,
+      @Json(name = "description") override val description: String? = null,
+      @Json(name = "emoji") override val emoji: String,
+      @Json(name = "emojiChar") override val emojiChar: String,
+      @Json(name = "supports_fitzpatrick") override val supportsFitzpatrick: Boolean = false,
+      @Json(name = "supports_gender") override val supportsGender: Boolean = false,
+      @Json(name = "tags") override val tags: List<String>? = null,
+    ): AbstractEmoji(aliases, description, emoji, emojiChar, supportsFitzpatrick, supportsGender, tags)
 
-    override fun decodeFromStream(inputStream: InputStream): List<Emoji> {
-      val myType = Types.newParameterizedType(List::class.java, Emoji::class.java)
-      return moshi.adapter<List<Emoji>>(myType).fromJson(inputStream.source().buffer()) ?: listOf()
+    override fun decodeFromStream(inputStream: InputStream): List<AbstractEmoji> {
+      val myType = Types.newParameterizedType(List::class.java, MoshiEmoji::class.java)
+      return moshi.adapter<List<MoshiEmoji>>(myType).fromJson(inputStream.source().buffer()) ?: listOf()
     }
   }
 
