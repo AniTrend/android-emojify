@@ -16,11 +16,11 @@
 
 package io.wax911.emojify.util
 
-import io.wax911.emojify.model.Emoji
-import io.wax911.emojify.util.trie.Matches
+import io.wax911.emojify.contract.model.AbstractEmoji
+import io.wax911.emojify.contract.util.trie.Matches
 import io.wax911.emojify.util.trie.Node
 
-class EmojiTrie(emojis: Collection<Emoji>) {
+class EmojiTrie(emojis: Collection<AbstractEmoji>) {
     private val root = Node()
 
     var maxDepth = 0
@@ -98,7 +98,7 @@ class EmojiTrie(emojis: Collection<Emoji>) {
         unicode: CharArray,
         start: Int = 0,
         end: Int = unicode.size,
-    ): Emoji? {
+    ): AbstractEmoji? {
         if (start < 0 || start > end || end > unicode.size) {
             throw ArrayIndexOutOfBoundsException(
                 "start " + start + ", end " + end + ", length " + unicode.size,

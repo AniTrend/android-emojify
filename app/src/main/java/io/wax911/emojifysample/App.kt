@@ -3,7 +3,6 @@ package io.wax911.emojifysample
 import android.app.Application
 import androidx.startup.AppInitializer
 import io.wax911.emojify.EmojiManager
-import io.wax911.emojify.initializer.EmojiInitializer
 
 /**
  * Created by max on 2017/09/22.

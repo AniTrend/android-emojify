@@ -16,11 +16,11 @@
 
 package io.wax911.emojify.parser.candidate
 
-import io.wax911.emojify.model.Emoji
+import io.wax911.emojify.contract.model.AbstractEmoji
 import io.wax911.emojify.util.Fitzpatrick
 
 internal class AliasCandidate internal constructor(
-    val emoji: Emoji,
+    val emoji: AbstractEmoji,
     val fitzpatrick: Fitzpatrick?,
     val startIndex: Int,
     val endIndex: Int,

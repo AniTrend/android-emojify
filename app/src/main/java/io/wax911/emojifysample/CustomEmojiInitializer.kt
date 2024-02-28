@@ -10,9 +10,9 @@ import com.squareup.moshi.JsonClass
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import io.wax911.emojify.contract.model.AbstractEmoji
+import io.wax911.emojify.contract.serializer.IEmojiDeserializer
 import io.wax911.emojify.initializer.AbstractEmojiInitializer
-import io.wax911.emojify.initializer.IEmojiDeserializer
-import io.wax911.emojify.model.AbstractEmoji
 import okio.buffer
 import okio.source
 import java.io.InputStream
@@ -29,7 +29,7 @@ class CustomEmojiInitializer: AbstractEmojiInitializer() {
             @Json(name = "supports_fitzpatrick") override val supportsFitzpatrick: Boolean = false,
             @Json(name = "supports_gender") override val supportsGender: Boolean = false,
             @Json(name = "tags") override val tags: List<String>? = null,
-        ): AbstractEmoji(aliases, description, emoji, emojiChar, supportsFitzpatrick, supportsGender, tags)
+        ): AbstractEmoji()
 
         override fun decodeFromStream(inputStream: InputStream): List<AbstractEmoji> {
             val myType = Types.newParameterizedType(List::class.java, MoshiEmoji::class.java)
@@ -47,7 +47,7 @@ class CustomEmojiInitializer: AbstractEmojiInitializer() {
             @JsonProperty(value = "supports_fitzpatrick") override val supportsFitzpatrick: Boolean,
             @JsonProperty(value = "supports_gender") override val supportsGender: Boolean,
             @JsonProperty(value = "tags") override val tags: List<String>?,
-        ): AbstractEmoji(aliases, description, emoji, emojiChar, supportsFitzpatrick, supportsGender, tags)
+        ): AbstractEmoji()
 
         override fun decodeFromStream(inputStream: InputStream): List<AbstractEmoji> {
             val myType = jackson.typeFactory.constructCollectionType(List::class.java, JacksonEmoji::class.java)
@@ -65,7 +65,7 @@ class CustomEmojiInitializer: AbstractEmojiInitializer() {
             @SerializedName(value = "supports_fitzpatrick") override val supportsFitzpatrick: Boolean,
             @SerializedName(value = "supports_gender") override val supportsGender: Boolean,
             @SerializedName(value = "tags") override val tags: List<String>?,
-        ): AbstractEmoji(aliases, description, emoji, emojiChar, supportsFitzpatrick, supportsGender, tags)
+        ): AbstractEmoji()
 
         override fun decodeFromStream(inputStream: InputStream): List<AbstractEmoji> {
             val myType = TypeToken.getParameterized(List::class.java, GsonEmoji::class.java).type

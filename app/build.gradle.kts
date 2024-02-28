@@ -6,6 +6,8 @@ plugins {
 
 dependencies {
     implementation(project(Libraries.AniTrend.Emojify.emojify))
+    implementation(project(Libraries.AniTrend.Emojify.contract))
+    implementation(project(Libraries.AniTrend.Emojify.serializerKotlinx))
 
     implementation(libs.google.android.material)
     implementation(libs.androidx.constraintlayout)
