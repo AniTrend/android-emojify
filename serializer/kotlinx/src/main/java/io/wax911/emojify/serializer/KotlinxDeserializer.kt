@@ -19,8 +19,6 @@ package io.wax911.emojify.serializer
 import io.wax911.emojify.contract.model.AbstractEmoji
 import io.wax911.emojify.contract.serializer.IEmojiDeserializer
 import kotlinx.serialization.ExperimentalSerializationApi
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.json.Json
@@ -32,20 +30,6 @@ import java.io.InputStream
  */
 class KotlinxDeserializer : IEmojiDeserializer {
     private val json = Json { isLenient = true }
-
-    /**
-     * Default implementation of AbstractEmoji for kotlinx-serialization
-     */
-    @Serializable
-    data class KotlinxEmoji(
-        @SerialName("aliases") override val aliases: List<String>? = null,
-        @SerialName("description") override val description: String? = null,
-        @SerialName("emoji") override val emoji: String,
-        @SerialName("emojiChar") override val emojiChar: String,
-        @SerialName("supports_fitzpatrick") override val supportsFitzpatrick: Boolean = false,
-        @SerialName("supports_gender") override val supportsGender: Boolean = false,
-        @SerialName("tags") override val tags: List<String>? = null,
-    ) : AbstractEmoji()
 
     @OptIn(ExperimentalSerializationApi::class)
     @Throws(SerializationException::class)

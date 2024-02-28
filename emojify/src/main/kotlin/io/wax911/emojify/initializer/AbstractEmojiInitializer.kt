@@ -17,12 +17,9 @@
 package io.wax911.emojify.initializer
 
 import android.content.Context
-import android.content.res.AssetManager
 import androidx.startup.Initializer
 import io.wax911.emojify.EmojiManager
-import io.wax911.emojify.contract.model.AbstractEmoji
 import io.wax911.emojify.contract.serializer.IEmojiDeserializer
-import java.io.IOException
 
 /**
  * Abstract the logic of Initializer<EmojiManager> so that
@@ -31,37 +28,11 @@ abstract class AbstractEmojiInitializer : Initializer<EmojiManager> {
     abstract val serializer: IEmojiDeserializer
 
     /**
-     * Initializes emoji objects from an asset file in the library directory
-     *
-     * @param assetManager provide an assert manager
-     * @param path location where emoji data can be found
-     *
-     * @throws IOException when the provided [assetManager] cannot open [path]
-     */
-    @Throws(IOException::class)
-    fun initEmojiData(
-        assetManager: AssetManager,
-        path: String = DEFAULT_PATH,
-    ): List<AbstractEmoji> {
-        return assetManager.open(path).use { inputStream ->
-            serializer.decodeFromStream(inputStream)
-        }
-    }
-
-    /**
      * Initializes and a component given the application [Context]
      *
      * @param context The application context.
      */
-    override fun create(context: Context): EmojiManager {
-        val emojiManagerDefault = EmojiManager(emptyList())
-        val result =
-            runCatching {
-                val emojis = initEmojiData(context.assets)
-                EmojiManager(emojis)
-            }.onFailure { it.printStackTrace() }
-        return result.getOrNull() ?: emojiManagerDefault
-    }
+    override fun create(context: Context) = EmojiManager.create(context, serializer)
 
     /**
      * @return A list of dependencies that this [Initializer] depends on. This is

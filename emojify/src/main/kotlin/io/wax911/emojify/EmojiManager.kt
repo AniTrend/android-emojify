@@ -16,13 +16,18 @@
 
 package io.wax911.emojify
 
+import android.content.Context
+import android.content.res.AssetManager
 import androidx.annotation.VisibleForTesting
 import io.wax911.emojify.contract.model.AbstractEmoji
+import io.wax911.emojify.contract.serializer.IEmojiDeserializer
 import io.wax911.emojify.contract.util.trie.Matches
+import io.wax911.emojify.initializer.AbstractEmojiInitializer
 import io.wax911.emojify.manager.IEmojiManager
 import io.wax911.emojify.parser.nextUnicodeCandidate
 import io.wax911.emojify.parser.removeAllEmojis
 import io.wax911.emojify.util.EmojiTrie
+import java.io.IOException
 
 /**
  * Holds the loaded emojis and provides search functions.
@@ -31,7 +36,7 @@ import io.wax911.emojify.util.EmojiTrie
  *
  * @author [Vincent DURMONT](vdurmont@gmail.com)
  */
-class EmojiManager(
+class EmojiManager internal constructor(
     override val emojiList: Collection<AbstractEmoji>,
 ) : IEmojiManager {
     private val emojiByAlias by lazy {
@@ -142,4 +147,37 @@ class EmojiManager(
      * @return the tags
      */
     override fun getAllTags(): Collection<String> = emojiByTag.keys
+
+    companion object {
+        /**
+         * Initializes emoji objects from an asset file in the library directory
+         *
+         * @param assetManager provide an assert manager
+         * @param path location where emoji data can be found
+         *
+         * @throws IOException when the provided [assetManager] cannot open [path]
+         */
+        @Throws(IOException::class)
+        private fun initEmojiData(
+            assetManager: AssetManager,
+            serializer: IEmojiDeserializer,
+            path: String = AbstractEmojiInitializer.DEFAULT_PATH,
+        ): List<AbstractEmoji> = assetManager.open(path).use { inputStream ->
+            serializer.decodeFromStream(inputStream)
+        }
+
+        /**
+         * Initializes and a component given the application [Context]
+         *
+         * @param context The application context.
+         */
+        fun create(context: Context, serializer: IEmojiDeserializer): EmojiManager {
+            val emojiManagerDefault = EmojiManager(emptyList())
+            val result = runCatching {
+                val emojis = initEmojiData(context.assets, serializer)
+                EmojiManager(emojis)
+            }.onFailure { it.printStackTrace() }
+            return result.getOrNull() ?: emojiManagerDefault
+        }
+    }
 }
