@@ -17,6 +17,7 @@
 package io.wax911.emojify.parser.action
 
 import io.wax911.emojify.util.Fitzpatrick
+
 /**
  * Used to indicate what should be done when a Fitzpatrick modifier is found.
  */
