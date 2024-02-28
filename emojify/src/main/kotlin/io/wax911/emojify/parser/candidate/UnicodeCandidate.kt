@@ -16,7 +16,7 @@
 
 package io.wax911.emojify.parser.candidate
 
-import io.wax911.emojify.model.Emoji
+import io.wax911.emojify.contract.model.AbstractEmoji
 import io.wax911.emojify.util.Fitzpatrick
 import java.util.Locale
 
@@ -28,7 +28,7 @@ import java.util.Locale
  * @param emojiStartIndex
  */
 class UnicodeCandidate internal constructor(
-    val emoji: Emoji?,
+    val emoji: AbstractEmoji?,
     fitzpatrick: String?,
     val emojiStartIndex: Int,
 ) {

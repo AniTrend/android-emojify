@@ -1,5 +1,5 @@
 /*
- * Copyright 2024 AniTrend
+ * Copyright 2021 AniTrend
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,18 +14,19 @@
  * limitations under the License.
  */
 
-package io.wax911.emojify.initializer
-
-import io.wax911.emojify.model.AbstractEmoji
-import java.io.InputStream
+package io.wax911.emojify.contract.util.trie
 
 /**
- * Interface to implement if user wants to use a custom deserializer.
- * For more information on the necessary steps refer to README.md
+ * Emoji matching state representation
  */
-interface IEmojiDeserializer {
-    /**
-     * Decodes the given [InputStream] to an object of type List<[AbstractEmoji]>
-     */
-    fun decodeFromStream(inputStream: InputStream): List<AbstractEmoji>
+sealed class Matches {
+    data object EXACTLY : Matches()
+
+    data object POSSIBLY : Matches()
+
+    data object IMPOSSIBLE : Matches()
+
+    fun exactMatch() = this is EXACTLY
+
+    fun impossibleMatch() = this is IMPOSSIBLE
 }

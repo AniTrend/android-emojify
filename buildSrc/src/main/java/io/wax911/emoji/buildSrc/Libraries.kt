@@ -7,6 +7,8 @@ object Libraries {
 
         object Emojify {
             val emojify = Modules.Library.Emojify.path()
+            val contract = Modules.Library.Contract.path()
+            val serializerKotlinx = Modules.Library.SerializerKotlinx.path()
         }
     }
 }

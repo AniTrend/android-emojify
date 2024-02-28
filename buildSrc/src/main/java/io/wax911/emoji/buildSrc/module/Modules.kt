@@ -16,6 +16,8 @@ internal object Modules {
     }
 
     enum class Library(override val id: String) : Module {
-        Emojify("emojify")
+        Emojify("emojify"),
+        Contract("contract"),
+        SerializerKotlinx("serializer:kotlinx")
     }
 }

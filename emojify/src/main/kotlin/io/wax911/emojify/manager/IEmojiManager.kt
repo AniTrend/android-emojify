@@ -16,43 +16,43 @@
 
 package io.wax911.emojify.manager
 
-import io.wax911.emojify.model.Emoji
-import io.wax911.emojify.util.trie.Matches
+import io.wax911.emojify.contract.model.AbstractEmoji
+import io.wax911.emojify.contract.util.trie.Matches
 
 /**
  * Emoji manager contract
  *
  * @property emojiList collection of emojis
  */
-interface IEmojiManager {
-    val emojiList: Collection<Emoji>
+internal interface IEmojiManager {
+    val emojiList: Collection<AbstractEmoji>
 
     /**
-     * Returns all the [Emoji]s for a given tag.
+     * Returns all the [AbstractEmoji]s for a given tag.
      *
      * @param tag the tag
      *
-     * @return the associated [Emoji]s, null if the tag is unknown
+     * @return the associated [AbstractEmoji]s, null if the tag is unknown
      */
-    fun getForTag(tag: String?): Collection<Emoji>?
+    fun getForTag(tag: String?): Collection<AbstractEmoji>?
 
     /**
-     * Returns the [Emoji] for a given alias.
+     * Returns the [AbstractEmoji] for a given alias.
      *
      * @param alias the alias
      *
-     * @return the associated [Emoji], null if the alias is unknown
+     * @return the associated [AbstractEmoji], null if the alias is unknown
      */
-    fun getForAlias(alias: String?): Emoji?
+    fun getForAlias(alias: String?): AbstractEmoji?
 
     /**
-     * Returns the [Emoji] for a given unicode.
+     * Returns the [AbstractEmoji] for a given unicode.
      *
      * @param unicode the the unicode
      *
-     * @return the associated [Emoji], null if the unicode is unknown
+     * @return the associated [AbstractEmoji], null if the unicode is unknown
      */
-    fun getByUnicode(unicode: String?): Emoji?
+    fun getByUnicode(unicode: String?): AbstractEmoji?
 
     /**
      * Tests if a given String is an emoji.

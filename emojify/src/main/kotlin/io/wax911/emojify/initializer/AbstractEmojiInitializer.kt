@@ -20,8 +20,8 @@ import android.content.Context
 import android.content.res.AssetManager
 import androidx.startup.Initializer
 import io.wax911.emojify.EmojiManager
-import io.wax911.emojify.model.Emoji
-import kotlinx.serialization.SerializationException
+import io.wax911.emojify.contract.model.AbstractEmoji
+import io.wax911.emojify.contract.serializer.IEmojiDeserializer
 import java.io.IOException
 
 /**
@@ -37,15 +37,14 @@ abstract class AbstractEmojiInitializer : Initializer<EmojiManager> {
      * @param path location where emoji data can be found
      *
      * @throws IOException when the provided [assetManager] cannot open [path]
-     * @throws SerializationException when an error occurs during deserialization
      */
-    @Throws(IOException::class, SerializationException::class)
+    @Throws(IOException::class)
     fun initEmojiData(
         assetManager: AssetManager,
         path: String = DEFAULT_PATH,
-    ): List<Emoji> {
+    ): List<AbstractEmoji> {
         return assetManager.open(path).use { inputStream ->
-            serializer.decodeFromStream(inputStream).map { it.toEmoji() }
+            serializer.decodeFromStream(inputStream)
         }
     }
 

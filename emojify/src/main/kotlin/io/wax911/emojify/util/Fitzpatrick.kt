@@ -23,7 +23,7 @@ import java.util.Locale
  *
  * @param unicode The unicode representation of the Fitzpatrick modifier
  */
-enum class Fitzpatrick constructor(val unicode: String) {
+enum class Fitzpatrick(val unicode: String) {
     /**
      * Fitzpatrick modifier of type 1/2 (pale white/white)
      */
@@ -54,7 +54,7 @@ enum class Fitzpatrick constructor(val unicode: String) {
         /**
          * @return [Fitzpatrick] or null if no [unicode] matches the supported types
          */
-        fun fitzpatrickFromUnicode(unicode: String?): Fitzpatrick? = values().find { it.unicode == unicode }
+        fun fitzpatrickFromUnicode(unicode: String?): Fitzpatrick? = entries.find { it.unicode == unicode }
 
         /**
          * @return [Fitzpatrick] or null if no [type] the available enum names
