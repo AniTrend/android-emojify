@@ -3,15 +3,15 @@ package io.wax911.emojify.contract.model
 import java.nio.charset.Charset
 
 abstract class AbstractEmoji: IEmoji {
-    val unicode: String by lazy {
+    override val unicode: String by lazy(LazyThreadSafetyMode.NONE) {
         String(emoji.toByteArray(), Charset.forName("UTF-8"))
     }
 
-    val htmlDec by lazy {
+    override val htmlDec by lazy(LazyThreadSafetyMode.NONE) {
         html("&#%d;")
     }
 
-    val htmlHex by lazy {
+    override val htmlHex by lazy(LazyThreadSafetyMode.NONE) {
         html("&#x%x;")
     }
 
