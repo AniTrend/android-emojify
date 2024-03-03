@@ -17,4 +17,8 @@ internal interface IEmoji {
     val supportsFitzpatrick: Boolean
     val supportsGender: Boolean
     val tags: List<String>?
+
+    val unicode: String
+    val htmlDec: String
+    val htmlHex: String
 }
