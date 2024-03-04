@@ -12,10 +12,6 @@ dependencies {
     implementation(libs.google.android.material)
     implementation(libs.androidx.constraintlayout)
 
-    implementation(libs.moshi.kotlin)
-    implementation(libs.gson)
-    implementation(libs.jackson.databind)
-
     implementation(libs.jetbrains.kotlinx.coroutines.android)
     implementation(libs.jetbrains.kotlinx.coroutines.core)
 
