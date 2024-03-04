@@ -164,11 +164,14 @@ allprojects {
 }
 ```
 
-### Step 2. Add the dependency:
+### Step 2. Add the dependencies:
+
+You must use one of our artifact `serializer-kotlinx`, `serializer-gson` or `serializer-moshi`
 
 ```groovy
 dependencies {
     implementation 'com.github.anitrend:android-emojify:{latest_version}'
+    implementation 'com.github.anitrend:serializer-kotlinx:{latest_version}'
 }
 ```
 
@@ -177,15 +180,27 @@ dependencies {
 Don't know how to do that?? Take a look at
 the [application class example](./app/src/main/java/io/wax911/emojifysample/App.kt)
 
-**In order for EmojiInitilizer to work you need to add in your build.gradle `implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2"`**
-
 ```kotlin
 class App : Application() {
 
-    /**
-     * Application scope bound emojiManager, you could keep a reference to this object in a
-     * dependency injector framework like as a singleton in `Hilt`, `Dagger` or `Koin`
-     */
+  /**
+   * Application scope bound emojiManager, you could keep a reference to this object in a
+   * dependency injector framework like as a singleton in `Hilt`, `Dagger` or `Koin`
+   */
+    internal val emojiManager: EmojiManager by lazy {
+        EmojiManager.create(this, KotlinxDeserializer())
+    }
+}
+```
+
+### Step4. Optional - Init EmojiManager with androidx-startup
+```kotlin
+class EmojiInitializer : AbstractEmojiInitializer() {
+  override val serializer: IEmojiDeserializer = KotlinxDeserializer()
+}
+
+
+class App : Application() {
     internal val emojiManager: EmojiManager by lazy {
         // should already be initialized if we haven't disabled initialization in manifest
         // see: https://developer.android.com/topic/libraries/app-startup#disable-individual
@@ -195,54 +210,7 @@ class App : Application() {
 }
 ```
 
-### Optional - Custom Serializer
-
-`EmojiInitializer` is using kotlinx.serialization as default serializer. If you wish to use another serializer
-
-#### Step 1. Create Custom EmojiInitializer and implement IEmojiDeserializer (moshi for this example)
-```kotlin
-class CustomEmojiInitializer: AbstractEmojiInitializer() {
-  class MoshiDeserializer: IEmojiDeserializer {
-    private val moshi = Moshi.Builder().addLast(KotlinJsonAdapterFactory()).build()
-    @JsonClass(generateAdapter = true)
-    data class MoshiEmoji(
-      @Json(name = "aliases") override val aliases: List<String>? = null,
-      @Json(name = "description") override val description: String? = null,
-      @Json(name = "emoji") override val emoji: String,
-      @Json(name = "emojiChar") override val emojiChar: String,
-      @Json(name = "supports_fitzpatrick") override val supportsFitzpatrick: Boolean = false,
-      @Json(name = "supports_gender") override val supportsGender: Boolean = false,
-      @Json(name = "tags") override val tags: List<String>? = null,
-    ): AbstractEmoji(aliases, description, emoji, emojiChar, supportsFitzpatrick, supportsGender, tags)
-
-    override fun decodeFromStream(inputStream: InputStream): List<AbstractEmoji> {
-      val myType = Types.newParameterizedType(List::class.java, MoshiEmoji::class.java)
-      return moshi.adapter<List<MoshiEmoji>>(myType).fromJson(inputStream.source().buffer()) ?: listOf()
-    }
-  }
-
-  override val serializer: IEmojiDeserializer = MoshiDeserializer()
-}
-```
-
-#### Step 2. Modify your application class
-```kotlin
-class App : Application() {
-
-    /**
-     * Application scope bound emojiManager, you could keep a reference to this object in a
-     * dependency injector framework like as a singleton in `Hilt`, `Dagger` or `Koin`
-     */
-    internal val emojiManager: EmojiManager by lazy {
-        // should already be initialized if we haven't disabled initialization in manifest
-        // see: https://developer.android.com/topic/libraries/app-startup#disable-individual
-        AppInitializer.getInstance(this)
-            .initializeComponent(CustomEmojiInitializer::class.java)
-    }
-}
-```
-
-#### Step 3. Modify AndroidManifest.xml of your application
+**AndroidManifest.xml**
 ```xml
 <provider
     android:name="androidx.startup.InitializationProvider"
@@ -250,12 +218,8 @@ class App : Application() {
     android:exported="false"
     tools:node="merge">
     <meta-data
-        android:name="com.package.CustomEmojiInitializer"
-        android:value="androidx.startup" />
-    <meta-data
         android:name="io.wax911.emojify.initializer.EmojiInitializer"
-        android:value="androidx.startup"
-        tools:node="remove" />
+        android:value="androidx.startup" />
 </provider>
 ```
 
