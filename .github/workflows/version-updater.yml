@@ -19,7 +19,7 @@ jobs:
           ref: platform/update-version-meta-data
 
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v3
+        uses: peter-evans/create-pull-request@v6
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: "automation: update version.properties"
