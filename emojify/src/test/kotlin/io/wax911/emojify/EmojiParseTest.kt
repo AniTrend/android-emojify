@@ -30,6 +30,7 @@ import io.wax911.emojify.parser.removeAllEmojisExcept
 import io.wax911.emojify.parser.removeEmojis
 import io.wax911.emojify.parser.replaceAllEmojis
 import io.wax911.emojify.util.Fitzpatrick
+import io.wax911.emojify.util.getUnicode
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue

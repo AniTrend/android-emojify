@@ -21,9 +21,8 @@ import io.wax911.emojify.serializer.KotlinxDeserializer
 
 abstract class EmojiLoader {
 
-    private val deserializer = KotlinxDeserializer()
     protected val emojiManager = EmojiLoader::class.java.getResourceAsStream("emoji.json")
-        ?.use { deserializer.decodeFromStream(it) }
+        ?.use { KotlinxDeserializer().decodeFromStream(it) }
         .orEmpty()
         .let(::EmojiManager)
 }
