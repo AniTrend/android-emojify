@@ -31,7 +31,6 @@ import java.io.InputStream
  */
 class MoshiDeserializer: IEmojiDeserializer {
     private val moshi = Moshi.Builder().addLast(KotlinJsonAdapterFactory()).build()
-    @JsonClass(generateAdapter = true)
 
     override fun decodeFromStream(inputStream: InputStream): List<AbstractEmoji> {
         val myType = Types.newParameterizedType(List::class.java, MoshiEmoji::class.java)

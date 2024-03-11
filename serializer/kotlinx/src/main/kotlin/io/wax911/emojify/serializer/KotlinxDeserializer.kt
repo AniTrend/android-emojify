@@ -18,7 +18,6 @@ package io.wax911.emojify.serializer
 
 import io.wax911.emojify.contract.model.AbstractEmoji
 import io.wax911.emojify.contract.serializer.IEmojiDeserializer
-import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.SerializationException
 import kotlinx.serialization.builtins.ListSerializer
 import kotlinx.serialization.json.Json
@@ -31,7 +30,6 @@ import java.io.InputStream
 class KotlinxDeserializer : IEmojiDeserializer {
     private val json = Json { isLenient = true }
 
-    @OptIn(ExperimentalSerializationApi::class)
     @Throws(SerializationException::class)
     override fun decodeFromStream(inputStream: InputStream): List<AbstractEmoji> {
         val deserializer = ListSerializer(KotlinxEmoji.serializer())
