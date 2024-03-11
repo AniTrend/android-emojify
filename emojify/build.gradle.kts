@@ -8,6 +8,8 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.startup.runtime)
     implementation(project(Libraries.AniTrend.Emojify.contract))
+
+    testImplementation(project(Libraries.AniTrend.Emojify.serializerKotlinx))
 }
 
 android {

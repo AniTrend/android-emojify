@@ -16,8 +16,8 @@
 
 package io.wax911.emojify
 
+import io.wax911.emojify.contract.model.AbstractEmoji
 import io.wax911.emojify.core.EmojiLoader
-import io.wax911.emojify.model.Emoji
 import io.wax911.emojify.parser.action.FitzpatrickAction
 import io.wax911.emojify.parser.aliasCandidateAt
 import io.wax911.emojify.parser.extractEmojis
@@ -453,7 +453,7 @@ class EmojiParseTest : EmojiLoader() {
         // GIVEN
         val input = "An\uD83D\uDE03 awesome\uD83D\uDE04 string" +
             "\uD83D\uDC4D\uD83C\uDFFF with\uD83D\uDCAA\uD83C\uDFFD a few emojis!"
-        val emojis: MutableList<Emoji> = ArrayList()
+        val emojis: MutableList<AbstractEmoji> = ArrayList()
         emojis.add(emojiManager.getForAlias("smile")!!)
         emojis.add(emojiManager.getForAlias("+1")!!)
 
@@ -471,7 +471,7 @@ class EmojiParseTest : EmojiLoader() {
         // GIVEN
         val input = "An\uD83D\uDE03 awesome\uD83D\uDE04 string" +
             "\uD83D\uDC4D\uD83C\uDFFF with\uD83D\uDCAA\uD83C\uDFFD a few emojis!"
-        val emojis: MutableList<Emoji> = ArrayList()
+        val emojis: MutableList<AbstractEmoji> = ArrayList()
         emojis.add(emojiManager.getForAlias("smile")!!)
         emojis.add(emojiManager.getForAlias("+1")!!)
 

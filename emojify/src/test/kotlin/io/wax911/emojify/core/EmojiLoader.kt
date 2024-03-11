@@ -17,19 +17,13 @@
 package io.wax911.emojify.core
 
 import io.wax911.emojify.EmojiManager
-import io.wax911.emojify.model.Emoji
-import kotlinx.serialization.builtins.ListSerializer
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.decodeFromStream
+import io.wax911.emojify.serializer.KotlinxDeserializer
 
 abstract class EmojiLoader {
 
+    private val deserializer = KotlinxDeserializer()
     protected val emojiManager = EmojiLoader::class.java.getResourceAsStream("emoji.json")
-        ?.use {
-            val json = Json { isLenient = true }
-            val deserializer = ListSerializer(Emoji.serializer())
-            json.decodeFromStream(deserializer, it)
-        }
+        ?.use { deserializer.decodeFromStream(it) }
         .orEmpty()
         .let(::EmojiManager)
 }
