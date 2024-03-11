@@ -162,21 +162,26 @@ class EmojiManager internal constructor(
             assetManager: AssetManager,
             serializer: IEmojiDeserializer,
             path: String = AbstractEmojiInitializer.DEFAULT_PATH,
-        ): List<AbstractEmoji> = assetManager.open(path).use { inputStream ->
-            serializer.decodeFromStream(inputStream)
-        }
+        ): List<AbstractEmoji> =
+            assetManager.open(path).use { inputStream ->
+                serializer.decodeFromStream(inputStream)
+            }
 
         /**
          * Initializes and a component given the application [Context]
          *
          * @param context The application context.
          */
-        fun create(context: Context, serializer: IEmojiDeserializer): EmojiManager {
+        fun create(
+            context: Context,
+            serializer: IEmojiDeserializer,
+        ): EmojiManager {
             val emojiManagerDefault = EmojiManager(emptyList())
-            val result = runCatching {
-                val emojis = initEmojiData(context.assets, serializer)
-                EmojiManager(emojis)
-            }.onFailure { it.printStackTrace() }
+            val result =
+                runCatching {
+                    val emojis = initEmojiData(context.assets, serializer)
+                    EmojiManager(emojis)
+                }.onFailure { it.printStackTrace() }
             return result.getOrNull() ?: emojiManagerDefault
         }
     }

@@ -1,11 +1,13 @@
 package io.wax911.emojify.serializer
 
 import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 import io.wax911.emojify.contract.model.AbstractEmoji
 
 /**
  * Default implementation of AbstractEmoji for moshi
  */
+@JsonClass(generateAdapter = true)
 data class MoshiEmoji(
     @Json(name = "aliases") override val aliases: List<String>? = null,
     @Json(name = "description") override val description: String? = null,
