@@ -16,8 +16,8 @@
 
 package io.wax911.emojify
 
+import io.wax911.emojify.contract.model.AbstractEmoji
 import io.wax911.emojify.core.EmojiLoader
-import io.wax911.emojify.model.Emoji
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull
@@ -245,9 +245,9 @@ class EmojiManagerTest : EmojiLoader() {
 
     companion object {
 
-        fun Iterable<Emoji>.containsAliases(vararg aliases: String) =
+        fun Iterable<AbstractEmoji>.containsAliases(vararg aliases: String) =
             aliases.any { alias ->
-                mapNotNull(Emoji::aliases)
+                mapNotNull(AbstractEmoji::aliases)
                     .toHashSet()
                     .any {
                         it.contains(alias)
