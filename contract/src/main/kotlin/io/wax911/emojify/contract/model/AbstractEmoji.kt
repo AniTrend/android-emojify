@@ -2,6 +2,10 @@ package io.wax911.emojify.contract.model
 
 import java.nio.charset.Charset
 
+/**
+ * Abstract class holding some logic.
+ * To implement for parser-specific data representation with their annotation
+ */
 abstract class AbstractEmoji: IEmoji {
     override val unicode: String by lazy(LazyThreadSafetyMode.NONE) {
         String(emoji.toByteArray(), Charset.forName("UTF-8"))
