@@ -20,13 +20,28 @@ package io.wax911.emojify.contract.util.trie
  * Emoji matching state representation
  */
 sealed class Matches {
+    /**
+     * if char sequence in its entirety is an emoji
+     */
     data object EXACTLY : Matches()
 
+    /**
+     * if char sequence matches prefix of an emoji
+     */
     data object POSSIBLY : Matches()
 
+    /**
+     * if char sequence matches no emoji or prefix of an emoji
+     */
     data object IMPOSSIBLE : Matches()
 
+    /**
+     * @return whether the current status is [EXACTLY]
+     */
     fun exactMatch() = this is EXACTLY
 
+    /**
+     * @return whether the current status is [IMPOSSIBLE]
+     */
     fun impossibleMatch() = this is IMPOSSIBLE
 }

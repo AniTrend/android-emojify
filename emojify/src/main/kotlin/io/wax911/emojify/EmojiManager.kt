@@ -149,14 +149,6 @@ class EmojiManager internal constructor(
     override fun getAllTags(): Collection<String> = emojiByTag.keys
 
     companion object {
-        /**
-         * Initializes emoji objects from an asset file in the library directory
-         *
-         * @param assetManager provide an assert manager
-         * @param path location where emoji data can be found
-         *
-         * @throws IOException when the provided [assetManager] cannot open [path]
-         */
         @Throws(IOException::class)
         private fun initEmojiData(
             assetManager: AssetManager,
@@ -168,9 +160,12 @@ class EmojiManager internal constructor(
             }
 
         /**
-         * Initializes and a component given the application [Context]
+         * Initializes emoji objects from an asset file in the library directory
          *
          * @param context The application context.
+         * @param serializer The implementation of a parser-specific
+         *
+         * @return [EmojiManager] In case of failure emojiList will be empty
          */
         fun create(
             context: Context,
