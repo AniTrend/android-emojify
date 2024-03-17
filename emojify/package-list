@@ -3,10 +3,6 @@ $dokka.linkExtension:html
 $dokka.location:io.wax911.emojify.core////PointingToDeclaration/emojify/io.wax911.emojify.core/index.html
 $dokka.location:io.wax911.emojify.core/EmojiLoader///PointingToDeclaration/emojify/io.wax911.emojify.core/[common]-emoji-loader/index.html
 $dokka.location:io.wax911.emojify.core/EmojiLoader/EmojiLoader/#/PointingToDeclaration/emojify/io.wax911.emojify.core/[common]-emoji-loader/-emoji-loader.html
-$dokka.location:io.wax911.emojify.deserializer////PointingToDeclaration/emojify/io.wax911.emojify.deserializer/index.html
-$dokka.location:io.wax911.emojify.deserializer/KotlinxDeserializer///PointingToDeclaration/emojify/io.wax911.emojify.deserializer/[common]-kotlinx-deserializer/index.html
-$dokka.location:io.wax911.emojify.deserializer/KotlinxDeserializer/KotlinxDeserializer/#/PointingToDeclaration/emojify/io.wax911.emojify.deserializer/[common]-kotlinx-deserializer/-kotlinx-deserializer.html
-$dokka.location:io.wax911.emojify.deserializer/KotlinxDeserializer/decodeFromStream/#java.io.InputStream/PointingToDeclaration/emojify/io.wax911.emojify.deserializer/[common]-kotlinx-deserializer/decode-from-stream.html
 $dokka.location:io.wax911.emojify.initializer////PointingToDeclaration/emojify/io.wax911.emojify.initializer/index.html
 $dokka.location:io.wax911.emojify.initializer/AbstractEmojiInitializer.Companion///PointingToDeclaration/emojify/io.wax911.emojify.initializer/[common]-abstract-emoji-initializer/-companion/index.html
 $dokka.location:io.wax911.emojify.initializer/AbstractEmojiInitializer///PointingToDeclaration/emojify/io.wax911.emojify.initializer/[common]-abstract-emoji-initializer/index.html
@@ -14,41 +10,7 @@ $dokka.location:io.wax911.emojify.initializer/AbstractEmojiInitializer/AbstractE
 $dokka.location:io.wax911.emojify.initializer/AbstractEmojiInitializer/create/#[Error type: Unresolved type for Context]/PointingToDeclaration/emojify/io.wax911.emojify.initializer/[common]-abstract-emoji-initializer/create.html
 $dokka.location:io.wax911.emojify.initializer/AbstractEmojiInitializer/create/#android.content.Context/PointingToDeclaration/emojify/io.wax911.emojify.initializer/[android-jvm]-abstract-emoji-initializer/create.html
 $dokka.location:io.wax911.emojify.initializer/AbstractEmojiInitializer/dependencies/#/PointingToDeclaration/emojify/io.wax911.emojify.initializer/[common]-abstract-emoji-initializer/dependencies.html
-$dokka.location:io.wax911.emojify.initializer/AbstractEmojiInitializer/initEmojiData/#[Error type: Unresolved type for AssetManager]#kotlin.String/PointingToDeclaration/emojify/io.wax911.emojify.initializer/[common]-abstract-emoji-initializer/init-emoji-data.html
-$dokka.location:io.wax911.emojify.initializer/AbstractEmojiInitializer/initEmojiData/#android.content.res.AssetManager#kotlin.String/PointingToDeclaration/emojify/io.wax911.emojify.initializer/[android-jvm]-abstract-emoji-initializer/init-emoji-data.html
 $dokka.location:io.wax911.emojify.initializer/AbstractEmojiInitializer/serializer/#/PointingToDeclaration/emojify/io.wax911.emojify.initializer/[common]-abstract-emoji-initializer/serializer.html
-$dokka.location:io.wax911.emojify.initializer/EmojiInitializer///PointingToDeclaration/emojify/io.wax911.emojify.initializer/[common]-emoji-initializer/index.html
-$dokka.location:io.wax911.emojify.initializer/EmojiInitializer/EmojiInitializer/#/PointingToDeclaration/emojify/io.wax911.emojify.initializer/[common]-emoji-initializer/-emoji-initializer.html
-$dokka.location:io.wax911.emojify.initializer/EmojiInitializer/serializer/#/PointingToDeclaration/emojify/io.wax911.emojify.initializer/[common]-emoji-initializer/serializer.html
-$dokka.location:io.wax911.emojify.initializer/IEmojiDeserializer///PointingToDeclaration/emojify/io.wax911.emojify.initializer/[common]-i-emoji-deserializer/index.html
-$dokka.location:io.wax911.emojify.initializer/IEmojiDeserializer/decodeFromStream/#java.io.InputStream/PointingToDeclaration/emojify/io.wax911.emojify.initializer/[common]-i-emoji-deserializer/decode-from-stream.html
-$dokka.location:io.wax911.emojify.manager////PointingToDeclaration/emojify/io.wax911.emojify.manager/index.html
-$dokka.location:io.wax911.emojify.manager/IEmojiManager///PointingToDeclaration/emojify/io.wax911.emojify.manager/[common]-i-emoji-manager/index.html
-$dokka.location:io.wax911.emojify.manager/IEmojiManager/emojiList/#/PointingToDeclaration/emojify/io.wax911.emojify.manager/[common]-i-emoji-manager/emoji-list.html
-$dokka.location:io.wax911.emojify.manager/IEmojiManager/getAllTags/#/PointingToDeclaration/emojify/io.wax911.emojify.manager/[common]-i-emoji-manager/get-all-tags.html
-$dokka.location:io.wax911.emojify.manager/IEmojiManager/getByUnicode/#kotlin.String?/PointingToDeclaration/emojify/io.wax911.emojify.manager/[common]-i-emoji-manager/get-by-unicode.html
-$dokka.location:io.wax911.emojify.manager/IEmojiManager/getForAlias/#kotlin.String?/PointingToDeclaration/emojify/io.wax911.emojify.manager/[common]-i-emoji-manager/get-for-alias.html
-$dokka.location:io.wax911.emojify.manager/IEmojiManager/getForTag/#kotlin.String?/PointingToDeclaration/emojify/io.wax911.emojify.manager/[common]-i-emoji-manager/get-for-tag.html
-$dokka.location:io.wax911.emojify.manager/IEmojiManager/isEmoji/#kotlin.CharArray/PointingToDeclaration/emojify/io.wax911.emojify.manager/[common]-i-emoji-manager/is-emoji.html
-$dokka.location:io.wax911.emojify.manager/IEmojiManager/isEmoji/#kotlin.String?/PointingToDeclaration/emojify/io.wax911.emojify.manager/[common]-i-emoji-manager/is-emoji.html
-$dokka.location:io.wax911.emojify.manager/IEmojiManager/isOnlyEmojis/#kotlin.String?/PointingToDeclaration/emojify/io.wax911.emojify.manager/[common]-i-emoji-manager/is-only-emojis.html
-$dokka.location:io.wax911.emojify.model////PointingToDeclaration/emojify/io.wax911.emojify.model/index.html
-$dokka.location:io.wax911.emojify.model/Emoji///PointingToDeclaration/emojify/io.wax911.emojify.model/[common]-emoji/index.html
-$dokka.location:io.wax911.emojify.model/Emoji/Emoji/#kotlin.collections.List[kotlin.String]?#kotlin.String?#kotlin.String#kotlin.String#kotlin.Boolean#kotlin.Boolean#kotlin.collections.List[kotlin.String]?/PointingToDeclaration/emojify/io.wax911.emojify.model/[common]-emoji/-emoji.html
-$dokka.location:io.wax911.emojify.model/Emoji/aliases/#/PointingToDeclaration/emojify/io.wax911.emojify.model/[common]-emoji/aliases.html
-$dokka.location:io.wax911.emojify.model/Emoji/description/#/PointingToDeclaration/emojify/io.wax911.emojify.model/[common]-emoji/description.html
-$dokka.location:io.wax911.emojify.model/Emoji/emoji/#/PointingToDeclaration/emojify/io.wax911.emojify.model/[common]-emoji/emoji.html
-$dokka.location:io.wax911.emojify.model/Emoji/emojiChar/#/PointingToDeclaration/emojify/io.wax911.emojify.model/[common]-emoji/emoji-char.html
-$dokka.location:io.wax911.emojify.model/Emoji/equals/#kotlin.Any?/PointingToDeclaration/emojify/io.wax911.emojify.model/[common]-emoji/equals.html
-$dokka.location:io.wax911.emojify.model/Emoji/getUnicode/#io.wax911.emojify.util.Fitzpatrick?/PointingToDeclaration/emojify/io.wax911.emojify.model/[common]-emoji/get-unicode.html
-$dokka.location:io.wax911.emojify.model/Emoji/hashCode/#/PointingToDeclaration/emojify/io.wax911.emojify.model/[common]-emoji/hash-code.html
-$dokka.location:io.wax911.emojify.model/Emoji/htmlDec/#/PointingToDeclaration/emojify/io.wax911.emojify.model/[common]-emoji/html-dec.html
-$dokka.location:io.wax911.emojify.model/Emoji/htmlHex/#/PointingToDeclaration/emojify/io.wax911.emojify.model/[common]-emoji/html-hex.html
-$dokka.location:io.wax911.emojify.model/Emoji/supportsFitzpatrick/#/PointingToDeclaration/emojify/io.wax911.emojify.model/[common]-emoji/supports-fitzpatrick.html
-$dokka.location:io.wax911.emojify.model/Emoji/supportsGender/#/PointingToDeclaration/emojify/io.wax911.emojify.model/[common]-emoji/supports-gender.html
-$dokka.location:io.wax911.emojify.model/Emoji/tags/#/PointingToDeclaration/emojify/io.wax911.emojify.model/[common]-emoji/tags.html
-$dokka.location:io.wax911.emojify.model/Emoji/toString/#/PointingToDeclaration/emojify/io.wax911.emojify.model/[common]-emoji/to-string.html
-$dokka.location:io.wax911.emojify.model/Emoji/unicode/#/PointingToDeclaration/emojify/io.wax911.emojify.model/[common]-emoji/unicode.html
 $dokka.location:io.wax911.emojify.parser.action////PointingToDeclaration/emojify/io.wax911.emojify.parser.action/index.html
 $dokka.location:io.wax911.emojify.parser.action/FitzpatrickAction.IGNORE///PointingToDeclaration/emojify/io.wax911.emojify.parser.action/[common]-fitzpatrick-action/-i-g-n-o-r-e/index.html
 $dokka.location:io.wax911.emojify.parser.action/FitzpatrickAction.PARSE///PointingToDeclaration/emojify/io.wax911.emojify.parser.action/[common]-fitzpatrick-action/-p-a-r-s-e/index.html
@@ -73,21 +35,20 @@ $dokka.location:io.wax911.emojify.parser//parseToHtmlDecimal/io.wax911.emojify.E
 $dokka.location:io.wax911.emojify.parser//parseToHtmlHexadecimal/io.wax911.emojify.EmojiManager#kotlin.String#io.wax911.emojify.parser.action.FitzpatrickAction/PointingToDeclaration/emojify/io.wax911.emojify.parser/[common]parse-to-html-hexadecimal.html
 $dokka.location:io.wax911.emojify.parser//parseToUnicode/io.wax911.emojify.EmojiManager#kotlin.String/PointingToDeclaration/emojify/io.wax911.emojify.parser/[common]parse-to-unicode.html
 $dokka.location:io.wax911.emojify.parser//removeAllEmojis/io.wax911.emojify.EmojiManager#kotlin.String/PointingToDeclaration/emojify/io.wax911.emojify.parser/[common]remove-all-emojis.html
-$dokka.location:io.wax911.emojify.parser//removeAllEmojisExcept/io.wax911.emojify.EmojiManager#kotlin.String#kotlin.collections.Collection[io.wax911.emojify.model.Emoji]/PointingToDeclaration/emojify/io.wax911.emojify.parser/[common]remove-all-emojis-except.html
-$dokka.location:io.wax911.emojify.parser//removeEmojis/io.wax911.emojify.EmojiManager#kotlin.String#kotlin.collections.Collection[io.wax911.emojify.model.Emoji]/PointingToDeclaration/emojify/io.wax911.emojify.parser/[common]remove-emojis.html
+$dokka.location:io.wax911.emojify.parser//removeAllEmojisExcept/io.wax911.emojify.EmojiManager#kotlin.String#kotlin.collections.Collection[[Error type: Unresolved type for AbstractEmoji]]/PointingToDeclaration/emojify/io.wax911.emojify.parser/[common]remove-all-emojis-except.html
+$dokka.location:io.wax911.emojify.parser//removeAllEmojisExcept/io.wax911.emojify.EmojiManager#kotlin.String#kotlin.collections.Collection[io.wax911.emojify.contract.model.AbstractEmoji]/PointingToDeclaration/emojify/io.wax911.emojify.parser/[android-jvm]remove-all-emojis-except.html
+$dokka.location:io.wax911.emojify.parser//removeEmojis/io.wax911.emojify.EmojiManager#kotlin.String#kotlin.collections.Collection[[Error type: Unresolved type for AbstractEmoji]]/PointingToDeclaration/emojify/io.wax911.emojify.parser/[common]remove-emojis.html
+$dokka.location:io.wax911.emojify.parser//removeEmojis/io.wax911.emojify.EmojiManager#kotlin.String#kotlin.collections.Collection[io.wax911.emojify.contract.model.AbstractEmoji]/PointingToDeclaration/emojify/io.wax911.emojify.parser/[android-jvm]remove-emojis.html
 $dokka.location:io.wax911.emojify.parser//replaceAllEmojis/io.wax911.emojify.EmojiManager#kotlin.String#kotlin.String/PointingToDeclaration/emojify/io.wax911.emojify.parser/[common]replace-all-emojis.html
 $dokka.location:io.wax911.emojify.util.trie////PointingToDeclaration/emojify/io.wax911.emojify.util.trie/index.html
-$dokka.location:io.wax911.emojify.util.trie/Matches.EXACTLY///PointingToDeclaration/emojify/io.wax911.emojify.util.trie/[common]-matches/-e-x-a-c-t-l-y/index.html
-$dokka.location:io.wax911.emojify.util.trie/Matches.IMPOSSIBLE///PointingToDeclaration/emojify/io.wax911.emojify.util.trie/[common]-matches/-i-m-p-o-s-s-i-b-l-e/index.html
-$dokka.location:io.wax911.emojify.util.trie/Matches.POSSIBLY///PointingToDeclaration/emojify/io.wax911.emojify.util.trie/[common]-matches/-p-o-s-s-i-b-l-y/index.html
-$dokka.location:io.wax911.emojify.util.trie/Matches///PointingToDeclaration/emojify/io.wax911.emojify.util.trie/[common]-matches/index.html
-$dokka.location:io.wax911.emojify.util.trie/Matches/exactMatch/#/PointingToDeclaration/emojify/io.wax911.emojify.util.trie/[common]-matches/exact-match.html
-$dokka.location:io.wax911.emojify.util.trie/Matches/impossibleMatch/#/PointingToDeclaration/emojify/io.wax911.emojify.util.trie/[common]-matches/impossible-match.html
 $dokka.location:io.wax911.emojify.util.trie/Node///PointingToDeclaration/emojify/io.wax911.emojify.util.trie/[common]-node/index.html
 $dokka.location:io.wax911.emojify.util.trie/Node/Node/#/PointingToDeclaration/emojify/io.wax911.emojify.util.trie/[common]-node/-node.html
 $dokka.location:io.wax911.emojify.util////PointingToDeclaration/emojify/io.wax911.emojify.util/index.html
+$dokka.location:io.wax911.emojify.util//getUnicode/[Error type: Unresolved type for AbstractEmoji]#io.wax911.emojify.util.Fitzpatrick?/PointingToDeclaration/emojify/io.wax911.emojify.util/[common]get-unicode.html
+$dokka.location:io.wax911.emojify.util//getUnicode/io.wax911.emojify.contract.model.AbstractEmoji#io.wax911.emojify.util.Fitzpatrick?/PointingToDeclaration/emojify/io.wax911.emojify.util/[android-jvm]get-unicode.html
 $dokka.location:io.wax911.emojify.util/EmojiTrie///PointingToDeclaration/emojify/io.wax911.emojify.util/[common]-emoji-trie/index.html
-$dokka.location:io.wax911.emojify.util/EmojiTrie/EmojiTrie/#kotlin.collections.Collection[io.wax911.emojify.model.Emoji]/PointingToDeclaration/emojify/io.wax911.emojify.util/[common]-emoji-trie/-emoji-trie.html
+$dokka.location:io.wax911.emojify.util/EmojiTrie/EmojiTrie/#kotlin.collections.Collection[[Error type: Unresolved type for AbstractEmoji]]/PointingToDeclaration/emojify/io.wax911.emojify.util/[common]-emoji-trie/-emoji-trie.html
+$dokka.location:io.wax911.emojify.util/EmojiTrie/EmojiTrie/#kotlin.collections.Collection[io.wax911.emojify.contract.model.AbstractEmoji]/PointingToDeclaration/emojify/io.wax911.emojify.util/[android-jvm]-emoji-trie/-emoji-trie.html
 $dokka.location:io.wax911.emojify.util/EmojiTrie/getEmoji/#kotlin.CharArray#kotlin.Int#kotlin.Int/PointingToDeclaration/emojify/io.wax911.emojify.util/[common]-emoji-trie/get-emoji.html
 $dokka.location:io.wax911.emojify.util/EmojiTrie/isEmoji/#kotlin.CharArray?#kotlin.Int#kotlin.Int/PointingToDeclaration/emojify/io.wax911.emojify.util/[common]-emoji-trie/is-emoji.html
 $dokka.location:io.wax911.emojify.util/EmojiTrie/maxDepth/#/PointingToDeclaration/emojify/io.wax911.emojify.util/[common]-emoji-trie/max-depth.html
@@ -105,8 +66,10 @@ $dokka.location:io.wax911.emojify.util/Fitzpatrick/unicode/#/PointingToDeclarati
 $dokka.location:io.wax911.emojify.util/Fitzpatrick/valueOf/#kotlin.String/PointingToDeclaration/emojify/io.wax911.emojify.util/[common]-fitzpatrick/value-of.html
 $dokka.location:io.wax911.emojify.util/Fitzpatrick/values/#/PointingToDeclaration/emojify/io.wax911.emojify.util/[common]-fitzpatrick/values.html
 $dokka.location:io.wax911.emojify////PointingToDeclaration/emojify/io.wax911.emojify/index.html
+$dokka.location:io.wax911.emojify/EmojiManager.Companion///PointingToDeclaration/emojify/io.wax911.emojify/[common]-emoji-manager/-companion/index.html
+$dokka.location:io.wax911.emojify/EmojiManager.Companion/create/#[Error type: Unresolved type for Context]#[Error type: Unresolved type for IEmojiDeserializer]/PointingToDeclaration/emojify/io.wax911.emojify/[common]-emoji-manager/-companion/create.html
+$dokka.location:io.wax911.emojify/EmojiManager.Companion/create/#android.content.Context#io.wax911.emojify.contract.serializer.IEmojiDeserializer/PointingToDeclaration/emojify/io.wax911.emojify/[android-jvm]-emoji-manager/-companion/create.html
 $dokka.location:io.wax911.emojify/EmojiManager///PointingToDeclaration/emojify/io.wax911.emojify/[common]-emoji-manager/index.html
-$dokka.location:io.wax911.emojify/EmojiManager/EmojiManager/#kotlin.collections.Collection[io.wax911.emojify.model.Emoji]/PointingToDeclaration/emojify/io.wax911.emojify/[common]-emoji-manager/-emoji-manager.html
 $dokka.location:io.wax911.emojify/EmojiManager/emojiList/#/PointingToDeclaration/emojify/io.wax911.emojify/[common]-emoji-manager/emoji-list.html
 $dokka.location:io.wax911.emojify/EmojiManager/getAllTags/#/PointingToDeclaration/emojify/io.wax911.emojify/[common]-emoji-manager/get-all-tags.html
 $dokka.location:io.wax911.emojify/EmojiManager/getByUnicode/#kotlin.String?/PointingToDeclaration/emojify/io.wax911.emojify/[common]-emoji-manager/get-by-unicode.html
@@ -117,7 +80,8 @@ $dokka.location:io.wax911.emojify/EmojiManager/isEmoji/#kotlin.String?/PointingT
 $dokka.location:io.wax911.emojify/EmojiManager/isOnlyEmojis/#kotlin.String?/PointingToDeclaration/emojify/io.wax911.emojify/[common]-emoji-manager/is-only-emojis.html
 $dokka.location:io.wax911.emojify/EmojiManager/trimAlias/#kotlin.String/PointingToDeclaration/emojify/io.wax911.emojify/[common]-emoji-manager/trim-alias.html
 $dokka.location:io.wax911.emojify/EmojiManagerTest.Companion///PointingToDeclaration/emojify/io.wax911.emojify/[common]-emoji-manager-test/-companion/index.html
-$dokka.location:io.wax911.emojify/EmojiManagerTest.Companion/containsAliases/kotlin.collections.Iterable[io.wax911.emojify.model.Emoji]#kotlin.Array[kotlin.String]/PointingToDeclaration/emojify/io.wax911.emojify/[common]-emoji-manager-test/-companion/contains-aliases.html
+$dokka.location:io.wax911.emojify/EmojiManagerTest.Companion/containsAliases/kotlin.collections.Iterable[[Error type: Unresolved type for AbstractEmoji]]#kotlin.Array[kotlin.String]/PointingToDeclaration/emojify/io.wax911.emojify/[common]-emoji-manager-test/-companion/contains-aliases.html
+$dokka.location:io.wax911.emojify/EmojiManagerTest.Companion/containsAliases/kotlin.collections.Iterable[io.wax911.emojify.contract.model.AbstractEmoji]#kotlin.Array[kotlin.String]/PointingToDeclaration/emojify/io.wax911.emojify/[android-jvm]-emoji-manager-test/-companion/contains-aliases.html
 $dokka.location:io.wax911.emojify/EmojiManagerTest///PointingToDeclaration/emojify/io.wax911.emojify/[common]-emoji-manager-test/index.html
 $dokka.location:io.wax911.emojify/EmojiManagerTest/EmojiManagerTest/#/PointingToDeclaration/emojify/io.wax911.emojify/[common]-emoji-manager-test/-emoji-manager-test.html
 $dokka.location:io.wax911.emojify/EmojiManagerTest/getAllTags_returns_the_tags/#/PointingToDeclaration/emojify/io.wax911.emojify/[common]-emoji-manager-test/get-all-tags_returns_the_tags.html
@@ -205,10 +169,7 @@ $dokka.location:io.wax911.emojify/EmojiUtilTest/testShortCodifyFromHtmlEntities/
 $dokka.location:io.wax911.emojify/EmojiUtilTest/toSurrogateDecimalAndBackTest/#/PointingToDeclaration/emojify/io.wax911.emojify/[common]-emoji-util-test/to-surrogate-decimal-and-back-test.html
 io.wax911.emojify
 io.wax911.emojify.core
-io.wax911.emojify.deserializer
 io.wax911.emojify.initializer
-io.wax911.emojify.manager
-io.wax911.emojify.model
 io.wax911.emojify.parser
 io.wax911.emojify.parser.action
 io.wax911.emojify.parser.candidate
