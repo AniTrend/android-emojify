@@ -14,22 +14,26 @@
  * limitations under the License.
  */
 
-package io.wax911.emojify.serializer
+package io.wax911.emojify.serializer.kotlinx
 
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import io.wax911.emojify.contract.model.AbstractEmoji
 import io.wax911.emojify.contract.serializer.IEmojiDeserializer
+import kotlinx.serialization.SerializationException
+import kotlinx.serialization.builtins.ListSerializer
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.decodeFromStream
 import java.io.InputStream
 
 /**
- * Default implementation for gson
+ * Default implementation for kotlinx-serialization
  */
-class GsonDeserializer: IEmojiDeserializer {
-    private val gson = Gson()
+class KotlinxDeserializer : IEmojiDeserializer {
+    private val json = Json { isLenient = true }
 
+    @OptIn(kotlinx.serialization.ExperimentalSerializationApi::class)
+    @Throws(SerializationException::class)
     override fun decodeFromStream(inputStream: InputStream): List<AbstractEmoji> {
-        val myType = TypeToken.getParameterized(List::class.java, GsonEmoji::class.java).type
-        return gson.fromJson(inputStream.reader(), myType)
+        val deserializer = ListSerializer(KotlinxEmoji.serializer())
+        return json.decodeFromStream(deserializer, inputStream)
     }
 }

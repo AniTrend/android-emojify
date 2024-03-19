@@ -14,26 +14,22 @@
  * limitations under the License.
  */
 
-package io.wax911.emojify.serializer
+package io.wax911.emojify.serializer.gson
 
-import com.squareup.moshi.JsonClass
-import com.squareup.moshi.Moshi
-import com.squareup.moshi.Types
-import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import io.wax911.emojify.contract.model.AbstractEmoji
 import io.wax911.emojify.contract.serializer.IEmojiDeserializer
-import okio.buffer
-import okio.source
 import java.io.InputStream
 
 /**
- * Default implementation for moshi
+ * Default implementation for gson
  */
-class MoshiDeserializer: IEmojiDeserializer {
-    private val moshi = Moshi.Builder().addLast(KotlinJsonAdapterFactory()).build()
+class GsonDeserializer : IEmojiDeserializer {
+    private val gson = Gson()
 
     override fun decodeFromStream(inputStream: InputStream): List<AbstractEmoji> {
-        val myType = Types.newParameterizedType(List::class.java, MoshiEmoji::class.java)
-        return moshi.adapter<List<MoshiEmoji>>(myType).fromJson(inputStream.source().buffer()) ?: listOf()
+        val myType = TypeToken.getParameterized(List::class.java, GsonEmoji::class.java).type
+        return gson.fromJson(inputStream.reader(), myType)
     }
 }

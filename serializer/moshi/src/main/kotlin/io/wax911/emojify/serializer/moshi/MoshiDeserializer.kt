@@ -14,25 +14,25 @@
  * limitations under the License.
  */
 
-package io.wax911.emojify.serializer
+package io.wax911.emojify.serializer.moshi
 
+import com.squareup.moshi.Moshi
+import com.squareup.moshi.Types
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import io.wax911.emojify.contract.model.AbstractEmoji
 import io.wax911.emojify.contract.serializer.IEmojiDeserializer
-import kotlinx.serialization.SerializationException
-import kotlinx.serialization.builtins.ListSerializer
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.decodeFromStream
+import okio.buffer
+import okio.source
 import java.io.InputStream
 
 /**
- * Default implementation for kotlinx-serialization
+ * Default implementation for moshi
  */
-class KotlinxDeserializer : IEmojiDeserializer {
-    private val json = Json { isLenient = true }
+class MoshiDeserializer : IEmojiDeserializer {
+    private val moshi = Moshi.Builder().addLast(KotlinJsonAdapterFactory()).build()
 
-    @Throws(SerializationException::class)
     override fun decodeFromStream(inputStream: InputStream): List<AbstractEmoji> {
-        val deserializer = ListSerializer(KotlinxEmoji.serializer())
-        return json.decodeFromStream(deserializer, inputStream)
+        val myType = Types.newParameterizedType(List::class.java, MoshiEmoji::class.java)
+        return moshi.adapter<List<MoshiEmoji>>(myType).fromJson(inputStream.source().buffer()) ?: listOf()
     }
 }

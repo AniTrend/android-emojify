@@ -22,11 +22,14 @@ fun Project.isSampleModule() =
     name == Modules.App.Sample.id
 
 fun Project.isLibraryModule() =
-    name == Modules.Library.Emojify.id
+    name == "emojify" ||
+        name == "contract" ||
+        name == "kotlinx" ||
+        name == "gson" ||
+        name == "moshi"
 
 internal val Project.libs: LibrariesForLibs
-    get() =
-        extensions.getByType<LibrariesForLibs>()
+    get() = extensions.getByType<LibrariesForLibs>()
 
 internal val Project.props: PropertiesReader
     get() = PropertiesReader(this)

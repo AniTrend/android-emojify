@@ -17,7 +17,7 @@
 package io.wax911.emojify.core
 
 import io.wax911.emojify.EmojiManager
-import io.wax911.emojify.serializer.KotlinxDeserializer
+import io.wax911.emojify.serializer.kotlinx.KotlinxDeserializer
 
 abstract class EmojiLoader {
 
