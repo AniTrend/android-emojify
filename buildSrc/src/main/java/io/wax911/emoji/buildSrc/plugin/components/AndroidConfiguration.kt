@@ -1,7 +1,13 @@
 package io.wax911.emoji.buildSrc.plugin.components
 
 import com.android.build.gradle.internal.dsl.DefaultConfig
-import io.wax911.emoji.buildSrc.plugin.extensions.*
+import io.wax911.emoji.buildSrc.plugin.extensions.baseAppExtension
+import io.wax911.emoji.buildSrc.plugin.extensions.baseExtension
+import io.wax911.emoji.buildSrc.plugin.extensions.isLibraryModule
+import io.wax911.emoji.buildSrc.plugin.extensions.isSampleModule
+import io.wax911.emoji.buildSrc.plugin.extensions.libs
+import io.wax911.emoji.buildSrc.plugin.extensions.props
+import io.wax911.emoji.buildSrc.plugin.extensions.spotlessExtension
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
 import org.jetbrains.kotlin.gradle.dsl.KotlinCompile
@@ -13,7 +19,7 @@ internal fun Project.configureSpotless() {
         spotlessExtension().run {
             kotlin {
                 target("**/kotlin/**/*.kt")
-                targetExclude("$buildDir/**/*.kt", "**/test/**/*.kt", "bin/**/*.kt")
+                targetExclude("${layout.buildDirectory}/**/*.kt", "**/test/**/*.kt", "bin/**/*.kt")
                 ktlint(libs.versions.ktlint.get())
                 licenseHeaderFile(rootProject.file("spotless/copyright.kt"))
             }
@@ -28,7 +34,6 @@ private fun Project.configureLint() = baseAppExtension().run {
     }
 }
 
-@Suppress("UnstableApiUsage")
 private fun DefaultConfig.applyAdditionalConfiguration(project: Project) {
     if (project.isSampleModule()) {
         applicationId = "io.wax911.emoji.sample"
@@ -106,9 +111,7 @@ internal fun Project.configureAndroid(): Unit = baseExtension().run {
                 if (isSampleModule()) {
                     compileArgs.add("-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi")
                     compileArgs.add("-opt-in=kotlinx.coroutines.FlowPreview")
-                } else
-                    compileArgs.add("-opt-in=kotlinx.serialization.ExperimentalSerializationApi")
-                // Filter out modules that won't be using coroutines
+                }
                 freeCompilerArgs = compileArgs
             }
         }

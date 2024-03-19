@@ -3,7 +3,7 @@ package io.wax911.emojifysample
 import android.app.Application
 import androidx.startup.AppInitializer
 import io.wax911.emojify.EmojiManager
-import io.wax911.emojify.serializer.KotlinxDeserializer
+import io.wax911.emojify.serializer.kotlinx.KotlinxDeserializer
 
 /**
  * Created by max on 2017/09/22.
