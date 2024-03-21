@@ -25,8 +25,12 @@
             android:exported="false"
             tools:node="merge">
             <meta-data
-                android:name="io.wax911.emojify.initializer.EmojiInitializer"
+                android:name="io.wax911.emojifysample.EmojiInitializer"
                 android:value="androidx.startup" />
+            <meta-data
+                android:name="io.wax911.emojify.initializer.AbstractEmojiInitializer"
+                android:value="androidx.startup"
+                tools:node="remove"/>
         </provider>
     </application>
 

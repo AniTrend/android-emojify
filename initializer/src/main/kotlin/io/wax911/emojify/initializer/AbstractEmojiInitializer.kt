@@ -42,11 +42,4 @@ abstract class AbstractEmojiInitializer : Initializer<EmojiManager> {
      * [Initializer] `A` as its dependency, then `A` gets initialized before `B`.
      */
     override fun dependencies() = emptyList<Class<out Initializer<*>>>()
-
-    companion object {
-        /**
-         * Default location with assets where emojis can be found
-         */
-        internal const val DEFAULT_PATH = "emoticons/emoji.json"
-    }
 }

@@ -5,7 +5,3 @@ plugins {
 android {
     namespace = "io.wax911.emojify.contract"
 }
-
-dependencies {
-    api(libs.androidx.startup.runtime)
-}
