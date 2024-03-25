@@ -10,10 +10,31 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/android-emojify.buildSrc.iml" filepath="$PROJECT_DIR$/.idea/modules/android-emojify.buildSrc.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/android-emojify.buildSrc.main.iml" filepath="$PROJECT_DIR$/.idea/modules/android-emojify.buildSrc.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/android-emojify.buildSrc.test.iml" filepath="$PROJECT_DIR$/.idea/modules/android-emojify.buildSrc.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/contract/android-emojify.contract.iml" filepath="$PROJECT_DIR$/.idea/modules/contract/android-emojify.contract.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/contract/android-emojify.contract.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/contract/android-emojify.contract.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/contract/android-emojify.contract.main.iml" filepath="$PROJECT_DIR$/.idea/modules/contract/android-emojify.contract.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/contract/android-emojify.contract.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/contract/android-emojify.contract.unitTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/emojify/android-emojify.emojify.iml" filepath="$PROJECT_DIR$/.idea/modules/emojify/android-emojify.emojify.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/emojify/android-emojify.emojify.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/emojify/android-emojify.emojify.androidTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/emojify/android-emojify.emojify.main.iml" filepath="$PROJECT_DIR$/.idea/modules/emojify/android-emojify.emojify.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/emojify/android-emojify.emojify.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/emojify/android-emojify.emojify.unitTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/initializer/android-emojify.initializer.iml" filepath="$PROJECT_DIR$/.idea/modules/initializer/android-emojify.initializer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/initializer/android-emojify.initializer.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/initializer/android-emojify.initializer.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/initializer/android-emojify.initializer.main.iml" filepath="$PROJECT_DIR$/.idea/modules/initializer/android-emojify.initializer.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/initializer/android-emojify.initializer.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/initializer/android-emojify.initializer.unitTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/serializer/android-emojify.serializer.iml" filepath="$PROJECT_DIR$/.idea/modules/serializer/android-emojify.serializer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/serializer/gson/android-emojify.serializer.gson.iml" filepath="$PROJECT_DIR$/.idea/modules/serializer/gson/android-emojify.serializer.gson.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/serializer/gson/android-emojify.serializer.gson.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/serializer/gson/android-emojify.serializer.gson.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/serializer/gson/android-emojify.serializer.gson.main.iml" filepath="$PROJECT_DIR$/.idea/modules/serializer/gson/android-emojify.serializer.gson.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/serializer/gson/android-emojify.serializer.gson.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/serializer/gson/android-emojify.serializer.gson.unitTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/serializer/kotlinx/android-emojify.serializer.kotlinx.iml" filepath="$PROJECT_DIR$/.idea/modules/serializer/kotlinx/android-emojify.serializer.kotlinx.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/serializer/kotlinx/android-emojify.serializer.kotlinx.main.iml" filepath="$PROJECT_DIR$/.idea/modules/serializer/kotlinx/android-emojify.serializer.kotlinx.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/serializer/kotlinx/android-emojify.serializer.kotlinx.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/serializer/kotlinx/android-emojify.serializer.kotlinx.unitTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/serializer/moshi/android-emojify.serializer.moshi.iml" filepath="$PROJECT_DIR$/.idea/modules/serializer/moshi/android-emojify.serializer.moshi.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/serializer/moshi/android-emojify.serializer.moshi.main.iml" filepath="$PROJECT_DIR$/.idea/modules/serializer/moshi/android-emojify.serializer.moshi.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/serializer/moshi/android-emojify.serializer.moshi.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/serializer/moshi/android-emojify.serializer.moshi.unitTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/serializer/kotlinx/kotlinx.android-emojify.serializer.kotlinx.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/serializer/kotlinx/kotlinx.android-emojify.serializer.kotlinx.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/serializer/moshi/moshi.android-emojify.serializer.moshi.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/serializer/moshi/moshi.android-emojify.serializer.moshi.androidTest.iml" />
     </modules>
   </component>
 </project>

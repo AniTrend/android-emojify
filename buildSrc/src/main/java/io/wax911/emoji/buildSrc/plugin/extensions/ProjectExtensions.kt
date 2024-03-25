@@ -22,11 +22,7 @@ fun Project.isSampleModule() =
     name == Modules.App.Sample.id
 
 fun Project.isLibraryModule() =
-    name == "emojify" ||
-        name == "contract" ||
-        name == "kotlinx" ||
-        name == "gson" ||
-        name == "moshi"
+    name != Modules.App.Sample.id
 
 internal val Project.libs: LibrariesForLibs
     get() = extensions.getByType<LibrariesForLibs>()

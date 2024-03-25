@@ -22,7 +22,6 @@ import androidx.annotation.VisibleForTesting
 import io.wax911.emojify.contract.model.AbstractEmoji
 import io.wax911.emojify.contract.serializer.IEmojiDeserializer
 import io.wax911.emojify.contract.util.trie.Matches
-import io.wax911.emojify.initializer.AbstractEmojiInitializer
 import io.wax911.emojify.manager.IEmojiManager
 import io.wax911.emojify.parser.nextUnicodeCandidate
 import io.wax911.emojify.parser.removeAllEmojis
@@ -149,11 +148,13 @@ class EmojiManager internal constructor(
     override fun getAllTags(): Collection<String> = emojiByTag.keys
 
     companion object {
+        private const val DEFAULT_EMOJI_PATH = "emoticons/emoji.json"
+
         @Throws(IOException::class)
         private fun initEmojiData(
             assetManager: AssetManager,
             serializer: IEmojiDeserializer,
-            path: String = AbstractEmojiInitializer.DEFAULT_PATH,
+            path: String = DEFAULT_EMOJI_PATH,
         ): List<AbstractEmoji> =
             assetManager.open(path).use { inputStream ->
                 serializer.decodeFromStream(inputStream)
@@ -171,13 +172,12 @@ class EmojiManager internal constructor(
             context: Context,
             serializer: IEmojiDeserializer,
         ): EmojiManager {
-            val emojiManagerDefault = EmojiManager(emptyList())
             val result =
                 runCatching {
                     val emojis = initEmojiData(context.assets, serializer)
                     EmojiManager(emojis)
-                }.onFailure { it.printStackTrace() }
-            return result.getOrNull() ?: emojiManagerDefault
+                }.onFailure(Throwable::printStackTrace)
+            return result.getOrElse { EmojiManager(emptyList()) }
         }
     }
 }

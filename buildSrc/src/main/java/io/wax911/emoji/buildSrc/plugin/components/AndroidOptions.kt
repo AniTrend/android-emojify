@@ -4,6 +4,7 @@ import io.wax911.emoji.buildSrc.plugin.extensions.baseExtension
 import io.wax911.emoji.buildSrc.plugin.extensions.isLibraryModule
 import io.wax911.emoji.buildSrc.plugin.extensions.props
 import io.wax911.emoji.buildSrc.plugin.extensions.publishingExtension
+import io.wax911.emoji.buildSrc.module.Modules
 import org.gradle.api.Project
 import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.api.tasks.bundling.Jar
@@ -11,8 +12,27 @@ import org.gradle.kotlin.dsl.get
 import org.gradle.kotlin.dsl.getValue
 import org.gradle.kotlin.dsl.invoke
 import org.gradle.kotlin.dsl.named
+import org.jetbrains.dokka.Platform
 import org.jetbrains.dokka.gradle.DokkaTask
 import java.net.URL
+
+private fun Project.dependenciesOfProject(): List<Modules.Module> {
+    return when (project.name) {
+        Modules.Library.Initializer.id -> listOf(
+            Modules.Library.Contract,
+            Modules.Library.Emojify,
+        )
+        Modules.Library.Emojify.id -> listOf(
+            Modules.Library.Contract,
+        )
+        Modules.Library.SerializerGson.id,
+        Modules.Library.SerializerMoshi.id,
+        Modules.Library.SerializerKotlinX.id -> listOf(
+            Modules.Library.Contract,
+        )
+        else -> emptyList()
+    }
+}
 
 private fun Project.createMavenPublicationUsing(sourcesJar: Jar) {
     println("Applying publication configuration on ${project.path}")
@@ -30,7 +50,7 @@ private fun Project.createMavenPublicationUsing(sourcesJar: Jar) {
             from(component)
 
             pom {
-                name.set("Android Emojify")
+                name.set("android-emojify")
                 description.set("This project is an android port of https://github.com/vdurmont/emoji-java which is a lightweight java library that helps you use Emojis in your java applications re-written in Kotlin.")
                 url.set("https://github.com/anitrend/android-emoji")
                 licenses {
@@ -55,7 +75,7 @@ private fun Project.createDokkaTaskProvider() = tasks.named<DokkaTask>("dokkaHtm
     outputDirectory.set(buildDir.resolve("docs/dokka"))
 
     // Set module name displayed in the final output
-    moduleName.set(project.name)
+    moduleName.set(this@createDokkaTaskProvider.name)
 
     // Use default or set to custom path to cache directory
     // to enable package-list caching
@@ -106,8 +126,26 @@ private fun Project.createDokkaTaskProvider() = tasks.named<DokkaTask>("dokkaHtm
             // Repeat for multiple sourceRoots
             sourceRoot(file("src"))
 
+            dependenciesOfProject().forEach { module ->
+                // Specifies the location of the project source code on the Web.
+                // If provided, Dokka generates "source" links for each declaration.
+                // Repeat for multiple mappings
+                sourceLink {
+                    // Unix based directory relative path to the root of the project (where you execute gradle respectively).
+                    localDirectory.set(file("src/main/kotlin"))
+
+                    val repository = "https://github.com/anitrend/android-emojify/tree/develop"
+                    // URL showing where the source code can be accessed through the web browser
+                    remoteUrl.set(URL("$repository/${module.id.replace(":", "/")}/src/main/kotlin"))
+                    // Suffix which is used to append the line number to the URL. Use #L for GitHub
+                    remoteLineSuffix.set("#L")
+                }
+            }
+
             // Used for linking to JDK documentation
-            jdkVersion.set(8)
+            jdkVersion.set(17)
+
+            platform.set(Platform.jvm)
 
             // Disable linking to online kotlin-stdlib documentation
             noStdlibLink.set(false)
