@@ -24,7 +24,6 @@
             <option value="$PROJECT_DIR$/buildSrc" />
             <option value="$PROJECT_DIR$/contract" />
             <option value="$PROJECT_DIR$/emojify" />
-            <option value="$PROJECT_DIR$/initializer" />
             <option value="$PROJECT_DIR$/serializer" />
             <option value="$PROJECT_DIR$/serializer/gson" />
             <option value="$PROJECT_DIR$/serializer/kotlinx" />
