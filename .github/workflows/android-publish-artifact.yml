@@ -24,7 +24,7 @@ jobs:
           java-version: '17'
           distribution: 'adopt'
       - name: Wait for tests to succeed
-        uses: lewagon/wait-on-check-action@v1.3.3
+        uses: lewagon/wait-on-check-action@v1.3.4
         with:
           ref: ${{ github.ref }}
           running-workflow-name: android-publish-artifact
