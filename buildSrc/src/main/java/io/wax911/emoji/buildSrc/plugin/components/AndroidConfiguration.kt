@@ -19,7 +19,7 @@ internal fun Project.configureSpotless() {
         spotlessExtension().run {
             kotlin {
                 target("**/kotlin/**/*.kt")
-                targetExclude("${layout.buildDirectory}/**/*.kt", "**/test/**/*.kt", "bin/**/*.kt")
+                targetExclude("${layout.buildDirectory.get()}/**/*.kt", "**/test/**/*.kt", "bin/**/*.kt")
                 ktlint(libs.versions.ktlint.get())
                 licenseHeaderFile(rootProject.file("spotless/copyright.kt"))
             }

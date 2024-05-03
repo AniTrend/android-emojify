@@ -42,7 +42,7 @@ private fun Project.createMavenPublicationUsing(sourcesJar: Jar) {
             version = props[PropertyTypes.VERSION]
 
             artifact(sourcesJar)
-            artifact("${project.layout.buildDirectory}/outputs/aar/${project.name}-release.aar")
+            artifact("${project.layout.buildDirectory.get()}/outputs/aar/${project.name}-release.aar")
             from(component)
 
             pom {
@@ -181,7 +181,6 @@ private fun Project.createDokkaTaskProvider() = tasks.named<DokkaTask>("dokkaHtm
     }
 }
 
-
 internal fun Project.configureOptions() {
     if (isLibraryModule()) {
         println("Applying additional tasks options for dokka and javadoc on ${project.path}")
@@ -194,7 +193,7 @@ internal fun Project.configureOptions() {
         }
 
         val classesJar by tasks.register("classesJar", Jar::class.java) {
-            from("${project.layout.buildDirectory}/intermediates/classes/release")
+            from("${project.layout.buildDirectory.get()}/intermediates/classes/release")
         }
 
         artifacts {
