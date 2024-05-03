@@ -18,10 +18,6 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/emojify/android-emojify.emojify.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/emojify/android-emojify.emojify.androidTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/emojify/android-emojify.emojify.main.iml" filepath="$PROJECT_DIR$/.idea/modules/emojify/android-emojify.emojify.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/emojify/android-emojify.emojify.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/emojify/android-emojify.emojify.unitTest.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/initializer/android-emojify.initializer.iml" filepath="$PROJECT_DIR$/.idea/modules/initializer/android-emojify.initializer.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/initializer/android-emojify.initializer.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/initializer/android-emojify.initializer.androidTest.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/initializer/android-emojify.initializer.main.iml" filepath="$PROJECT_DIR$/.idea/modules/initializer/android-emojify.initializer.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/initializer/android-emojify.initializer.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/initializer/android-emojify.initializer.unitTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/serializer/android-emojify.serializer.iml" filepath="$PROJECT_DIR$/.idea/modules/serializer/android-emojify.serializer.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/serializer/gson/android-emojify.serializer.gson.iml" filepath="$PROJECT_DIR$/.idea/modules/serializer/gson/android-emojify.serializer.gson.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/serializer/gson/android-emojify.serializer.gson.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/serializer/gson/android-emojify.serializer.gson.androidTest.iml" />

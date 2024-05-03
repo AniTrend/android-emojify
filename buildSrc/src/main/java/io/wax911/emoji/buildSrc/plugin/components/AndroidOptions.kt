@@ -18,10 +18,6 @@ import java.net.URL
 
 private fun Project.dependenciesOfProject(): List<Modules.Module> {
     return when (project.name) {
-        Modules.Library.Initializer.id -> listOf(
-            Modules.Library.Contract,
-            Modules.Library.Emojify,
-        )
         Modules.Library.Emojify.id -> listOf(
             Modules.Library.Contract,
         )
