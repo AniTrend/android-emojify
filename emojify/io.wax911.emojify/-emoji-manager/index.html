@@ -1,0 +1,378 @@
+<!doctype html>
+<html class="no-js">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>EmojiManager</title>
+<link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">    <script>var pathToRoot = "../../../";</script>
+    <script>document.documentElement.classList.replace("no-js","js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async></script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async></script>
+<link href="../../../styles/style.css" rel="Stylesheet">
+<link href="../../../styles/main.css" rel="Stylesheet">
+<link href="../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../scripts/clipboard.js" async></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async></script>
+<script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer></script></head>
+<body>
+    <div class="root">
+<nav class="navigation" id="navigation-wrapper">
+    <div class="navigation--inner">
+        <div class="navigation-title">
+            <button class="menu-toggle" id="menu-toggle" type="button">toggle menu</button>
+            <div class="library-name">
+<a class="library-name--link" href="../../../index.html">
+                            android-emojify
+                    </a>            </div>
+            <div class="library-version">
+            </div>
+        </div>
+        <div class="filter-section" id="filter-section">
+                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":emojify:dokkaHtmlPartial/release">androidJvm</button>
+        </div>
+    </div>
+    <div class="navigation-controls">
+        <button class="navigation-controls--btn navigation-controls--theme" id="theme-toggle-button" type="button">switch theme</button>
+        <div class="navigation-controls--btn navigation-controls--search" id="searchBar" role="button">search in API</div>
+    </div>
+</nav>
+        <div id="container">
+            <div class="sidebar" id="leftColumn">
+                <div class="sidebar--inner" id="sideMenu"></div>
+            </div>
+            <div id="main">
+<div class="main-content" data-page-type="classlike" id="content" pageids="emojify::io.wax911.emojify/EmojiManager///PointingToDeclaration//837436716">
+  <div class="breadcrumbs"><a href="../../index.html">emojify</a><span class="delimiter">/</span><a href="../index.html">io.wax911.emojify</a><span class="delimiter">/</span><span class="current">EmojiManager</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span>Emoji</span><wbr><span><span>Manager</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":emojify:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">class </span><a href="index.html">EmojiManager</a> : <span data-unresolved-link="io.wax911.emojify.manager/IEmojiManager///PointingToDeclaration/">IEmojiManager</span></div><p class="paragraph">Holds the loaded emojis and provides search functions.</p><span class="kdoc-tag"><h4 class="">Author</h4><p class="paragraph">vdurmont@gmail.com</p></span><h4 class="">Parameters</h4><div class="table"><div class="table-row" data-filterable-current=":emojify:dokkaHtmlPartial/release" data-filterable-set=":emojify:dokkaHtmlPartial/release"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>emoji</span><wbr><span><span>List</span></span></u></div></span></div><div><div class="title"><p class="paragraph">complete list of all emojis</p></div></div></div></div></div></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button><button class="section-tab" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION,EXTENSION_PROPERTY,EXTENSION_FUNCTION">Members &amp; Extensions</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="TYPE">
+        <h2 class="">Types</h2>
+        <div class="table"><a data-name="-183412677%2FClasslikes%2F837436716" anchor-label="Companion" id="-183412677%2FClasslikes%2F837436716" data-filterable-set=":emojify:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":emojify:dokkaHtmlPartial/release" data-filterable-set=":emojify:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-companion/index.html"><span><span>Companion</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-183412677%2FClasslikes%2F837436716"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":emojify:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">object </span><a href="-companion/index.html">Companion</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="PROPERTY">
+        <h2 class="">Properties</h2>
+        <div class="table"><a data-name="-1166999184%2FProperties%2F837436716" anchor-label="emojiList" id="-1166999184%2FProperties%2F837436716" data-filterable-set=":emojify:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":emojify:dokkaHtmlPartial/release" data-filterable-set=":emojify:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="emoji-list.html"><span>emoji</span><wbr><span><span>List</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1166999184%2FProperties%2F837436716"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":emojify:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">val </span><a href="emoji-list.html">emojiList</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-collection/index.html">Collection</a><span class="token operator">&lt;</span><a href="../../../contract/io.wax911.emojify.contract.model/-abstract-emoji/index.html">AbstractEmoji</a><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="FUNCTION">
+        <h2 class="">Functions</h2>
+        <div class="table"><a data-name="1047419823%2FFunctions%2F837436716" anchor-label="extractEmojis" id="1047419823%2FFunctions%2F837436716" data-filterable-set=":emojify:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":emojify:dokkaHtmlPartial/release" data-filterable-set=":emojify:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../io.wax911.emojify.parser/extract-emojis.html"><span>extract</span><wbr><span><span>Emojis</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1047419823%2FFunctions%2F837436716"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":emojify:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">fun </span><a href="index.html">EmojiManager</a><span class="token punctuation">.</span><a href="../../io.wax911.emojify.parser/extract-emojis.html"><span class="token function">extractEmojis</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">input<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1809067326%2FFunctions%2F837436716" anchor-label="getAllTags" id="-1809067326%2FFunctions%2F837436716" data-filterable-set=":emojify:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":emojify:dokkaHtmlPartial/release" data-filterable-set=":emojify:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-all-tags.html"><span>get</span><wbr><span>All</span><wbr><span><span>Tags</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1809067326%2FFunctions%2F837436716"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":emojify:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="get-all-tags.html"><span class="token function">getAllTags</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-collection/index.html">Collection</a><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">Returns all the tags in the database</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="777038645%2FFunctions%2F837436716" anchor-label="getByUnicode" id="777038645%2FFunctions%2F837436716" data-filterable-set=":emojify:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":emojify:dokkaHtmlPartial/release" data-filterable-set=":emojify:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-by-unicode.html"><span>get</span><wbr><span>By</span><wbr><span><span>Unicode</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="777038645%2FFunctions%2F837436716"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":emojify:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="get-by-unicode.html"><span class="token function">getByUnicode</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">unicode<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../../contract/io.wax911.emojify.contract.model/-abstract-emoji/index.html">AbstractEmoji</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">Returns the <a href="../../../contract/io.wax911.emojify.contract.model/-abstract-emoji/index.html">AbstractEmoji</a> for a given unicode.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-977747594%2FFunctions%2F837436716" anchor-label="getForAlias" id="-977747594%2FFunctions%2F837436716" data-filterable-set=":emojify:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":emojify:dokkaHtmlPartial/release" data-filterable-set=":emojify:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-for-alias.html"><span>get</span><wbr><span>For</span><wbr><span><span>Alias</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-977747594%2FFunctions%2F837436716"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":emojify:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="get-for-alias.html"><span class="token function">getForAlias</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">alias<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../../contract/io.wax911.emojify.contract.model/-abstract-emoji/index.html">AbstractEmoji</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">Returns the <a href="../../../contract/io.wax911.emojify.contract.model/-abstract-emoji/index.html">AbstractEmoji</a> for a given alias.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="749906796%2FFunctions%2F837436716" anchor-label="getForTag" id="749906796%2FFunctions%2F837436716" data-filterable-set=":emojify:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":emojify:dokkaHtmlPartial/release" data-filterable-set=":emojify:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-for-tag.html"><span>get</span><wbr><span>For</span><wbr><span><span>Tag</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="749906796%2FFunctions%2F837436716"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":emojify:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="get-for-tag.html"><span class="token function">getForTag</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">tag<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-collection/index.html">Collection</a><span class="token operator">&lt;</span><a href="../../../contract/io.wax911.emojify.contract.model/-abstract-emoji/index.html">AbstractEmoji</a><span class="token operator">&gt;</span><span class="token operator">?</span></div><div class="brief "><p class="paragraph">Returns all the <a href="../../../contract/io.wax911.emojify.contract.model/-abstract-emoji/index.html">AbstractEmoji</a>s for a given tag.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1001103935%2FFunctions%2F837436716" anchor-label="isEmoji" id="-1001103935%2FFunctions%2F837436716" data-filterable-set=":emojify:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":emojify:dokkaHtmlPartial/release" data-filterable-set=":emojify:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="is-emoji.html"><span>is</span><wbr><span><span>Emoji</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1001103935%2FFunctions%2F837436716"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":emojify:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="is-emoji.html"><span class="token function">isEmoji</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">sequence<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-char-array/index.html">CharArray</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../../contract/io.wax911.emojify.contract.util.trie/-matches/index.html">Matches</a></div><div class="brief "><p class="paragraph">Checks if sequence of chars contain an emoji.</p></div><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="is-emoji.html"><span class="token function">isEmoji</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">string<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="brief "><p class="paragraph">Tests if a given String is an emoji.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1862807330%2FFunctions%2F837436716" anchor-label="isOnlyEmojis" id="1862807330%2FFunctions%2F837436716" data-filterable-set=":emojify:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":emojify:dokkaHtmlPartial/release" data-filterable-set=":emojify:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="is-only-emojis.html"><span>is</span><wbr><span>Only</span><wbr><span><span>Emojis</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1862807330%2FFunctions%2F837436716"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":emojify:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="is-only-emojis.html"><span class="token function">isOnlyEmojis</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">string<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="brief "><p class="paragraph">Tests if a given String only contains emojis.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-654128165%2FFunctions%2F837436716" anchor-label="parseFromUnicode" id="-654128165%2FFunctions%2F837436716" data-filterable-set=":emojify:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":emojify:dokkaHtmlPartial/release" data-filterable-set=":emojify:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../io.wax911.emojify.parser/parse-from-unicode.html"><span>parse</span><wbr><span>From</span><wbr><span><span>Unicode</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-654128165%2FFunctions%2F837436716"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":emojify:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">fun </span><a href="index.html">EmojiManager</a><span class="token punctuation">.</span><a href="../../io.wax911.emojify.parser/parse-from-unicode.html"><span class="token function">parseFromUnicode</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">input<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">transformer<span class="token operator">: </span><a href="../../io.wax911.emojify.parser.transformer/-emoji-transformer/index.html">EmojiTransformer</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></div><div class="brief "><p class="paragraph">Detects all unicode emojis in input string and replaces them with the return value of transformer.transform()</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1092230492%2FFunctions%2F837436716" anchor-label="parseToAliases" id="1092230492%2FFunctions%2F837436716" data-filterable-set=":emojify:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":emojify:dokkaHtmlPartial/release" data-filterable-set=":emojify:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../io.wax911.emojify.parser/parse-to-aliases.html"><span>parse</span><wbr><span>To</span><wbr><span><span>Aliases</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1092230492%2FFunctions%2F837436716"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":emojify:dokkaHtmlPartial/release"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-overloads/index.html"><span class="token annotation builtin">JvmOverloads</span></a></div></div><span class="token keyword">fun </span><a href="index.html">EmojiManager</a><span class="token punctuation">.</span><a href="../../io.wax911.emojify.parser/parse-to-aliases.html"><span class="token function">parseToAliases</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">input<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">fitzpatrickAction<span class="token operator">: </span><a href="../../io.wax911.emojify.parser.action/-fitzpatrick-action/index.html">FitzpatrickAction</a><span class="token operator"> = </span>FitzpatrickAction.PARSE</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></div><div class="brief "><p class="paragraph">Replaces the emoji's unicode occurrences by one of their alias (between 2 ':').</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="668943620%2FFunctions%2F837436716" anchor-label="parseToHtmlDecimal" id="668943620%2FFunctions%2F837436716" data-filterable-set=":emojify:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":emojify:dokkaHtmlPartial/release" data-filterable-set=":emojify:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../io.wax911.emojify.parser/parse-to-html-decimal.html"><span>parse</span><wbr><span>To</span><wbr><span>Html</span><wbr><span><span>Decimal</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="668943620%2FFunctions%2F837436716"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":emojify:dokkaHtmlPartial/release"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-overloads/index.html"><span class="token annotation builtin">JvmOverloads</span></a></div></div><span class="token keyword">fun </span><a href="index.html">EmojiManager</a><span class="token punctuation">.</span><a href="../../io.wax911.emojify.parser/parse-to-html-decimal.html"><span class="token function">parseToHtmlDecimal</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">input<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">fitzpatrickAction<span class="token operator">: </span><a href="../../io.wax911.emojify.parser.action/-fitzpatrick-action/index.html">FitzpatrickAction</a><span class="token operator"> = </span>FitzpatrickAction.PARSE</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></div><div class="brief "><p class="paragraph">Replaces the emoji's unicode occurrences by their html representation.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-825730274%2FFunctions%2F837436716" anchor-label="parseToHtmlHexadecimal" id="-825730274%2FFunctions%2F837436716" data-filterable-set=":emojify:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":emojify:dokkaHtmlPartial/release" data-filterable-set=":emojify:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../io.wax911.emojify.parser/parse-to-html-hexadecimal.html"><span>parse</span><wbr><span>To</span><wbr><span>Html</span><wbr><span><span>Hexadecimal</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-825730274%2FFunctions%2F837436716"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":emojify:dokkaHtmlPartial/release"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.jvm/-jvm-overloads/index.html"><span class="token annotation builtin">JvmOverloads</span></a></div></div><span class="token keyword">fun </span><a href="index.html">EmojiManager</a><span class="token punctuation">.</span><a href="../../io.wax911.emojify.parser/parse-to-html-hexadecimal.html"><span class="token function">parseToHtmlHexadecimal</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">input<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">fitzpatrickAction<span class="token operator">: </span><a href="../../io.wax911.emojify.parser.action/-fitzpatrick-action/index.html">FitzpatrickAction</a><span class="token operator"> = </span>FitzpatrickAction.PARSE</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></div><div class="brief "><p class="paragraph">Replaces the emoji's unicode occurrences by their html hex representation.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1115984434%2FFunctions%2F837436716" anchor-label="parseToUnicode" id="-1115984434%2FFunctions%2F837436716" data-filterable-set=":emojify:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":emojify:dokkaHtmlPartial/release" data-filterable-set=":emojify:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../io.wax911.emojify.parser/parse-to-unicode.html"><span>parse</span><wbr><span>To</span><wbr><span><span>Unicode</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1115984434%2FFunctions%2F837436716"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":emojify:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">fun </span><a href="index.html">EmojiManager</a><span class="token punctuation">.</span><a href="../../io.wax911.emojify.parser/parse-to-unicode.html"><span class="token function">parseToUnicode</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">input<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></div><div class="brief "><p class="paragraph">Replaces the emoji's aliases (between 2 ':') occurrences and the html representations by their unicode.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="88735339%2FFunctions%2F837436716" anchor-label="removeAllEmojis" id="88735339%2FFunctions%2F837436716" data-filterable-set=":emojify:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":emojify:dokkaHtmlPartial/release" data-filterable-set=":emojify:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../io.wax911.emojify.parser/remove-all-emojis.html"><span>remove</span><wbr><span>All</span><wbr><span><span>Emojis</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="88735339%2FFunctions%2F837436716"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":emojify:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">fun </span><a href="index.html">EmojiManager</a><span class="token punctuation">.</span><a href="../../io.wax911.emojify.parser/remove-all-emojis.html"><span class="token function">removeAllEmojis</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">str<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></div><div class="brief "><p class="paragraph">Removes all emojis from a String</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1397082892%2FFunctions%2F837436716" anchor-label="removeAllEmojisExcept" id="-1397082892%2FFunctions%2F837436716" data-filterable-set=":emojify:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":emojify:dokkaHtmlPartial/release" data-filterable-set=":emojify:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../io.wax911.emojify.parser/remove-all-emojis-except.html"><span>remove</span><wbr><span>All</span><wbr><span>Emojis</span><wbr><span><span>Except</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1397082892%2FFunctions%2F837436716"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":emojify:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">fun </span><a href="index.html">EmojiManager</a><span class="token punctuation">.</span><a href="../../io.wax911.emojify.parser/remove-all-emojis-except.html"><span class="token function">removeAllEmojisExcept</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">str<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">emojisToKeep<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-collection/index.html">Collection</a><span class="token operator">&lt;</span><a href="../../../contract/io.wax911.emojify.contract.model/-abstract-emoji/index.html">AbstractEmoji</a><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></div><div class="brief "><p class="paragraph">Removes all the emojis in a String except a provided set</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-847758912%2FFunctions%2F837436716" anchor-label="removeEmojis" id="-847758912%2FFunctions%2F837436716" data-filterable-set=":emojify:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":emojify:dokkaHtmlPartial/release" data-filterable-set=":emojify:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../io.wax911.emojify.parser/remove-emojis.html"><span>remove</span><wbr><span><span>Emojis</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-847758912%2FFunctions%2F837436716"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":emojify:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">fun </span><a href="index.html">EmojiManager</a><span class="token punctuation">.</span><a href="../../io.wax911.emojify.parser/remove-emojis.html"><span class="token function">removeEmojis</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">str<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">emojisToRemove<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-collection/index.html">Collection</a><span class="token operator">&lt;</span><a href="../../../contract/io.wax911.emojify.contract.model/-abstract-emoji/index.html">AbstractEmoji</a><span class="token operator">&gt;</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></div><div class="brief "><p class="paragraph">Removes a set of emojis from a String</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="236765406%2FFunctions%2F837436716" anchor-label="replaceAllEmojis" id="236765406%2FFunctions%2F837436716" data-filterable-set=":emojify:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="EXTENSION_FUNCTION" data-filterable-current=":emojify:dokkaHtmlPartial/release" data-filterable-set=":emojify:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../io.wax911.emojify.parser/replace-all-emojis.html"><span>replace</span><wbr><span>All</span><wbr><span><span>Emojis</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="236765406%2FFunctions%2F837436716"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":emojify:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">fun </span><a href="index.html">EmojiManager</a><span class="token punctuation">.</span><a href="../../io.wax911.emojify.parser/replace-all-emojis.html"><span class="token function">replaceAllEmojis</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">str<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">replacementString<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></div><div class="brief "><p class="paragraph">Replace all emojis with character</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="653067102%2FFunctions%2F837436716" anchor-label="trimAlias" id="653067102%2FFunctions%2F837436716" data-filterable-set=":emojify:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":emojify:dokkaHtmlPartial/release" data-filterable-set=":emojify:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="trim-alias.html"><span>trim</span><wbr><span><span>Alias</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="653067102%2FFunctions%2F837436716"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":emojify:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">fun </span><a href="trim-alias.html"><span class="token function">trimAlias</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">alias<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2024 Copyright</span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
