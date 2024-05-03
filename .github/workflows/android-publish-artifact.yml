@@ -3,9 +3,6 @@ name: android-publish-artifact
 on:
   push:
     branches: [ develop ]
-  pull_request:
-    branches:
-      - develop
     paths-ignore:
       - "app/src/main/**"
 
