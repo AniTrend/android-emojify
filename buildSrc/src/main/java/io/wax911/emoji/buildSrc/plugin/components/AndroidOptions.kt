@@ -68,7 +68,7 @@ private fun Project.createMavenPublicationUsing(sourcesJar: Jar) {
 }
 
 private fun Project.createDokkaTaskProvider() = tasks.named<DokkaTask>("dokkaHtml") {
-    outputDirectory.set(buildDir.resolve("docs/dokka"))
+    outputDirectory.set(project.layout.buildDirectory.dir("docs/dokka").get())
 
     // Set module name displayed in the final output
     moduleName.set(this@createDokkaTaskProvider.name)
