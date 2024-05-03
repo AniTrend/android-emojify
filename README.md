@@ -58,12 +58,13 @@ allprojects {
 
 ### Step 2. Add the dependencies:
 
-You must use one of our artifact `serializer-kotlinx`, `serializer-gson` or `serializer-moshi`
-
+You must use one of our artifacts `kotlinx`, `gson` or `moshi` for deserialization, this should match whatever library you want to use.
+e.g.
 ```groovy
 dependencies {
     implementation 'com.github.anitrend:android-emojify:{latest_version}'
-    implementation 'com.github.anitrend:serializer-kotlinx:{latest_version}'
+    implementation 'com.github.anitrend:android-emojify:contract:{latest_version}'
+    implementation 'com.github.anitrend:android-emojify:kotlinx:{latest_version}'
 }
 ```
 
