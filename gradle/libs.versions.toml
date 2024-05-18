@@ -10,7 +10,7 @@ androidx-emoji = "1.1.0"
 androidx-lifecycle = "2.7.0"
 androidx-lifecycle-compose = "2.7.0"
 androidx-lifecycle-extensions = "2.2.0"
-androidx-paging = "3.2.1"
+androidx-paging = "3.3.0"
 androidx-recycler = "1.3.2"
 androidx-test-ext = "1.1.5"
 
