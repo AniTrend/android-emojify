@@ -33,7 +33,9 @@ jobs:
         run: chmod +x gradlew
       - name: Build artifacts
         run: |
+          ./gradlew emojify:preTest
           ./gradlew clean build
+          ./gradlew emojify:postTest
       - name: Publish to local maven
         run: |
           ./gradlew publishMavenPublicationToMavenLocal
