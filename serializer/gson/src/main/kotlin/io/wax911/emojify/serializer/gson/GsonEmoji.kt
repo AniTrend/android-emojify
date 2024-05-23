@@ -17,10 +17,10 @@
 package io.wax911.emojify.serializer.gson
 
 import com.google.gson.annotations.SerializedName
-import io.wax911.emojify.contract.model.AbstractEmoji
+import io.wax911.emojify.contract.model.IEmoji
 
 /**
- * Default implementation of AbstractEmoji for gson
+ * Default implementation of IEmoji for gson
  */
 data class GsonEmoji(
     @SerializedName(value = "aliases") override val aliases: List<String>?,
@@ -30,4 +30,7 @@ data class GsonEmoji(
     @SerializedName(value = "supports_fitzpatrick") override val supportsFitzpatrick: Boolean,
     @SerializedName(value = "supports_gender") override val supportsGender: Boolean,
     @SerializedName(value = "tags") override val tags: List<String>?,
-) : AbstractEmoji()
+    @SerializedName(value = "unicode") override val unicode: String,
+    @SerializedName(value = "htmlDec") override val htmlDec: String,
+    @SerializedName(value = "htmlHex") override val htmlHex: String,
+) : IEmoji

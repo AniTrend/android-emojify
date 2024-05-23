@@ -62,9 +62,9 @@ You must use one of our artifacts `kotlinx`, `gson` or `moshi` for deserializati
 e.g.
 ```groovy
 dependencies {
-    implementation 'com.github.anitrend:android-emojify:{latest_version}'
-    implementation 'com.github.anitrend:android-emojify:contract:{latest_version}'
-    implementation 'com.github.anitrend:android-emojify:kotlinx:{latest_version}'
+    implementation 'com.github.anitrend.android-emojify:emojify:{latest_version}'
+    implementation 'com.github.anitrend.android-emojify:contract:{latest_version}'
+    implementation 'com.github.anitrend.android-emojify:kotlinx:{latest_version}'
 }
 ```
 
@@ -88,18 +88,39 @@ class App : Application() {
 
 ### Step4. Optional - Init EmojiManager with androidx-startup
 ```kotlin
-class EmojiInitializer : AbstractEmojiInitializer() {
-  override val serializer: IEmojiDeserializer = KotlinxDeserializer()
+class EmojiInitializer : Initializer<EmojiManager> {
+  private val serializer: IEmojiDeserializer = KotlinxDeserializer()
+
+  /**
+   * Initializes and a component given the application [Context]
+   *
+   * @param context The application context.
+   */
+  override fun create(context: Context) = EmojiManager.create(context, serializer)
+
+  /**
+   * @return A list of dependencies that this [Initializer] depends on. This is
+   * used to determine initialization order of [Initializer]s.
+   *
+   * For e.g. if a [Initializer] `B` defines another
+   * [Initializer] `A` as its dependency, then `A` gets initialized before `B`.
+   */
+  override fun dependencies() = emptyList<Class<out Initializer<*>>>()
 }
 
 
 class App : Application() {
-    internal val emojiManager: EmojiManager by lazy {
-        // should already be initialized if we haven't disabled initialization in manifest
-        // see: https://developer.android.com/topic/libraries/app-startup#disable-individual
-        AppInitializer.getInstance(this)
-            .initializeComponent(EmojiInitializer::class.java)
-    }
+
+  /**
+   * Application scope bound emojiManager, you could keep a reference to this object in a
+   * dependency injector framework like as a singleton in `Hilt`, `Dagger` or `Koin`
+   */
+  internal val startupEmojiManager: EmojiManager by lazy {
+    // should already be initialized if we haven't disabled initialization in manifest
+    // see: https://developer.android.com/topic/libraries/app-startup#disable-individual
+    AppInitializer.getInstance(this)
+      .initializeComponent(EmojiInitializer::class.java)
+  }
 }
 ```
 
@@ -111,7 +132,7 @@ class App : Application() {
     android:exported="false"
     tools:node="merge">
     <meta-data
-        android:name="io.wax911.emojify.initializer.EmojiInitializer"
+        android:name="{some_package_name_of_your_choosing}.EmojiInitializer"
         android:value="androidx.startup" />
 </provider>
 ```

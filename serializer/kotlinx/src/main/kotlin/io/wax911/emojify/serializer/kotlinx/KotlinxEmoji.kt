@@ -16,20 +16,23 @@
 
 package io.wax911.emojify.serializer.kotlinx
 
-import io.wax911.emojify.contract.model.AbstractEmoji
+import io.wax911.emojify.contract.model.IEmoji
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 /**
- * Default implementation of AbstractEmoji for kotlinx-serialization
+ * Default implementation of IEmoji for kotlinx-serialization
  */
 @Serializable
 data class KotlinxEmoji(
-    @SerialName("aliases") override val aliases: List<String>? = null,
-    @SerialName("description") override val description: String? = null,
-    @SerialName("emoji") override val emoji: String,
-    @SerialName("emojiChar") override val emojiChar: String,
-    @SerialName("supports_fitzpatrick") override val supportsFitzpatrick: Boolean = false,
-    @SerialName("supports_gender") override val supportsGender: Boolean = false,
-    @SerialName("tags") override val tags: List<String>? = null,
-) : AbstractEmoji()
+    @SerialName(value = "aliases") override val aliases: List<String>? = null,
+    @SerialName(value = "description") override val description: String? = null,
+    @SerialName(value = "emoji") override val emoji: String,
+    @SerialName(value = "emojiChar") override val emojiChar: String,
+    @SerialName(value = "supports_fitzpatrick") override val supportsFitzpatrick: Boolean = false,
+    @SerialName(value = "supports_gender") override val supportsGender: Boolean = false,
+    @SerialName(value = "tags") override val tags: List<String>? = null,
+    @SerialName(value = "unicode") override val unicode: String,
+    @SerialName(value = "htmlDec") override val htmlDec: String,
+    @SerialName(value = "htmlHex") override val htmlHex: String,
+) : IEmoji

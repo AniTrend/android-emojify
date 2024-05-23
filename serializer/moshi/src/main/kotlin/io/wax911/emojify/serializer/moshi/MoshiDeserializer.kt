@@ -19,7 +19,7 @@ package io.wax911.emojify.serializer.moshi
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.Types
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-import io.wax911.emojify.contract.model.AbstractEmoji
+import io.wax911.emojify.contract.model.IEmoji
 import io.wax911.emojify.contract.serializer.IEmojiDeserializer
 import okio.buffer
 import okio.source
@@ -31,7 +31,7 @@ import java.io.InputStream
 class MoshiDeserializer : IEmojiDeserializer {
     private val moshi = Moshi.Builder().addLast(KotlinJsonAdapterFactory()).build()
 
-    override fun decodeFromStream(inputStream: InputStream): List<AbstractEmoji> {
+    override fun decodeFromStream(inputStream: InputStream): List<IEmoji> {
         val myType = Types.newParameterizedType(List::class.java, MoshiEmoji::class.java)
         return moshi.adapter<List<MoshiEmoji>>(myType).fromJson(inputStream.source().buffer()) ?: listOf()
     }

@@ -18,7 +18,7 @@ package io.wax911.emojify.serializer.gson
 
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import io.wax911.emojify.contract.model.AbstractEmoji
+import io.wax911.emojify.contract.model.IEmoji
 import io.wax911.emojify.contract.serializer.IEmojiDeserializer
 import java.io.InputStream
 
@@ -28,7 +28,7 @@ import java.io.InputStream
 class GsonDeserializer : IEmojiDeserializer {
     private val gson = Gson()
 
-    override fun decodeFromStream(inputStream: InputStream): List<AbstractEmoji> {
+    override fun decodeFromStream(inputStream: InputStream): List<IEmoji> {
         val myType = TypeToken.getParameterized(List::class.java, GsonEmoji::class.java).type
         return gson.fromJson(inputStream.reader(), myType)
     }

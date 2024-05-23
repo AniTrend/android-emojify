@@ -17,7 +17,7 @@
 package io.wax911.emojify.parser
 
 import io.wax911.emojify.EmojiManager
-import io.wax911.emojify.contract.model.AbstractEmoji
+import io.wax911.emojify.contract.model.IEmoji
 import io.wax911.emojify.parser.action.FitzpatrickAction
 import io.wax911.emojify.parser.candidate.AliasCandidate
 import io.wax911.emojify.parser.candidate.UnicodeCandidate
@@ -184,7 +184,7 @@ internal fun EmojiManager.htmlEncodedEmojiAt(
 ): AliasCandidate? {
     if (input.length < start + 4 || input[start] != '&' || input[start + 1] != '#') return null
 
-    var longestEmoji: AbstractEmoji? = null
+    var longestEmoji: IEmoji? = null
     var longestCodePointEnd = -1
     val chars = CharArray(emojiTrie.maxDepth)
     var charsIndex = 0
@@ -345,7 +345,7 @@ fun EmojiManager.removeAllEmojis(str: String): String {
  */
 fun EmojiManager.removeEmojis(
     str: String,
-    emojisToRemove: Collection<AbstractEmoji>,
+    emojisToRemove: Collection<IEmoji>,
 ): String {
     val emojiTransformer =
         object : EmojiTransformer {
@@ -371,7 +371,7 @@ fun EmojiManager.removeEmojis(
  */
 fun EmojiManager.removeAllEmojisExcept(
     str: String,
-    emojisToKeep: Collection<AbstractEmoji>,
+    emojisToKeep: Collection<IEmoji>,
 ): String {
     val emojiTransformer =
         object : EmojiTransformer {
