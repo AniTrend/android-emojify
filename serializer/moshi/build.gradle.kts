@@ -6,6 +6,9 @@ plugins {
 
 android {
     namespace = "io.wax911.emojify.serializer.moshi"
+    defaultConfig {
+        consumerProguardFiles("consumer-rules.pro")
+    }
 }
 
 dependencies {

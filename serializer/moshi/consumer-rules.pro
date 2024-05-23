@@ -1,0 +1,1 @@
+-keep class io.wax911.emojify.serializer.moshi.MoshiEmoji { *;}
