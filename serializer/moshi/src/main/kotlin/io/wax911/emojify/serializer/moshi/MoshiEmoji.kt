@@ -18,10 +18,10 @@ package io.wax911.emojify.serializer.moshi
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
-import io.wax911.emojify.contract.model.AbstractEmoji
+import io.wax911.emojify.contract.model.IEmoji
 
 /**
- * Default implementation of AbstractEmoji for moshi
+ * Default implementation of IEmoji for moshi
  */
 @JsonClass(generateAdapter = true)
 data class MoshiEmoji(
@@ -32,4 +32,7 @@ data class MoshiEmoji(
     @Json(name = "supports_fitzpatrick") override val supportsFitzpatrick: Boolean = false,
     @Json(name = "supports_gender") override val supportsGender: Boolean = false,
     @Json(name = "tags") override val tags: List<String>? = null,
-) : AbstractEmoji()
+    @Json(name = "unicode") override val unicode: String,
+    @Json(name = "htmlDec") override val htmlDec: String,
+    @Json(name = "htmlHex") override val htmlHex: String,
+) : IEmoji

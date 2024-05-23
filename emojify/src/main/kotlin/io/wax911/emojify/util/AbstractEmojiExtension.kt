@@ -16,13 +16,13 @@
 
 package io.wax911.emojify.util
 
-import io.wax911.emojify.contract.model.AbstractEmoji
+import io.wax911.emojify.contract.model.IEmoji
 
 /**
  * Returns the unicode representation of the emoji associated with the
  * provided Fitzpatrick modifier.
  *
- * If the modifier is null, then the result is similar to [AbstractEmoji.unicode]
+ * If the modifier is null, then the result is similar to [IEmoji.unicode]
  *
  * @param fitzpatrick the fitzpatrick modifier or null
  *
@@ -31,7 +31,7 @@ import io.wax911.emojify.contract.model.AbstractEmoji
  * @throws UnsupportedOperationException if the emoji doesn't support the Fitzpatrick modifiers
  */
 @Throws(UnsupportedOperationException::class)
-fun AbstractEmoji.getUnicode(fitzpatrick: Fitzpatrick?): String {
+fun IEmoji.getUnicode(fitzpatrick: Fitzpatrick?): String {
     if (!supportsFitzpatrick) {
         throw UnsupportedOperationException(
             """

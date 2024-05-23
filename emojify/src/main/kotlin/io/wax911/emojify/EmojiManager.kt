@@ -19,7 +19,7 @@ package io.wax911.emojify
 import android.content.Context
 import android.content.res.AssetManager
 import androidx.annotation.VisibleForTesting
-import io.wax911.emojify.contract.model.AbstractEmoji
+import io.wax911.emojify.contract.model.IEmoji
 import io.wax911.emojify.contract.serializer.IEmojiDeserializer
 import io.wax911.emojify.contract.util.trie.Matches
 import io.wax911.emojify.manager.IEmojiManager
@@ -36,10 +36,10 @@ import java.io.IOException
  * @author [Vincent DURMONT](vdurmont@gmail.com)
  */
 class EmojiManager internal constructor(
-    override val emojiList: Collection<AbstractEmoji>,
+    override val emojiList: Collection<IEmoji>,
 ) : IEmojiManager {
     private val emojiByAlias by lazy {
-        val aliasMap = HashMap<String, AbstractEmoji>()
+        val aliasMap = HashMap<String, IEmoji>()
         emojiList.forEach { emoji ->
             emoji.aliases?.forEach { alias ->
                 aliasMap[alias] = emoji
@@ -49,7 +49,7 @@ class EmojiManager internal constructor(
     }
 
     private val emojiByTag by lazy {
-        val emojiTagMap = HashMap<String, MutableSet<AbstractEmoji>>()
+        val emojiTagMap = HashMap<String, MutableSet<IEmoji>>()
         emojiList.forEach { emoji ->
             emoji.tags?.forEach { tag ->
                 if (emojiTagMap[tag] == null) {
@@ -66,22 +66,22 @@ class EmojiManager internal constructor(
     }
 
     /**
-     * Returns all the [AbstractEmoji]s for a given tag.
+     * Returns all the [IEmoji]s for a given tag.
      *
      * @param tag the tag
      *
-     * @return the associated [AbstractEmoji]s, null if the tag is unknown
+     * @return the associated [IEmoji]s, null if the tag is unknown
      */
-    override fun getForTag(tag: String?): Collection<AbstractEmoji>? = tag?.let { emojiByTag[it] }
+    override fun getForTag(tag: String?): Collection<IEmoji>? = tag?.let { emojiByTag[it] }
 
     /**
-     * Returns the [AbstractEmoji] for a given alias.
+     * Returns the [IEmoji] for a given alias.
      *
      * @param alias the alias
      *
-     * @return the associated [AbstractEmoji], null if the alias is unknown
+     * @return the associated [IEmoji], null if the alias is unknown
      */
-    override fun getForAlias(alias: String?): AbstractEmoji? = alias?.let { emojiByAlias[trimAlias(it)] }
+    override fun getForAlias(alias: String?): IEmoji? = alias?.let { emojiByAlias[trimAlias(it)] }
 
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     fun trimAlias(alias: String): String {
@@ -93,13 +93,13 @@ class EmojiManager internal constructor(
     }
 
     /**
-     * Returns the [AbstractEmoji] for a given unicode.
+     * Returns the [IEmoji] for a given unicode.
      *
      * @param unicode the the unicode
      *
-     * @return the associated [AbstractEmoji], null if the unicode is unknown
+     * @return the associated [IEmoji], null if the unicode is unknown
      */
-    override fun getByUnicode(unicode: String?): AbstractEmoji? = unicode?.let { emojiTrie.getEmoji(it.toCharArray()) }
+    override fun getByUnicode(unicode: String?): IEmoji? = unicode?.let { emojiTrie.getEmoji(it.toCharArray()) }
 
     /**
      * Tests if a given String is an emoji.
@@ -155,7 +155,7 @@ class EmojiManager internal constructor(
             assetManager: AssetManager,
             serializer: IEmojiDeserializer,
             path: String = DEFAULT_EMOJI_PATH,
-        ): List<AbstractEmoji> =
+        ): List<IEmoji> =
             assetManager.open(path).use { inputStream ->
                 serializer.decodeFromStream(inputStream)
             }

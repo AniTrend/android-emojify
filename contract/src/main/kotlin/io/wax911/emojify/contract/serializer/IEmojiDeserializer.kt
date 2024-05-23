@@ -16,7 +16,7 @@
 
 package io.wax911.emojify.contract.serializer
 
-import io.wax911.emojify.contract.model.AbstractEmoji
+import io.wax911.emojify.contract.model.IEmoji
 import java.io.InputStream
 
 /**
@@ -24,7 +24,7 @@ import java.io.InputStream
  */
 interface IEmojiDeserializer {
     /**
-     * Decodes the given [InputStream] to an object of type List<[AbstractEmoji]>
+     * Decodes the given [InputStream] to an object of type List<[IEmoji]>
      */
-    fun decodeFromStream(inputStream: InputStream): List<AbstractEmoji>
+    fun decodeFromStream(inputStream: InputStream): List<IEmoji>
 }

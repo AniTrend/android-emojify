@@ -25,7 +25,7 @@ package io.wax911.emojify.contract.model
  * @property supportsGender true if the emoji supports the gender modifiers, else false
  * @property tags a list of tags for this emoji
  */
-internal interface IEmoji {
+interface IEmoji {
     val aliases: List<String>?
     val description: String?
     val emoji: String
@@ -33,7 +33,6 @@ internal interface IEmoji {
     val supportsFitzpatrick: Boolean
     val supportsGender: Boolean
     val tags: List<String>?
-
     val unicode: String
     val htmlDec: String
     val htmlHex: String

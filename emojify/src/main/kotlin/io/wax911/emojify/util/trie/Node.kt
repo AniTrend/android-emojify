@@ -16,7 +16,7 @@
 
 package io.wax911.emojify.util.trie
 
-import io.wax911.emojify.contract.model.AbstractEmoji
+import io.wax911.emojify.contract.model.IEmoji
 
 /**
  * Node representation of an emoji tree
@@ -26,7 +26,7 @@ import io.wax911.emojify.contract.model.AbstractEmoji
 class Node {
     private val children = HashMap<Char, Node>()
 
-    internal var emoji: AbstractEmoji? = null
+    internal var emoji: IEmoji? = null
 
     internal val isEndOfEmoji: Boolean
         get() = emoji != null
