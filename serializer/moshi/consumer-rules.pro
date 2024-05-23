@@ -1,0 +1,2 @@
+-keepattributes *Annotation*, InnerClasses
+-keep class io.wax911.emojify.serializer.moshi.MoshiDeserializer { *;}

@@ -1,0 +1,3 @@
+-keep interface io.wax911.emojify.contract.serializer.IEmojiDeserializer
+-keep interface io.wax911.emojify.contract.model.IEmoji
+-keep class io.wax911.emojify.contract.util.trie.Matches
