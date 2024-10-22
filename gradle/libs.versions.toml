@@ -61,7 +61,7 @@ androidx-paging-runtime-ktx = { module = "androidx.paging:paging-runtime-ktx", v
 
 androidx-recyclerview = { module = "androidx.recyclerview:recyclerview", version.ref = "androidx-recycler" }
 
-androidx-startup-runtime = { module = "androidx.startup:startup-runtime", version = "1.1.1" }
+androidx-startup-runtime = { module = "androidx.startup:startup-runtime", version = "1.2.0" }
 
 androidx-test-core-ktx = { module = "androidx.test:core-ktx", version = "1.6.1" }
 androidx-test-runner = { module = "androidx.test:runner", version = "1.6.2" }
