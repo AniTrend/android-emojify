@@ -41,7 +41,7 @@ android-gradle-plugin = { module = "com.android.tools.build:gradle", version.ref
 
 androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "androidx-core" }
 
-androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version = "2.1.4" }
+androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version = "2.2.0" }
 
 androidx-emoji = { module = "androidx.emoji2.emoji2:emoji2", version.ref = "androidx-emoji" }
 androidx-emoji-bundled = { module = "androidx.emoji2.emoji2:emoji2-bundled", version.ref = "androidx-emoji" }
