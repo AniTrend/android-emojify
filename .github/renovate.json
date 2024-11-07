@@ -8,5 +8,8 @@
   ],
   "schedule": [
     "every weekend"
-  ]
+  ],
+  "automerge": true,
+  "automergeType": "pr",
+  "automergeStrategy": "rebase"
 }
