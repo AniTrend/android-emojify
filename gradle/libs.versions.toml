@@ -23,7 +23,7 @@ jetbrains-kotlinx-datetime = "0.6.1"
 jetbrains-kotlinx-serialization = "1.7.3"
 
 mockk = "1.13.13"
-moshi-kotlin = "1.15.1"
+moshi-kotlin = "1.15.2"
 
 
 [plugins]
