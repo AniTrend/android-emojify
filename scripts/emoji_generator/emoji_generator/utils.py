@@ -60,8 +60,11 @@ def parse_emoji_data(data: List[Emoji]) -> List[Dict]:
     result: Dict = {
       "emoji": item.emoji,
       "description": item.label,
+      "group": item.group.name if item.group is not None else None,
+      "subgroup": item.subgroup.name if item.subgroup is not None else None,
       "tags": item.tags,
       "unicode": compute_unicode(normalized_emoji),
+      "gender": item.gender.name if item.gender is not None else None,
       "htmlDec": compute_html_dec(normalized_emoji),
       "htmlHex": compute_html_hex(normalized_emoji),
       "supportsFitzpatrick": len(item.skins) > 0 if item.skins is not None else None,
