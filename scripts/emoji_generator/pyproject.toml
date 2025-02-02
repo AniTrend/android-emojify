@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "emoji-generator"
+version = "0.1.0"
+description = "Emoji generator and transformer"
+authors = ["wax911"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "3.10.6"
+pytest = "^8.3.4"
+requests = "^2.32.3"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
