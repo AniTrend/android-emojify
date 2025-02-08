@@ -4,13 +4,13 @@ on:
   workflow_dispatch:
   schedule:
     - cron: "0 2 * * 5"
-
+        
 jobs:
   update-emoji-json:
     runs-on: ubuntu-latest
     env:
-      VERSION: ''
-      RELEASE_URL: ''
+      VERSION:
+      RELEASE_URL:
       WORKING_DIR: scripts/emoji_generator
     steps:
     - name: Checkout Repository
@@ -40,9 +40,7 @@ jobs:
       env:
         PYTHONUNBUFFERED: 1
         EMOJI_VERSION: ${{ env.VERSION }}
-      run: |
-        cd ${{ env.WORKING_DIR }}
-        poetry run python emoji_generator/generator.py
+      run: poetry run python ${{ env.WORKING_DIR }}/emoji_generator/generator.py
 
     - name: Push Changes and Create PR
       uses: peter-evans/create-pull-request@v7
@@ -51,7 +49,7 @@ jobs:
           title: "Update emoji.json to emojibase-data@${{ env.VERSION }}"
           body: |
             This PR updates emoji.json to the latest version of emojibase-data: `emojibase-data@${{ env.VERSION }}`.
-
+          
             You can review the release notes [here](${{ env.RELEASE_URL }}).
           branch: dependencies/emoji-base-updates
           author: GitHub <noreply@github.com>
