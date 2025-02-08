@@ -8,6 +8,7 @@ on:
       - develop
     paths-ignore:
       - "app/src/main/**"
+      - "scripts/emoji_generator/**"
 
 permissions:
   checks: write
