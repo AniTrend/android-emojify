@@ -27,7 +27,7 @@ def initialize() -> NoReturn:
 
   emoji_output = fetch_emoji_data()
 
-  output_path = 'emojify/src/main/assets/emoticons/emoji.json'
+  output_path = '../../emojify/src/main/assets/emoticons/emoji.json'
   os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
   with open(output_path, 'w', encoding='utf-8') as stream:
