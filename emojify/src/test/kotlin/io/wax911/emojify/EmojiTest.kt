@@ -4,7 +4,6 @@ import io.wax911.emojify.core.EmojiLoader
 import io.wax911.emojify.parser.action.FitzpatrickAction
 import io.wax911.emojify.parser.candidate.UnicodeCandidate
 import io.wax911.emojify.parser.parseFromUnicode
-import io.wax911.emojify.parser.parseToAliases
 import io.wax911.emojify.parser.parseToHtmlDecimal
 import io.wax911.emojify.parser.parseToHtmlHexadecimal
 import io.wax911.emojify.parser.parseToUnicode
@@ -41,13 +40,6 @@ class EmojiTest(
     fun `check that emoji can be parsed to htmlHexadecimal`() {
         val htmlHexadecimal = emojiManager.parseToHtmlHexadecimal(emoji, fitzpatrickAction)
         val unicode = emojiManager.parseToUnicode(htmlHexadecimal)
-        assertEquals(emoji, unicode)
-    }
-
-    @Test
-    fun `check that emoji can be parsed to aliases`() {
-        val alias = emojiManager.parseToAliases(emoji, fitzpatrickAction)
-        val unicode = emojiManager.parseToUnicode(alias)
         assertEquals(emoji, unicode)
     }
 

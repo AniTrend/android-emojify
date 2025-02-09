@@ -18,7 +18,6 @@ package io.wax911.emojify
 
 import android.content.Context
 import android.content.res.AssetManager
-import androidx.annotation.VisibleForTesting
 import io.wax911.emojify.contract.model.IEmoji
 import io.wax911.emojify.contract.serializer.IEmojiDeserializer
 import io.wax911.emojify.contract.util.trie.Matches
@@ -38,16 +37,6 @@ import java.io.IOException
 class EmojiManager internal constructor(
     override val emojiList: Collection<IEmoji>,
 ) : IEmojiManager {
-    private val emojiByAlias by lazy {
-        val aliasMap = HashMap<String, IEmoji>()
-        emojiList.forEach { emoji ->
-            emoji.aliases?.forEach { alias ->
-                aliasMap[alias] = emoji
-            }
-        }
-        aliasMap
-    }
-
     private val emojiByTag by lazy {
         val emojiTagMap = HashMap<String, MutableSet<IEmoji>>()
         emojiList.forEach { emoji ->
@@ -73,24 +62,6 @@ class EmojiManager internal constructor(
      * @return the associated [IEmoji]s, null if the tag is unknown
      */
     override fun getForTag(tag: String?): Collection<IEmoji>? = tag?.let { emojiByTag[it] }
-
-    /**
-     * Returns the [IEmoji] for a given alias.
-     *
-     * @param alias the alias
-     *
-     * @return the associated [IEmoji], null if the alias is unknown
-     */
-    override fun getForAlias(alias: String?): IEmoji? = alias?.let { emojiByAlias[trimAlias(it)] }
-
-    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    fun trimAlias(alias: String): String {
-        val len = alias.length
-        return alias.substring(
-            if (alias.first() == ':') 1 else 0,
-            if (alias.last() == ':') len - 1 else len,
-        )
-    }
 
     /**
      * Returns the [IEmoji] for a given unicode.

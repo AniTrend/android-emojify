@@ -25,12 +25,9 @@ import kotlinx.serialization.Serializable
  */
 @Serializable
 data class KotlinxEmoji(
-    @SerialName(value = "aliases") override val aliases: List<String>? = null,
-    @SerialName(value = "description") override val description: String? = null,
+    @SerialName(value = "description") override val description: String,
     @SerialName(value = "emoji") override val emoji: String,
-    @SerialName(value = "emojiChar") override val emojiChar: String,
-    @SerialName(value = "supports_fitzpatrick") override val supportsFitzpatrick: Boolean = false,
-    @SerialName(value = "supports_gender") override val supportsGender: Boolean = false,
+    @SerialName(value = "supportsFitzpatrick") override val supportsFitzpatrick: Boolean = false,
     @SerialName(value = "tags") override val tags: List<String>? = null,
     @SerialName(value = "unicode") override val unicode: String,
     @SerialName(value = "htmlDec") override val htmlDec: String,
