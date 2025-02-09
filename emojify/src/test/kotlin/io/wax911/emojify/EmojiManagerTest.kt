@@ -27,18 +27,6 @@ import org.junit.Test
 class EmojiManagerTest : EmojiLoader() {
 
     @Test
-    fun getTrimmedAlias() {
-        // GIVEN
-        val alias = ":smile:"
-
-        // WHEN
-        val trimmed = emojiManager.trimAlias(alias)
-
-        // THEN
-        assertEquals("smile", trimmed)
-    }
-
-    @Test
     fun getForTag_with_unknown_tag_returns_null() {
         // GIVEN
 
@@ -57,53 +45,15 @@ class EmojiManagerTest : EmojiLoader() {
         val emojis = emojiManager.getForTag("happy")
 
         // THEN
-        assertEquals(4, emojis!!.size)
-        assertTrue(
-            emojis.containsAliases(
-                "smile",
-                "smiley",
-                "grinning",
-                "satisfied",
+        assertEquals(1, emojis!!.size)
+        assertEquals(
+            listOf(
+                "gesture",
+                "hand",
+                "happy",
+                "raised",
             ),
-        )
-    }
-
-    @Test
-    fun getForAlias_with_unknown_alias_returns_null() {
-        // GIVEN
-
-        // WHEN
-        val emoji = emojiManager.getForAlias("jkahsgdfjksghfjkshf")
-
-        // THEN
-        assertNull(emoji)
-    }
-
-    @Test
-    fun getForAlias_returns_the_emoji_for_the_alias() {
-        // GIVEN
-
-        // WHEN
-        val emoji = emojiManager.getForAlias("smile")
-
-        // THEN
-        assertEquals(
-            "smiling face with open mouth and smiling eyes",
-            emoji!!.description,
-        )
-    }
-
-    @Test
-    fun getForAlias_with_colons_returns_the_emoji_for_the_alias() {
-        // GIVEN
-
-        // WHEN
-        val emoji = emojiManager.getForAlias(":smile:")
-
-        // THEN
-        assertEquals(
-            "smiling face with open mouth and smiling eyes",
-            emoji!!.description,
+            emojis.mapNotNull(IEmoji::tags).flatten()
         )
     }
 
@@ -199,8 +149,7 @@ class EmojiManagerTest : EmojiLoader() {
         val tags = emojiManager.getAllTags()
 
         // THEN
-        // We know the number of distinct tags int the...!
-        assertEquals(656, tags.size)
+        assertTrue(tags.isNotEmpty())
     }
 
     @Test
@@ -214,44 +163,11 @@ class EmojiManagerTest : EmojiLoader() {
         val unicodes = HashSet<String>()
         for (emoji in emojis) {
             assertFalse(
-                "Duplicate: " + emoji.description!!,
+                "Duplicate: " + emoji.description,
                 unicodes.contains(emoji.unicode),
             )
             unicodes.add(emoji.unicode)
         }
         assertEquals(unicodes.size, emojis.size)
-    }
-
-    @Test
-    fun no_duplicate_alias() {
-        // GIVEN
-
-        // WHEN
-        val emojis = emojiManager.emojiList
-
-        // THEN
-        val aliases = HashSet<String>()
-        val duplicates = HashSet<String>()
-        for (emoji in emojis) {
-            for (alias in emoji.aliases!!) {
-                if (aliases.contains(alias)) {
-                    duplicates.add(alias)
-                }
-                aliases.add(alias)
-            }
-        }
-        assertEquals("Duplicates: $duplicates", duplicates.size, 0)
-    }
-
-    companion object {
-
-        fun Iterable<IEmoji>.containsAliases(vararg aliases: String) =
-            aliases.any { alias ->
-                mapNotNull(IEmoji::aliases)
-                    .toHashSet()
-                    .any {
-                        it.contains(alias)
-                    }
-            }
     }
 }

@@ -25,12 +25,9 @@ import io.wax911.emojify.contract.model.IEmoji
  */
 @JsonClass(generateAdapter = true)
 data class MoshiEmoji(
-    @Json(name = "aliases") override val aliases: List<String>? = null,
-    @Json(name = "description") override val description: String? = null,
+    @Json(name = "description") override val description: String,
     @Json(name = "emoji") override val emoji: String,
-    @Json(name = "emojiChar") override val emojiChar: String,
-    @Json(name = "supports_fitzpatrick") override val supportsFitzpatrick: Boolean = false,
-    @Json(name = "supports_gender") override val supportsGender: Boolean = false,
+    @Json(name = "supportsFitzpatrick") override val supportsFitzpatrick: Boolean = false,
     @Json(name = "tags") override val tags: List<String>? = null,
     @Json(name = "unicode") override val unicode: String,
     @Json(name = "htmlDec") override val htmlDec: String,

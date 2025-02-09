@@ -17,6 +17,7 @@
 package io.wax911.emojify.parser.candidate
 
 import io.wax911.emojify.contract.model.IEmoji
+import io.wax911.emojify.parser.candidate.contract.ICandidate
 import io.wax911.emojify.util.Fitzpatrick
 import java.util.Locale
 
@@ -28,11 +29,11 @@ import java.util.Locale
  * @param emojiStartIndex
  */
 class UnicodeCandidate internal constructor(
-    val emoji: IEmoji?,
+    override val emoji: IEmoji?,
     fitzpatrick: String?,
     val emojiStartIndex: Int,
-) {
-    internal val fitzpatrick: Fitzpatrick? = Fitzpatrick.fitzpatrickFromUnicode(fitzpatrick)
+) : ICandidate {
+    override val fitzpatrick: Fitzpatrick? = Fitzpatrick.fitzpatrickFromUnicode(fitzpatrick)
 
     val fitzpatrickType: String
         get() =
@@ -50,8 +51,8 @@ class UnicodeCandidate internal constructor(
                 ""
             }
 
-    private val emojiEndIndex: Int
-        get() = emojiStartIndex + (emoji?.unicode?.length ?: 0)
+    val emojiEndIndex: Int
+        get() = emojiStartIndex + (emoji?.emoji?.length ?: 0)
 
     val fitzpatrickEndIndex: Int
         get() = emojiEndIndex + if (fitzpatrick != null) 2 else 0

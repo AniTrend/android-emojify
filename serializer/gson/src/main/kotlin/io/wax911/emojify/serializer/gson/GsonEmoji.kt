@@ -23,12 +23,9 @@ import io.wax911.emojify.contract.model.IEmoji
  * Default implementation of IEmoji for gson
  */
 data class GsonEmoji(
-    @SerializedName(value = "aliases") override val aliases: List<String>?,
-    @SerializedName(value = "description") override val description: String?,
+    @SerializedName(value = "description") override val description: String,
     @SerializedName(value = "emoji") override val emoji: String,
-    @SerializedName(value = "emojiChar") override val emojiChar: String,
-    @SerializedName(value = "supports_fitzpatrick") override val supportsFitzpatrick: Boolean,
-    @SerializedName(value = "supports_gender") override val supportsGender: Boolean,
+    @SerializedName(value = "supportsFitzpatrick") override val supportsFitzpatrick: Boolean,
     @SerializedName(value = "tags") override val tags: List<String>?,
     @SerializedName(value = "unicode") override val unicode: String,
     @SerializedName(value = "htmlDec") override val htmlDec: String,

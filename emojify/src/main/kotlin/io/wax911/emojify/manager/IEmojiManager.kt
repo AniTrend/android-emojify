@@ -37,15 +37,6 @@ internal interface IEmojiManager {
     fun getForTag(tag: String?): Collection<IEmoji>?
 
     /**
-     * Returns the [IEmoji] for a given alias.
-     *
-     * @param alias the alias
-     *
-     * @return the associated [IEmoji], null if the alias is unknown
-     */
-    fun getForAlias(alias: String?): IEmoji?
-
-    /**
      * Returns the [IEmoji] for a given unicode.
      *
      * @param unicode the the unicode

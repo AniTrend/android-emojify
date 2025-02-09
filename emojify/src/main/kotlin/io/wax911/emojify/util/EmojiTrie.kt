@@ -27,17 +27,17 @@ class EmojiTrie(emojis: Collection<IEmoji>) {
 
     init {
         var maximumDepth = 0
-        emojis.forEach { emoji ->
+        emojis.forEach { element ->
             var tree: Node? = root
-            val chars = emoji.unicode.toCharArray()
+            val chars = element.emoji.toCharArray()
             maximumDepth = maximumDepth.coerceAtLeast(chars.size)
             chars.forEach { c ->
                 if (tree?.hasChild(c) == false) {
-                    tree?.addChild(c)
+                    tree.addChild(c)
                 }
                 tree = tree?.getChild(c)
             }
-            tree?.emoji = emoji
+            tree?.emoji = element
         }
         maxDepth = maximumDepth
     }
