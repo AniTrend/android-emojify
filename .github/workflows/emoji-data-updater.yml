@@ -9,48 +9,53 @@ jobs:
   update-emoji-json:
     runs-on: ubuntu-latest
     env:
-      VERSION: ''
-      RELEASE_URL: ''
-      WORKING_DIR: scripts/emoji_generator
+      VERSION: ""
+      RELEASE_URL: ""
+    defaults:
+      run:
+        working-directory: scripts/emoji_generator
     steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v4
-    - name: Fetch Latest Emojibase Version
-      id: fetch_version
-      run: |
+      - uses: actions/create-github-app-token@v1
+        id: app-token
+        with:
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+      - name: Fetch Latest Emojibase Version
+        id: fetch_version
+        run: |
           RELEASE_INFO=$(curl -s https://api.github.com/repos/milesj/emojibase/releases/latest)
           LATEST_RELEASE=$(echo "$RELEASE_INFO" | jq -r '.tag_name')
           RELEASE_URL=$(echo "$RELEASE_INFO" | jq -r '.html_url')
           echo "VERSION=$(echo \"$LATEST_RELEASE\" | grep -oP '(?<=emojibase-data@)\d+\.\d+\.\d+')" >> $GITHUB_ENV
           echo "RELEASE_URL=$RELEASE_URL" >> $GITHUB_ENV
 
-    - name: Download emoji-test data
-      run: |
-        curl -s -o emojify/src/test/resources/io/wax911/emojify/core/emoji-test.txt https://unicode.org/Public/emoji/${{ env.VERSION }}/emoji-test.txt
-    
-    - name: Setup Python
-      uses: actions/setup-python@v5
-      with:
+      - name: Download emoji-test data
+        run: |
+          curl -s -o ../../emojify/src/test/resources/io/wax911/emojify/core/emoji-test.txt https://unicode.org/Public/emoji/${{ env.VERSION }}/emoji-test.txt
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
           python-version: "3.10.6"
 
-    - name: Install Dependencies
-      run: |
-        pip install --upgrade pip
-        pip install poetry
-        poetry config virtualenvs.create true
-        poetry install --no-root
+      - name: Install Dependencies
+        run: |
+          pip install --upgrade pip
+          pip install poetry==2.0.1
+          poetry config virtualenvs.create true
+          poetry install --no-root
 
-    - name: Run Emoji Update Script
-      env:
-        PYTHONUNBUFFERED: 1
-        EMOJI_VERSION: ${{ env.VERSION }}
-      run: |
-        cd ${{ env.WORKING_DIR }}
-        poetry run python emoji_generator/generator.py
+      - name: Run Emoji Update Script
+        env:
+          PYTHONUNBUFFERED: 1
+          EMOJI_VERSION: ${{ env.VERSION }}
+        run: poetry run emoji-generator
 
-    - name: Push Changes and Create PR
-      uses: peter-evans/create-pull-request@v7
-      with:
+      - name: Push Changes and Create PR
+        uses: peter-evans/create-pull-request@v7
+        with:
           commit-message: "chore(deps): update emoji.json to emojibase-data@${{ env.VERSION }}"
           title: "Update emoji.json to emojibase-data@${{ env.VERSION }}"
           body: |
@@ -60,3 +65,7 @@ jobs:
           branch: dependencies/emoji-base-updates
           author: GitHub <noreply@github.com>
           delete-branch: true
+          token: ${{ steps.app-token.outputs.token }}
+          labels: |
+            dependencies
+            feature
