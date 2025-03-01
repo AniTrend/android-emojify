@@ -26,8 +26,6 @@ import io.wax911.emojify.parser.removeAllEmojis
 import io.wax911.emojify.parser.removeAllEmojisExcept
 import io.wax911.emojify.parser.removeEmojis
 import io.wax911.emojify.parser.replaceAllEmojis
-import io.wax911.emojify.util.Fitzpatrick
-import io.wax911.emojify.util.getUnicode
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
@@ -186,7 +184,7 @@ class EmojiParseTest : EmojiLoader() {
     @Test
     fun removeEmojis_only_removes_the_emojis_in_the_iterable_from_the_string() {
         // GIVEN
-        val input = "An😃 awesome😄 string 👍 with💪🏽 a few emojis!"
+        val input = "An😃 awesome😄 string 👍🏿 with💪🏽 a few emojis!"
         val emojis: List<IEmoji> = mutableListOf(
             emojiManager.emojiList.first { it.description == "grinning face with smiling eyes" },
             emojiManager.emojiList.first { it.description == "flexed biceps" }
@@ -196,17 +194,17 @@ class EmojiParseTest : EmojiLoader() {
         val result: String = emojiManager.removeEmojis(input, emojis)
 
         // THEN
-        val expected = "An😃 awesome string👍🏿 with a few emojis!"
+        val expected = "An😃 awesome string 👍🏿 with a few emojis!"
         assertEquals(expected, result)
     }
 
     @Test
     fun removeAllEmojisExcept_removes_all_the_emojis_from_the_string_except_those_in_the_iterable() {
         // GIVEN
-        val input = "An😃 awesome😄 string 👍🏿 with💪🏽 a few emojis!"
+        val input = "An😃 awesome😄 string 👍 with💪🏽 a few emojis!"
         val emojis: MutableList<IEmoji> = ArrayList()
         emojis.add(emojiManager.emojiList.first { it.description == "grinning face with smiling eyes" })
-        emojis.add(emojiManager.emojiList.first { it.description == "thumbs up" }) //no skin tone
+        emojis.add(emojiManager.emojiList.first { it.description == "thumbs up" })
 
 
         // WHEN
