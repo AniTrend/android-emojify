@@ -24,6 +24,10 @@ jobs:
           echo "VERSION=$(echo \"$LATEST_RELEASE\" | grep -oP '(?<=emojibase-data@)\d+\.\d+\.\d+')" >> $GITHUB_ENV
           echo "RELEASE_URL=$RELEASE_URL" >> $GITHUB_ENV
 
+    - name: Download emoji-test data
+      run: |
+        curl -s -o emojify/src/test/resources/io/wax911/emojify/core/emoji-test.txt https://unicode.org/Public/emoji/${{ env.VERSION }}/emoji-test.txt
+    
     - name: Setup Python
       uses: actions/setup-python@v5
       with:
