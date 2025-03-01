@@ -93,15 +93,17 @@ internal fun EmojiManager.htmlEncodedEmojiAt(
             input.indexOf(';', codePointStart + 3) // Code point must be at least 1 char in length
         if (codePointEnd == -1) break
 
-        val result = runCatching {
-            val radix = if (input[codePointStart + 2] == 'x') 16 else 10
-            val codePoint =
-                input.substring(codePointStart + 2 + radix / 16, codePointEnd).toInt(radix)
-            charsIndex += Character.toChars(codePoint, chars, charsIndex)
-        }
+        val result =
+            runCatching {
+                val radix = if (input[codePointStart + 2] == 'x') 16 else 10
+                val codePoint =
+                    input.substring(codePointStart + 2 + radix / 16, codePointEnd).toInt(radix)
+                charsIndex += Character.toChars(codePoint, chars, charsIndex)
+            }
 
-        if (result.isFailure)
+        if (result.isFailure) {
             break
+        }
 
         val foundEmoji = emojiTrie.getEmoji(chars, 0, charsIndex)
         if (foundEmoji != null) {
@@ -123,7 +125,7 @@ internal fun EmojiManager.htmlEncodedEmojiAt(
         emoji = longestEmoji,
         fitzpatrick = Fitzpatrick.fitzpatrickFromUnicode(longestEmoji.unicode),
         startIndex = codePointStart,
-        endIndex = longestCodePointEnd
+        endIndex = longestCodePointEnd,
     )
 }
 
