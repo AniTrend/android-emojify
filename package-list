@@ -10,6 +10,7 @@ io.wax911.emojify
 io.wax911.emojify.parser
 io.wax911.emojify.parser.action
 io.wax911.emojify.parser.candidate
+io.wax911.emojify.parser.candidate.contract
 io.wax911.emojify.parser.transformer
 io.wax911.emojify.util
 io.wax911.emojify.util.trie
