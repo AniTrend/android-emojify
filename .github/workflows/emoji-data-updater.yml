@@ -11,7 +11,9 @@ jobs:
     env:
       VERSION: ''
       RELEASE_URL: ''
-      WORKING_DIR: scripts/emoji_generator
+    defaults:
+      run:
+        working-directory: scripts/emoji_generator
     steps:
     - name: Checkout Repository
       uses: actions/checkout@v4
@@ -26,8 +28,8 @@ jobs:
 
     - name: Download emoji-test data
       run: |
-        curl -s -o emojify/src/test/resources/io/wax911/emojify/core/emoji-test.txt https://unicode.org/Public/emoji/${{ env.VERSION }}/emoji-test.txt
-    
+        curl -s -o ../../emojify/src/test/resources/io/wax911/emojify/core/emoji-test.txt https://unicode.org/Public/emoji/${{ env.VERSION }}/emoji-test.txt
+
     - name: Setup Python
       uses: actions/setup-python@v5
       with:
@@ -36,7 +38,7 @@ jobs:
     - name: Install Dependencies
       run: |
         pip install --upgrade pip
-        pip install poetry
+        pip install poetry==2.0.1
         poetry config virtualenvs.create true
         poetry install --no-root
 
@@ -44,9 +46,7 @@ jobs:
       env:
         PYTHONUNBUFFERED: 1
         EMOJI_VERSION: ${{ env.VERSION }}
-      run: |
-        cd ${{ env.WORKING_DIR }}
-        poetry run python emoji_generator/generator.py
+      run: poetry run emoji-generator
 
     - name: Push Changes and Create PR
       uses: peter-evans/create-pull-request@v7

@@ -33,7 +33,10 @@ def initialize() -> NoReturn:
   with open(output_path, 'w', encoding='utf-8') as stream:
     json.dump(emoji_output, stream, ensure_ascii=False, skipkeys=True)
 
-
-if __name__ == "__main__":
+def main() -> NoReturn:
+  global __version
   __version = os.getenv('EMOJI_VERSION')
   initialize()
+
+if __name__ == "__main__":
+  main()
