@@ -13,6 +13,11 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/create-github-app-token@v1
+        id: app-token
+        with:
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
       - uses: actions/checkout@v4
       - uses: gradle/wrapper-validation-action@v3
       - name: set up JDK 17
@@ -26,7 +31,7 @@ jobs:
           ref: ${{ github.ref }}
           running-workflow-name: android-publish-artifact
           check-name: unit
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          repo-token: ${{ steps.app-token.outputs.token }}
           wait-interval: 20
       - uses: gradle/actions/setup-gradle@v4
       - name: Grant execute permission for gradlew
