@@ -42,16 +42,23 @@ class EmojiManagerTest : EmojiLoader() {
         // GIVEN
 
         // WHEN
-        val emojis = emojiManager.getForTag("happy")
+        val emojis = emojiManager.getForTag("cheerful")
 
         // THEN
         assertEquals(1, emojis!!.size)
         assertEquals(
             listOf(
-                "gesture",
-                "hand",
+                "cheerful",
+                "cheery",
+                "face",
+                "grin",
+                "grinning",
                 "happy",
-                "raised",
+                "laugh",
+                "nice",
+                "smile",
+                "smiling",
+                "teeth",
             ),
             emojis.mapNotNull(IEmoji::tags).flatten()
         )
