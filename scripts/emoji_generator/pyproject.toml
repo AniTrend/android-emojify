@@ -6,7 +6,7 @@ authors = ["wax911"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "3.10.6"
+python = "3.13.2"
 pytest = "^8.3.4"
 requests = "^2.32.3"
 
