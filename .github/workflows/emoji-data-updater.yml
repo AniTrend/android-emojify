@@ -35,15 +35,17 @@ jobs:
         run: |
           curl -s -o ../../emojify/src/test/resources/io/wax911/emojify/core/emoji-test.txt https://unicode.org/Public/emoji/latest/emoji-test.txt
 
-      - name: Setup Python
+      - name: Install poetry
+        run: pipx install poetry
+
+      - name: Setup python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.10.6"
+          python-version-file: 'scripts/emoji_generator/pyproject.toml'
+          cache: 'poetry'
 
       - name: Install Dependencies
         run: |
-          pip install --upgrade pip
-          pip install poetry==2.0.1
           poetry config virtualenvs.create true
           poetry install --no-root
 
