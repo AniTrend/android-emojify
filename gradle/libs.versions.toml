@@ -1,5 +1,5 @@
 [versions]
-gson = "2.13.0"
+gson = "2.13.1"
 jackson-databind = "2.18.3"
 ktlint = "1.0.1"
 
