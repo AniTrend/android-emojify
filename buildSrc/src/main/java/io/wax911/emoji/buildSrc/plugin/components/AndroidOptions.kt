@@ -48,7 +48,7 @@ private fun Project.createMavenPublicationUsing(sourcesJar: Jar) {
             pom {
                 name.set("android-emojify")
                 description.set("This project is an android port of https://github.com/vdurmont/emoji-java which is a lightweight java library that helps you use Emojis in your java applications re-written in Kotlin.")
-                url.set("https://github.com/anitrend/android-emoji")
+                url.set("https://github.com/anitrend/android-emojify")
                 licenses {
                     license {
                         name.set("Apache License, Version 2.0")
