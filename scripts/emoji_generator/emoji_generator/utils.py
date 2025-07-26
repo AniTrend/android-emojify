@@ -61,6 +61,7 @@ def parse_emoji_data(data: List[Emoji]) -> List[Dict]:
       "emoji": item.emoji,
       "description": item.label,
       "tags": item.tags,
+      "shortCodes": item.shortcodes,
       "unicode": compute_unicode(normalized_emoji),
       "htmlDec": compute_html_dec(normalized_emoji),
       "htmlHex": compute_html_hex(normalized_emoji),
