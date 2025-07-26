@@ -32,4 +32,5 @@ data class KotlinxEmoji(
     @SerialName(value = "unicode") override val unicode: String,
     @SerialName(value = "htmlDec") override val htmlDec: String,
     @SerialName(value = "htmlHex") override val htmlHex: String,
+    @SerialName(value = "shortCodes") override val shortCodes: List<String>? = null,
 ) : IEmoji

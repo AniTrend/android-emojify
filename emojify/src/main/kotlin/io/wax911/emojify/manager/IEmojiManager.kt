@@ -28,6 +28,15 @@ internal interface IEmojiManager {
     val emojiList: Collection<IEmoji>
 
     /**
+     * Returns all the [IEmoji]s for a given short code.
+     *
+     * @param shortCode the short code
+     *
+     * @return the associated [IEmoji]s, null if the short code is unknown
+     */
+    fun getForShortCode(shortCode: String?): Collection<IEmoji>?
+
+    /**
      * Returns all the [IEmoji]s for a given tag.
      *
      * @param tag the tag

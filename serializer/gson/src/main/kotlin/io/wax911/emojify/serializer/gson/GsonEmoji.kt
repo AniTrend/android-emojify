@@ -30,4 +30,5 @@ data class GsonEmoji(
     @SerializedName(value = "unicode") override val unicode: String,
     @SerializedName(value = "htmlDec") override val htmlDec: String,
     @SerializedName(value = "htmlHex") override val htmlHex: String,
+    @SerializedName(value = "shortCodes") override val shortCodes: List<String>?,
 ) : IEmoji

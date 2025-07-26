@@ -4,7 +4,6 @@ import pytest
 
 from emoji_generator import get_emoji, parse_emoji_data
 from emoji_generator.sources import get_emoji_shortcodes
-from emoji_generator.generator import fetch_emoji_data
 from emoji_generator.models import Emoji, Group, Subgroup, Gender, SkinTone, Presentation
 from emoji_generator.utils import compute_unicode, compute_html_dec, compute_html_hex
 
