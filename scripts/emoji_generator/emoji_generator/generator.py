@@ -18,7 +18,6 @@ def fetch_emoji_data() -> List[Dict]:
     # Fetch emoji data and shortcodes
     emoji_list: Optional[List[Emoji]] = get_emoji(__version)
     shortcodes_dict: Optional[Dict[str, Union[str, List[str]]]] = get_emoji_shortcodes(__version)
-    
     # Merge shortcodes into emoji objects
     if emoji_list and shortcodes_dict:
       for emoji in emoji_list:

@@ -65,6 +65,53 @@ class EmojiManagerTest : EmojiLoader() {
     }
 
     @Test
+    fun getForShortCode_with_unknown_shortcode_returns_null() {
+        // GIVEN
+
+        // WHEN
+        val emojis = emojiManager.getForShortCode("unknown_shortcode_test")
+
+        // THEN
+        assertNull(emojis)
+    }
+
+    @Test
+    fun getForShortCode_returns_the_emojis_for_the_shortcode() {
+        // GIVEN
+        val expectedEmojiUnicode = emojiManager.getForTag("cheerful")?.firstOrNull()?.unicode
+
+        // WHEN
+        val emojis = emojiManager.getForShortCode("grinning")
+
+        // THEN
+        assertTrue(!emojis.isNullOrEmpty())
+        assertEquals(1, emojis!!.size) // Assuming "grinning" shortcode is unique or maps to one primary emoji here
+        assertEquals(expectedEmojiUnicode, emojis.first().unicode)
+        assertTrue(
+            emojis.all { it.shortCodes?.contains("grinning") == true }
+        )
+    }
+
+    @Test
+    fun getForShortCode_with_colon_prefix_and_suffix_returns_the_emojis_for_the_shortcode() {
+        // GIVEN
+        val expectedEmojiUnicode = emojiManager.getForTag("cheerful")?.firstOrNull()?.unicode
+
+
+        // WHEN
+        val emojis = emojiManager.getForShortCode("grinning")
+
+        // THEN
+        assertTrue(!emojis.isNullOrEmpty())
+        assertEquals(1, emojis!!.size)
+        assertEquals(expectedEmojiUnicode, emojis.first().unicode)
+        assertTrue(
+            emojis.all { it.shortCodes?.contains("grinning") == true } // or ":grinning:" depending on your data
+        )
+    }
+
+
+    @Test
     fun isEmoji_for_an_emoji_returns_true() {
         // GIVEN
         val emoji = "😀"

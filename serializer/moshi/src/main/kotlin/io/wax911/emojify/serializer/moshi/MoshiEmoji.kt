@@ -32,4 +32,5 @@ data class MoshiEmoji(
     @Json(name = "unicode") override val unicode: String,
     @Json(name = "htmlDec") override val htmlDec: String,
     @Json(name = "htmlHex") override val htmlHex: String,
+    @Json(name = "shortCodes") override val shortCodes: List<String>? = null,
 ) : IEmoji

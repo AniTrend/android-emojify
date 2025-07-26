@@ -30,4 +30,5 @@ interface IEmoji {
     val unicode: String
     val htmlDec: String
     val htmlHex: String
+    val shortCodes: List<String>?
 }

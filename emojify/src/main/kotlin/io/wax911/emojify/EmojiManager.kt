@@ -50,9 +50,31 @@ class EmojiManager internal constructor(
         emojiTagMap
     }
 
+    private val emojiByShortCodes by lazy {
+        val emojiShortCodeMap = HashMap<String, MutableSet<IEmoji>>()
+        emojiList.forEach { emoji ->
+            emoji.shortCodes?.forEach { shortCode ->
+                if (emojiShortCodeMap[shortCode] == null) {
+                    emojiShortCodeMap[shortCode] = HashSet()
+                }
+                emojiShortCodeMap[shortCode]?.add(emoji)
+            }
+        }
+        emojiShortCodeMap
+    }
+
     internal val emojiTrie: EmojiTrie by lazy {
         EmojiTrie(emojiList)
     }
+
+    /**
+     * Returns all the [IEmoji]s for a given short code.
+     *
+     * @param shortCode the short code
+     *
+     * @return the associated [IEmoji]s, null if the short code is unknown
+     */
+    override fun getForShortCode(shortCode: String?) = shortCode?.let { emojiByShortCodes[it] }
 
     /**
      * Returns all the [IEmoji]s for a given tag.
