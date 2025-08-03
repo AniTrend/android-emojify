@@ -147,8 +147,8 @@ class App : Application() {
 
 The `EmojiManager` provides several instance methods to search through the emojis database:
 
-* `getForTag` returns all the emojis for a given tag
-* `getForAlias` returns the emoji for an alias
+* `getForTag` returns all the emojis for a given tag/s
+* `getForShortCode` returns the emoji for matching short code/s
 * `emojiList` list of all the emojis
 * `isEmoji` checks if a string is an emoji
 
@@ -301,7 +301,7 @@ For example:
 ```kotlin
 val str = "An 😀awesome 😃string with a few 😉emojis!"
 val collection = ArrayList<Emoji>()
-collection.add(emojiManager.getForAlias("wink")); // This is 😉
+collection.add(emojiManager.getForShortCode("wink")); // This is 😉
 
 emojiManager.removeAllEmojis(str);
 emojiManager.removeAllEmojisExcept(str, collection);
