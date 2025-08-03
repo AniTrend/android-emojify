@@ -21,7 +21,7 @@ jobs:
 
     strategy:
       matrix:
-        python-version: ["3.13"]
+        python-version: ["3.13.2"]
 
     steps:
     - uses: actions/checkout@v4
@@ -50,13 +50,13 @@ jobs:
       run: poetry install --no-interaction --no-ansi
 
     - name: Run linter (Ruff)
-      run: ruff check .
+      run: poetry run ruff check .
 
     - name: Check code formatting (Ruff)
-      run: ruff format --check .
+      run: poetry run ruff format --check .
 
     - name: Run type checker (mypy)
-      run: poetry run mypy .
+      run: poetry run poetry run mypy .
 
     - name: Run tests
       run: poetry run pytest -v
