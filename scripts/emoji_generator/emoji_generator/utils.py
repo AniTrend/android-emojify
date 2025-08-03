@@ -1,8 +1,8 @@
 import unicodedata
-from typing import List, Dict
 
 from emoji_generator.decorators import run_catching
 from emoji_generator.models import Emoji
+
 
 @run_catching
 def compute_unicode(emoji: str) -> str:
@@ -20,44 +20,47 @@ def compute_unicode(emoji: str) -> str:
     code_point = ord(ch)
     # If it's in the Basic Multilingual Plane, a single \uXXXX is fine
     if code_point <= 0xFFFF:
-      out.append(f'\\u{code_point:04X}')
+      out.append(f"\\u{code_point:04X}")
     else:
       # Convert to a surrogate pair
       cp_prime = code_point - 0x10000  # subtract the BMP limit
       high = 0xD800 + (cp_prime >> 10)
       low = 0xDC00 + (cp_prime & 0x3FF)
-      out.append(f'\\u{high:04X}\\u{low:04X}')
+      out.append(f"\\u{high:04X}\\u{low:04X}")
   return "".join(out)
+
 
 @run_catching
 def compute_html_dec(emoji: str) -> str:
   """Convert emoji to decimal HTML entities."""
-  return ''.join(f'&#{ord(char)};' for char in emoji)
+  return "".join(f"&#{ord(char)};" for char in emoji)
+
 
 @run_catching
 def compute_html_hex(emoji: str) -> str:
   """Convert emoji to hexadecimal HTML entities."""
-  return ''.join(f'&#x{ord(char):x};' for char in emoji)
+  return "".join(f"&#x{ord(char):x};" for char in emoji)
+
 
 @run_catching
-def as_dict_with_no_none(data: Dict):
+def as_dict_with_no_none(data: dict):
   # Now recursively remove any `None` values
   if isinstance(data, dict):
     # Only keep items that are not None
     return {k: as_dict_with_no_none(v) for k, v in data.items() if v is not None}
-  elif isinstance(data, list):
+  if isinstance(data, list):
     # Process list items
     return [as_dict_with_no_none(item) for item in data]
-  else:
-    return data
+  return data
+
 
 @run_catching
-def parse_emoji_data(data: List[Emoji]) -> List[Dict]:
+def parse_emoji_data(data: list[Emoji]) -> list[dict]:
   emojis = []
 
   for item in data:
-    normalized_emoji = unicodedata.normalize('NFC', item.emoji)
-    result: Dict = {
+    normalized_emoji = unicodedata.normalize("NFC", item.emoji)
+    result: dict = {
       "emoji": item.emoji,
       "description": item.label,
       "tags": item.tags,

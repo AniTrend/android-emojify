@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from enum import Enum
-from typing import List, Optional, Union, Type, Any
+from typing import Any
 
 # Type aliases
 Unicode = str
@@ -17,7 +17,7 @@ class Gender(Enum):
   MALE = 1
 
   @classmethod
-  def _missing_(cls, value: object) -> Optional[Gender]:
+  def _missing_(cls, value: object) -> Gender | None:
     return None
 
 
@@ -40,7 +40,7 @@ class SkinTone(Enum):
   DARK = 5
 
   @classmethod
-  def _missing_(cls, value: object) -> Optional[SkinTone]:
+  def _missing_(cls, value: object) -> SkinTone | None:
     return None
 
 
@@ -56,7 +56,7 @@ class Group(Enum):
   FLAGS = "Flags"
 
   @classmethod
-  def _missing_(cls, value: object) -> Optional[Group]:
+  def _missing_(cls, value: object) -> Group | None:
     return None
 
 
@@ -148,7 +148,7 @@ class Subgroup(Enum):
   FLAG = "flag"
 
   @classmethod
-  def _missing_(cls, value: object) -> Optional[Subgroup]:
+  def _missing_(cls, value: object) -> Subgroup | None:
     return None
 
 
@@ -159,13 +159,13 @@ class Emoji:
 
   # If applicable, an emoticon representing the emoji character.
   # It can be a single emoticon string or a list of them.
-  emoticon: Optional[Union[Emoticon, List[Emoticon]]] = None
+  emoticon: Emoticon | list[Emoticon] | None = None
 
   # If applicable, the gender of the emoji character. `0` for female, `1` for male.
-  gender: Optional[Gender] = None
+  gender: Gender | None = None
 
   # The categorical group the emoji belongs to.
-  group: Optional[Group] = None
+  group: Group | None = None
 
   # The hexadecimal representation of the emoji Unicode codepoint.
   hexcode: Hexcode = ""
@@ -174,26 +174,26 @@ class Emoji:
   label: str = ""
 
   # The order in which emoji should be displayed on a device.
-  order: Optional[int] = None
+  order: int | None = None
 
   # List of shortcodes without surrounding colons.
-  shortcodes: Optional[List[Shortcode]] = None
+  shortcodes: list[Shortcode] | None = None
 
   # If applicable, an array of emoji objects for each skin tone modification.
-  skins: Optional[List[Emoji]] = None
+  skins: list[Emoji] | None = None
 
   # The categorical subgroup the emoji belongs to.
-  subgroup: Optional[Subgroup] = None
+  subgroup: Subgroup | None = None
 
   # An array of localized keywords for searching/filtering.
-  tags: Optional[List[str]] = None
+  tags: list[str] | None = None
 
   # Text presentation unicode character.
   text: Unicode = ""
 
   # If applicable, the skin tone of the emoji character.
   # `tone` can be a single SkinTone or a list of them.
-  tone: Optional[Union[SkinTone, List[SkinTone]]] = None
+  tone: SkinTone | list[SkinTone] | None = None
 
   # The default presentation of the emoji character. `0` for text, `1` for emoji.
   type: Presentation = Presentation.EMOJI
@@ -207,7 +207,9 @@ class Emoji:
     Create an Emoji instance from a dictionary (e.g. parsed from JSON).
     """
 
-    def parse_enum(enum_class: Type[Enum], value: Optional[int | str]) -> Optional[Type[Enum[Any]] | Enum]:
+    def parse_enum(
+      enum_class: type[Enum], value: int | str | None
+    ) -> type[Enum[Any]] | Enum | None:
       if value is None:
         return None
       try:
@@ -220,30 +222,32 @@ class Emoji:
           return None
 
     # Process emoticon: could be a single string or list of strings.
-    emoticon_data: Optional[Union[str, List[str]]] = data.get("emoticon")
+    emoticon_data: str | list[str] | None = data.get("emoticon")
 
     # Process gender.
-    gender_value: Optional[int] = data.get("gender")
-    gender: Optional[Gender] = parse_enum(Gender, gender_value)
+    gender_value: int | None = data.get("gender")
+    gender: Gender | None = parse_enum(Gender, gender_value)
 
     # Process group.
-    group_value: Optional[str] = data.get("group")
-    group: Optional[Group] = parse_enum(Group, group_value)
+    group_value: str | None = data.get("group")
+    group: Group | None = parse_enum(Group, group_value)
 
     # Process group.
-    sub_group_value: Optional[str] = data.get("subgroup")
-    sub_group: Optional[Subgroup] = parse_enum(Subgroup, sub_group_value)
+    sub_group_value: str | None = data.get("subgroup")
+    sub_group: Subgroup | None = parse_enum(Subgroup, sub_group_value)
 
     # Process presentation type.
-    type_value: Optional[int] = data.get("type")
-    type_enum: Optional[Presentation] = parse_enum(Presentation, type_value) or Presentation.EMOJI
+    type_value: int | None = data.get("type")
+    type_enum: Presentation | None = (
+      parse_enum(Presentation, type_value) or Presentation.EMOJI
+    )
 
     # Process skin tone.
-    tone_value: Optional[Union[int, List[int]]] = data.get("tone")
+    tone_value: int | list[int] | None = data.get("tone")
     if isinstance(tone_value, list):
-      tones: Optional[List[SkinTone]] = []
+      tones: list[SkinTone] | None = []
       for t in tone_value:
-        skin_tone: Optional[SkinTone] = parse_enum(SkinTone, t)
+        skin_tone: SkinTone | None = parse_enum(SkinTone, t)
         if skin_tone is not None:
           tones.append(skin_tone)
       tone = tones if tones else None
@@ -253,8 +257,10 @@ class Emoji:
       tone = None
 
     # Process skins recursively.
-    skins_data: Optional[List[dict]] = data.get("skins")
-    skins: List[Emoji] = [cls.from_dict(skin) for skin in skins_data] if skins_data else None
+    skins_data: list[dict] | None = data.get("skins")
+    skins: list[Emoji] = (
+      [cls.from_dict(skin) for skin in skins_data] if skins_data else None
+    )
 
     # Process shortcodes.
     shortcodes = data.get("shortcodes")

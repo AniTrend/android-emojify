@@ -1,0 +1,62 @@
+name: emoji-generator-ci
+
+on:
+  push:
+    branches: [ develop ]
+    paths:
+      - 'scripts/emoji_generator/**'
+      - '.github/workflows/emoji-generator-ci.yml'
+  pull_request:
+    branches: [ develop ]
+    paths:
+      - 'scripts/emoji_generator/**'
+      - '.github/workflows/emoji-generator-ci.yml'
+
+jobs:
+  lint-and-test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./scripts/emoji_generator
+
+    strategy:
+      matrix:
+        python-version: ["3.13"]
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Install Poetry
+      uses: snok/install-poetry@v1
+      with:
+        version: latest
+        virtualenvs-create: true
+        virtualenvs-in-project: true
+
+    - name: Load cached venv
+      id: cached-poetry-dependencies
+      uses: actions/cache@v4
+      with:
+        path: ./scripts/emoji_generator/.venv
+        key: venv-${{ runner.os }}-${{ matrix.python-version }}-${{ hashFiles('**/poetry.lock') }}
+
+    - name: Install dependencies
+      if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
+      run: poetry install --no-interaction --no-ansi
+
+    - name: Run linter (Ruff)
+      run: ruff check .
+
+    - name: Check code formatting (Ruff)
+      run: ruff format --check .
+
+    - name: Run type checker (mypy)
+      run: poetry run mypy .
+
+    - name: Run tests
+      run: poetry run pytest -v
