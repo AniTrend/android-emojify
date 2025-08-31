@@ -1,6 +1,6 @@
 [versions]
 gson = "2.13.1"
-jackson-databind = "2.19.2"
+jackson-databind = "2.20.0"
 ktlint = "1.0.1"
 
 gradle-plugin = "8.12.2"
