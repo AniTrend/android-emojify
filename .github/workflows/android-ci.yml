@@ -5,12 +5,16 @@ on:
     branches:
       - develop
     paths-ignore:
+      - ".github/actions/python/**"
+      - ".github/workflows/python-ci.yml"
       - "app/src/main/**"
       - "scripts/emoji_generator/**"
   pull_request:
     branches:
       - develop
     paths-ignore:
+      - ".github/actions/python/**"
+      - ".github/workflows/python-ci.yml"
       - "app/src/main/**"
       - "scripts/emoji_generator/**"
 
