@@ -1,0 +1,26 @@
+name: 'Common - Python'
+description: 'Common setup for Python workflows'
+
+inputs:
+  workspace:
+    description: 'The path to the Python project workspace'
+    required: false
+    default: ''
+
+runs:
+  using: "composite"
+  steps:
+    - name: Install poetry
+      shell: bash
+      run: pipx install poetry
+    - name: Set up Python
+      uses: actions/setup-python@v6
+      with:
+        python-version-file: '${{ inputs.workspace }}/.python-version'
+        cache: 'poetry'
+    - name: Configure Poetry
+      shell: bash
+      run: poetry config virtualenvs.create true
+    - name: Install dependencies
+      shell: bash
+      run: cd ./scripts/emoji_generator && poetry install --no-interaction --no-ansi

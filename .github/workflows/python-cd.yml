@@ -1,12 +1,17 @@
-name: emoji-data-updater
+name: python-cd
 
 on:
   workflow_dispatch:
   schedule:
     - cron: "0 2 * * 5"
 
+env:
+  PYTHONUNBUFFERED: 1
+  WORKSPACE: ./scripts/emoji_generator
+
 jobs:
   update-emoji-json:
+    name: Update emoji.json
     runs-on: ubuntu-latest
     env:
       VERSION: ""
@@ -20,8 +25,12 @@ jobs:
         with:
           app-id: ${{ secrets.APP_ID }}
           private-key: ${{ secrets.APP_PRIVATE_KEY }}
-      - name: Checkout Repository
+      - name: Checkout repository
         uses: actions/checkout@v5
+      - name: Run Setup
+        uses: ./.github/actions/python
+        with:
+          workspace: ${{ env.WORKSPACE }}
       - name: Fetch Latest Emojibase Version
         id: fetch_version
         run: |
@@ -31,27 +40,14 @@ jobs:
           echo "VERSION=$(echo \"$LATEST_RELEASE\" | grep -oP '(?<=emojibase-data@)\d+\.\d+\.\d+')" >> $GITHUB_ENV
           echo "RELEASE_URL=$RELEASE_URL" >> $GITHUB_ENV
 
+      # This step should preferably check if the version of emojibase-data exists on unicode.org
+      # and only run this step if it does exist. Otherwise we should stop the workflow here.
       - name: Download emoji-test data
         run: |
           curl -s -o ../../emojify/src/test/resources/io/wax911/emojify/core/emoji-test.txt https://unicode.org/Public/emoji/latest/emoji-test.txt
 
-      - name: Install poetry
-        run: pipx install poetry
-
-      - name: Setup python
-        uses: actions/setup-python@v6
-        with:
-          python-version-file: 'scripts/emoji_generator/pyproject.toml'
-          cache: 'poetry'
-
-      - name: Install Dependencies
-        run: |
-          poetry config virtualenvs.create true
-          poetry install --no-root
-
       - name: Run Emoji Update Script
         env:
-          PYTHONUNBUFFERED: 1
           EMOJI_VERSION: ${{ env.VERSION }}
         run: poetry run emoji-generator
 
@@ -68,6 +64,3 @@ jobs:
           author: GitHub <noreply@github.com>
           delete-branch: true
           token: ${{ steps.app-token.outputs.token }}
-          labels: |
-            dependencies
-            feature

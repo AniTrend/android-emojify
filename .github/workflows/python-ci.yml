@@ -1,0 +1,101 @@
+name: python-ci
+
+on:
+  push:
+    branches: [develop]
+    paths:
+      - "scripts/emoji_generator/**"
+      - ".github/workflows/python-ci.yml"
+  pull_request:
+    branches: [develop]
+    paths:
+      - "scripts/emoji_generator/**"
+      - ".github/workflows/python-ci.yml"
+
+env:
+  PYTHONUNBUFFERED: 1
+  WORKSPACE: ./scripts/emoji_generator
+
+jobs:
+  dependency-review:
+    if: >-
+      github.event_name == 'pull_request' ||
+      github.event_name == 'pull_request_target' ||
+      github.event_name == 'merge_group'
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ env.WORKSPACE }}
+    steps:
+      - uses: actions/checkout@v5
+      - name: "Dependency Review"
+        uses: actions/dependency-review-action@v4
+        with:
+          comment-summary-in-pr: on-failure
+          fail-on-severity: moderate
+
+  analyze:
+    needs: dependency-review
+    if: ${{ always() && needs.dependency-review.result != 'failure' }}
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ env.WORKSPACE }}
+
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: python
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+
+  lint:
+    needs: dependency-review
+    if: ${{ always() && needs.dependency-review.result != 'failure' }}
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ env.WORKSPACE }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+      - name: Run Setup
+        uses: ./.github/actions/python
+        with:
+          workspace: ${{ env.WORKSPACE }}
+      - name: Run linter (Ruff)
+        run: poetry run ruff check .
+
+      - name: Check code formatting (Ruff)
+        run: poetry run ruff format --check .
+
+      - name: Run type checker (mypy)
+        run: poetry run mypy .
+
+  test:
+    needs: [analyze, lint]
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ env.WORKSPACE }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+      - name: Run Setup
+        uses: ./.github/actions/python
+        with:
+          workspace: ${{ env.WORKSPACE }}
+      - name: Run tests
+        run: poetry run pytest -v
