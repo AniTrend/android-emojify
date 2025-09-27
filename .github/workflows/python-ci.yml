@@ -4,13 +4,15 @@ on:
   push:
     branches: [develop]
     paths:
-      - "scripts/emoji_generator/**"
+      - ".github/actions/python/**"
       - ".github/workflows/python-ci.yml"
+      - "scripts/emoji_generator/**"
   pull_request:
     branches: [develop]
     paths:
-      - "scripts/emoji_generator/**"
+      - ".github/actions/python/**"
       - ".github/workflows/python-ci.yml"
+      - "scripts/emoji_generator/**"
 
 env:
   PYTHONUNBUFFERED: 1
@@ -18,6 +20,7 @@ env:
 
 jobs:
   dependency-review:
+    name: Dependency Review
     if: >-
       github.event_name == 'pull_request' ||
       github.event_name == 'pull_request_target' ||
@@ -37,6 +40,7 @@ jobs:
           fail-on-severity: moderate
 
   analyze:
+    name: CodeQL Analysis
     needs: dependency-review
     if: ${{ always() && needs.dependency-review.result != 'failure' }}
     runs-on: ubuntu-latest
@@ -60,6 +64,7 @@ jobs:
         uses: github/codeql-action/analyze@v3
 
   lint:
+    name: Lint, Format, and Type Check
     needs: dependency-review
     if: ${{ always() && needs.dependency-review.result != 'failure' }}
     runs-on: ubuntu-latest
@@ -84,6 +89,7 @@ jobs:
         run: poetry run mypy .
 
   test:
+    name: Python Tests
     needs: [analyze, lint]
     runs-on: ubuntu-latest
     defaults:
