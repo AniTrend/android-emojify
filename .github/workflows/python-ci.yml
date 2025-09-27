@@ -63,8 +63,8 @@ jobs:
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3
 
-  lint:
-    name: Lint, Format, and Type Check
+  lint-check:
+    name: Lint Check
     needs: dependency-review
     if: ${{ always() && needs.dependency-review.result != 'failure' }}
     runs-on: ubuntu-latest
@@ -82,15 +82,47 @@ jobs:
       - name: Run linter (Ruff)
         run: poetry run ruff check .
 
+  format-check:
+    name: Format Check
+    needs: dependency-review
+    if: ${{ always() && needs.dependency-review.result != 'failure' }}
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ env.WORKSPACE }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+      - name: Run Setup
+        uses: ./.github/actions/python
+        with:
+          workspace: ${{ env.WORKSPACE }}
       - name: Check code formatting (Ruff)
         run: poetry run ruff format --check .
 
+  type-check:
+    name: Type Check
+    needs: dependency-review
+    if: ${{ always() && needs.dependency-review.result != 'failure' }}
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ env.WORKSPACE }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+      - name: Run Setup
+        uses: ./.github/actions/python
+        with:
+          workspace: ${{ env.WORKSPACE }}
       - name: Run type checker (mypy)
         run: poetry run mypy .
 
   test:
     name: Python Tests
-    needs: [analyze, lint]
+    needs: [analyze, lint-check, format-check, type-check]
     runs-on: ubuntu-latest
     defaults:
       run:
