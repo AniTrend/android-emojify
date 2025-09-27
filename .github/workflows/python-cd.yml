@@ -1,4 +1,4 @@
-name: python-cd
+name: Python CD
 
 on:
   workflow_dispatch:

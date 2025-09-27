@@ -1,9 +1,9 @@
-name: greeting
+name: Greeting
 
 on: [ pull_request_target, issues ]
 
 jobs:
-  greeting:
+  first-interaction:
     name: Greet new contributors
     runs-on: ubuntu-latest
     permissions:
