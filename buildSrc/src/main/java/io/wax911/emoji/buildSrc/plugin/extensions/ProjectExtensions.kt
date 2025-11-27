@@ -8,7 +8,6 @@ import io.wax911.emoji.buildSrc.module.Modules
 import io.wax911.emoji.buildSrc.plugin.components.PropertiesReader
 import org.gradle.accessors.dm.LibrariesForLibs
 import org.gradle.api.Project
-import org.gradle.api.internal.plugins.DefaultArtifactPublicationSet
 import org.gradle.api.plugins.ExtraPropertiesExtension
 import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.api.publish.PublishingExtension
@@ -44,9 +43,6 @@ internal fun Project.dynamicFeatureExtension() =
 
 internal fun Project.extraPropertiesExtension() =
     extensions.getByType<ExtraPropertiesExtension>()
-
-internal fun Project.defaultArtifactPublicationSet() =
-    extensions.getByType<DefaultArtifactPublicationSet>()
 
 internal fun Project.reportingExtension() =
     extensions.getByType<ReportingExtension>()

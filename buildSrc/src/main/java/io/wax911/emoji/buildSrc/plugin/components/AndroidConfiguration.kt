@@ -10,7 +10,8 @@ import io.wax911.emoji.buildSrc.plugin.extensions.props
 import io.wax911.emoji.buildSrc.plugin.extensions.spotlessExtension
 import org.gradle.api.JavaVersion
 import org.gradle.api.Project
-import org.jetbrains.kotlin.gradle.dsl.KotlinCompile
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
 import java.io.File
 
@@ -92,28 +93,29 @@ internal fun Project.configureAndroid(): Unit = baseExtension().run {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
 
     tasks.withType(KotlinJvmCompile::class.java) {
-        kotlinOptions {
-            jvmTarget = "17"
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_21)
         }
     }
 
-    tasks.withType(KotlinCompile::class.java) {
-        kotlinOptions {
-            allWarningsAsErrors = false
-            kotlinOptions {
-                allWarningsAsErrors = false
-                val compileArgs = mutableListOf<String>()
-                if (isSampleModule()) {
-                    compileArgs.add("-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi")
-                    compileArgs.add("-opt-in=kotlinx.coroutines.FlowPreview")
-                }
-                freeCompilerArgs = compileArgs
-            }
+    tasks.withType(KotlinCompilationTask::class.java) {
+        val compilerArgumentOptions = mutableListOf(
+            "-opt-in=kotlin.ExperimentalStdlibApi",
+        )
+        if (isSampleModule()) {
+            compilerArgumentOptions.add("-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi")
+            compilerArgumentOptions.add("-opt-in=kotlinx.coroutines.FlowPreview")
+        }
+
+        compilerOptions {
+            allWarningsAsErrors.set(false)
+            // Filter out modules that won't be using coroutines
+            freeCompilerArgs.addAll(compilerArgumentOptions)
         }
     }
 }

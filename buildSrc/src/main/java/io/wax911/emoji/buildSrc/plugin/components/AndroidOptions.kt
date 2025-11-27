@@ -139,7 +139,7 @@ private fun Project.createDokkaTaskProvider() = tasks.named<DokkaTask>("dokkaHtm
             }
 
             // Used for linking to JDK documentation
-            jdkVersion.set(17)
+            jdkVersion.set(21)
 
             platform.set(Platform.jvm)
 

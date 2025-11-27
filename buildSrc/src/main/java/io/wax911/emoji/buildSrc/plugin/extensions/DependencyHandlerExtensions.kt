@@ -79,7 +79,7 @@ private inline fun DependencyHandler.add(
  * @see [ModuleDependency.exclude]
  */
 @Suppress("UNCHECKED_CAST")
-fun <T : ModuleDependency> T.exclude(group: String? = null, module: String? = null): T =
+fun <T : ModuleDependency> T.exclude(group: String, module: String): T =
     exclude(mapOf("group" to group, "module" to module)) as T
 
 private fun DependencyHandler.addDependency(
