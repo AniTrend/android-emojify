@@ -20,7 +20,7 @@ jetbrains-dokka = "2.1.0"
 jetbrains-kotlin = "2.3.0"
 jetbrains-kotlinx-coroutines = "1.10.2"
 jetbrains-kotlinx-datetime = "0.7.1-0.6.x-compat"
-jetbrains-kotlinx-serialization = "1.9.0"
+jetbrains-kotlinx-serialization = "1.10.0"
 
 mockk = "1.14.7"
 moshi-kotlin = "1.15.2"
