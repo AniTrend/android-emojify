@@ -23,7 +23,7 @@ jobs:
         with:
           app-id: ${{ secrets.APP_ID }}
           private-key: ${{ secrets.APP_PRIVATE_KEY }}
-      - uses: release-drafter/release-drafter@v6
+      - uses: release-drafter/release-drafter@v7
         id: release_drafter
         with:
           config-name: release-drafter-config.yml
