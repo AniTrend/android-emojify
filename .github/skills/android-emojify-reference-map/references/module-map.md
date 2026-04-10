@@ -4,7 +4,7 @@ Use this map to place code before searching for a specific file.
 
 | Module | Depends on | Package roots | Use for | Dokka |
 | --- | --- | --- | --- | --- |
-| `:contract` | none | `model/`, `serializer/`, `util/trie/` | Shared interfaces: `IEmoji`, `IEmojiDeserializer`, trie `Matches` | `https://anitrend.github.io/android-emojify/contract/index.html` |
+| `:contract` | none | `io.wax911.emojify.contract.model/`, `io.wax911.emojify.contract.serializer/`, `io.wax911.emojify.contract.util.trie/` | Shared interfaces: `IEmoji`, `IEmojiDeserializer`, trie `Matches` | `https://anitrend.github.io/android-emojify/contract/index.html` |
 | `:serializer:kotlinx` | `:contract` | root serializer package | kotlinx.serialization-based `IEmojiDeserializer` implementation | `https://anitrend.github.io/android-emojify/serializer/kotlinx/index.html` |
 | `:serializer:gson` | `:contract` | root serializer package | Gson-based `IEmojiDeserializer` implementation | `https://anitrend.github.io/android-emojify/serializer/gson/index.html` |
 | `:serializer:moshi` | `:contract` | root serializer package | Moshi-based `IEmojiDeserializer` implementation | `https://anitrend.github.io/android-emojify/serializer/moshi/index.html` |
