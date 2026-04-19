@@ -27,7 +27,7 @@ moshi-kotlin = "1.15.2"
 
 
 [plugins]
-gradle-versions = { id = "com.github.ben-manes.versions", version = "0.53.0" }
+gradle-versions = { id = "com.github.ben-manes.versions", version = "0.54.0" }
 
 
 [libraries]
