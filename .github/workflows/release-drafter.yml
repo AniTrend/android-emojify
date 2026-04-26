@@ -4,9 +4,6 @@ on:
   push:
     branches:
       - 'develop'
-  pull_request_target:
-    # Only following types are handled by the action, but one can default to all as well
-    types: [ opened, reopened, synchronize ]
 
 permissions:
   contents: read
@@ -27,7 +24,6 @@ jobs:
         id: release_drafter
         with:
           config-name: release-drafter-config.yml
-          disable-autolabeler: false
           commitish: develop
         env:
           GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
