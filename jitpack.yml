@@ -2,7 +2,6 @@ jdk:
   - openjdk21
 install:
   - echo "Running clean, build, publishMavenPublicationToMavenLocal commands"
-  - ./gradlew clean build
-  - ./gradlew publishMavenPublicationToMavenLocal
+  - ./gradlew build publishMavenPublicationToMavenLocal --stacktrace
 env:
   CI: "true"
