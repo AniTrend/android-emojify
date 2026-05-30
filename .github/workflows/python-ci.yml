@@ -6,12 +6,7 @@ on:
     paths:
       - ".github/actions/python/**"
       - ".github/workflows/python-ci.yml"
-      - "scripts/emoji_generator/**"
-  pull_request:
-    branches: [develop]
-    paths:
-      - ".github/actions/python/**"
-      - ".github/workflows/python-ci.yml"
+      - ".github/workflows/python-cd.yml"
       - "scripts/emoji_generator/**"
 
 env:
@@ -19,40 +14,16 @@ env:
   WORKSPACE: ./scripts/emoji_generator
 
 jobs:
-  dependency-review:
-    name: Dependency Review
-    if: >-
-      github.event_name == 'pull_request' ||
-      github.event_name == 'pull_request_target' ||
-      github.event_name == 'merge_group'
-    permissions:
-      contents: read
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ${{ env.WORKSPACE }}
-    steps:
-      - uses: actions/checkout@v6
-      - name: "Dependency Review"
-        uses: actions/dependency-review-action@v4
-        with:
-          comment-summary-in-pr: on-failure
-          fail-on-severity: moderate
-
   analyze:
     name: CodeQL Analysis
-    needs: dependency-review
-    if: ${{ always() && needs.dependency-review.result != 'failure' }}
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ${{ env.WORKSPACE }}
-
     permissions:
       actions: read
       contents: read
       security-events: write
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
@@ -65,13 +36,10 @@ jobs:
 
   lint-check:
     name: Lint Check
-    needs: dependency-review
-    if: ${{ always() && needs.dependency-review.result != 'failure' }}
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ${{ env.WORKSPACE }}
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
@@ -84,13 +52,10 @@ jobs:
 
   format-check:
     name: Format Check
-    needs: dependency-review
-    if: ${{ always() && needs.dependency-review.result != 'failure' }}
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ${{ env.WORKSPACE }}
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
@@ -103,13 +68,10 @@ jobs:
 
   type-check:
     name: Type Check
-    needs: dependency-review
-    if: ${{ always() && needs.dependency-review.result != 'failure' }}
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: ${{ env.WORKSPACE }}
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6
@@ -127,7 +89,6 @@ jobs:
     defaults:
       run:
         working-directory: ${{ env.WORKSPACE }}
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v6

@@ -1,4 +1,4 @@
-name: Android CI
+name: Repository CI
 
 on:
   push:
@@ -7,23 +7,56 @@ on:
     paths-ignore:
       - ".github/actions/python/**"
       - ".github/workflows/python-ci.yml"
+      - ".github/workflows/python-cd.yml"
       - "app/src/main/**"
       - "scripts/emoji_generator/**"
   pull_request:
     branches:
       - develop
-    paths-ignore:
-      - ".github/actions/python/**"
-      - ".github/workflows/python-ci.yml"
-      - "app/src/main/**"
-      - "scripts/emoji_generator/**"
 
 env:
   CI: true
+  PYTHONUNBUFFERED: 1
+  WORKSPACE: ./scripts/emoji_generator
 
 jobs:
+  changes:
+    name: Detect Changes
+    permissions:
+      contents: read
+      pull-requests: read
+    runs-on: ubuntu-latest
+    outputs:
+      android: ${{ steps.filter.outputs.android }}
+      python: ${{ steps.filter.outputs.python }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - name: Detect changed areas
+        id: filter
+        uses: dorny/paths-filter@v3
+        with:
+          filters: |
+            android:
+              - '**'
+              - '!.github/actions/python/**'
+              - '!.github/workflows/python-ci.yml'
+              - '!.github/workflows/python-cd.yml'
+              - '!app/src/main/**'
+              - '!scripts/emoji_generator/**'
+            python:
+              - '.github/actions/python/**'
+              - '.github/workflows/android-ci.yml'
+              - '.github/workflows/python-ci.yml'
+              - '.github/workflows/python-cd.yml'
+              - 'scripts/emoji_generator/**'
+
   wrapper-validation:
     name: Wrapper Validation
+    needs: changes
+    if: needs.changes.outputs.android == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
@@ -31,7 +64,8 @@ jobs:
 
   spotless:
     name: Spotless Check
-    needs: wrapper-validation
+    needs: [changes, wrapper-validation]
+    if: needs.changes.outputs.android == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -43,8 +77,8 @@ jobs:
 
   gradle-dokka:
     name: Generate and deploy docs
-    needs: wrapper-validation
-    if: github.event_name == 'push'
+    needs: [changes, wrapper-validation]
+    if: github.event_name == 'push' && needs.changes.outputs.android == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/create-github-app-token@v3
@@ -69,7 +103,8 @@ jobs:
 
   unit-test:
     name: Unit Tests
-    needs: [wrapper-validation, spotless]
+    needs: [changes, wrapper-validation, spotless]
+    if: needs.changes.outputs.android == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/create-github-app-token@v3
@@ -95,8 +130,8 @@ jobs:
 
   publish-artifact:
     name: Publish Artifact
-    needs: unit-test
-    if: github.event_name == 'push'
+    needs: [changes, unit-test]
+    if: github.event_name == 'push' && needs.changes.outputs.android == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -116,3 +151,114 @@ jobs:
         with:
           name: publications
           path: ~/.m2/repository/io/wax911/emoji/
+
+  dependency-review:
+    name: Dependency Review
+    needs: changes
+    if: github.event_name == 'pull_request' && needs.changes.outputs.python == 'true'
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ env.WORKSPACE }}
+    steps:
+      - uses: actions/checkout@v6
+      - name: Dependency Review
+        uses: actions/dependency-review-action@v4
+        with:
+          comment-summary-in-pr: on-failure
+          fail-on-severity: moderate
+
+  analyze:
+    name: CodeQL Analysis
+    needs: [changes, dependency-review]
+    if: ${{ github.event_name == 'pull_request' && needs.changes.outputs.python == 'true' && always() && needs.dependency-review.result != 'failure' }}
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ env.WORKSPACE }}
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: python
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+
+  lint-check:
+    name: Lint Check
+    needs: [changes, dependency-review]
+    if: ${{ github.event_name == 'pull_request' && needs.changes.outputs.python == 'true' && always() && needs.dependency-review.result != 'failure' }}
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ env.WORKSPACE }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+      - name: Common setup
+        uses: ./.github/actions/python
+        with:
+          workspace: ${{ env.WORKSPACE }}
+      - name: Run linter (Ruff)
+        run: poetry run ruff check .
+
+  format-check:
+    name: Format Check
+    needs: [changes, dependency-review]
+    if: ${{ github.event_name == 'pull_request' && needs.changes.outputs.python == 'true' && always() && needs.dependency-review.result != 'failure' }}
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ env.WORKSPACE }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+      - name: Common setup
+        uses: ./.github/actions/python
+        with:
+          workspace: ${{ env.WORKSPACE }}
+      - name: Check code formatting (Ruff)
+        run: poetry run ruff format --check .
+
+  type-check:
+    name: Type Check
+    needs: [changes, dependency-review]
+    if: ${{ github.event_name == 'pull_request' && needs.changes.outputs.python == 'true' && always() && needs.dependency-review.result != 'failure' }}
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ env.WORKSPACE }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+      - name: Common setup
+        uses: ./.github/actions/python
+        with:
+          workspace: ${{ env.WORKSPACE }}
+      - name: Run type checker (mypy)
+        run: poetry run mypy .
+
+  test:
+    name: Python Tests
+    needs: [analyze, lint-check, format-check, type-check]
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ env.WORKSPACE }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+      - name: Common setup
+        uses: ./.github/actions/python
+        with:
+          workspace: ${{ env.WORKSPACE }}
+      - name: Run tests
+        run: poetry run pytest -v
