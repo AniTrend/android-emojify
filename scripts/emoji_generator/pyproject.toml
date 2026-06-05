@@ -11,7 +11,7 @@ pytest = "^9.0.0"
 requests = "^2.32.3"
 
 [tool.poetry.group.dev.dependencies]
-ruff = "^0.8.0"
+ruff = "^0.15.0"
 mypy = "^1.13.0"
 types-requests = "^2.32.0"
 
