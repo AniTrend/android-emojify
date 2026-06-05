@@ -1,3 +1,4 @@
+from typing import Any
 import unicodedata
 
 from emoji_generator.decorators import run_catching
@@ -43,13 +44,10 @@ def compute_html_hex(emoji: str) -> str:
 
 
 @run_catching
-def as_dict_with_no_none(data: dict):
-  # Now recursively remove any `None` values
+def as_dict_with_no_none(data: Any) -> Any:
   if isinstance(data, dict):
-    # Only keep items that are not None
     return {k: as_dict_with_no_none(v) for k, v in data.items() if v is not None}
   if isinstance(data, list):
-    # Process list items
     return [as_dict_with_no_none(item) for item in data]
   return data
 

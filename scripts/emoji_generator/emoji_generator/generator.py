@@ -1,5 +1,6 @@
 import json
 import os
+from typing import cast
 
 import requests
 
@@ -38,7 +39,7 @@ def fetch_emoji_data() -> list[dict]:
             # Use the shortcodes from the mapping
             emoji.shortcodes = additional_shortcodes
 
-    return parse_emoji_data(emoji_list)
+    return cast(list[dict], parse_emoji_data(emoji_list))
   except requests.exceptions.RequestException as e:
     msg = f"Failed to fetch emoji data: {e}"
     raise Exception(msg) from e

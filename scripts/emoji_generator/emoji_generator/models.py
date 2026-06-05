@@ -2,13 +2,15 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any
+from typing import Any, TypeVar
 
 # Type aliases
 Unicode = str
 Emoticon = str
 Hexcode = str
 Shortcode = str
+
+_E = TypeVar("_E", bound=Enum)
 
 
 # In the TypeScript definition, gender is given as `0` for female and `1` for male.
@@ -18,7 +20,7 @@ class Gender(Enum):
 
   @classmethod
   def _missing_(cls, value: object) -> Gender | None:
-    return None
+    return None  # noqa: ARG003
 
 
 # The presentation type where 0 represents text and 1 represents emoji.
@@ -28,7 +30,7 @@ class Presentation(Enum):
 
   @classmethod
   def _missing_(cls, value: object) -> Presentation:
-    return Presentation.EMOJI
+    return Presentation.EMOJI  # noqa: ARG003
 
 
 # For skin tone, values range from 1 (light) to 5 (dark). You can also get an array for multi-tone.
@@ -41,7 +43,7 @@ class SkinTone(Enum):
 
   @classmethod
   def _missing_(cls, value: object) -> SkinTone | None:
-    return None
+    return None  # noqa: ARG003
 
 
 # The group (categorical) is defined in the data.
@@ -57,7 +59,7 @@ class Group(Enum):
 
   @classmethod
   def _missing_(cls, value: object) -> Group | None:
-    return None
+    return None  # noqa: ARG003
 
 
 class Subgroup(Enum):
@@ -149,7 +151,7 @@ class Subgroup(Enum):
 
   @classmethod
   def _missing_(cls, value: object) -> Subgroup | None:
-    return None
+    return None  # noqa: ARG003
 
 
 @dataclass
@@ -208,44 +210,40 @@ class Emoji:
     """
 
     def parse_enum(
-      enum_class: type[Enum], value: int | str | None
-    ) -> type[Enum[Any]] | Enum | None:
+      enum_class: type[_E], value: int | str | None
+    ) -> _E | None:
       if value is None:
         return None
       try:
         return enum_class(value)
       except ValueError:
-        # If direct conversion fails, try to convert strings to uppercase names.
-        try:
-          return enum_class[value.capitalize()]
-        except (KeyError, AttributeError):
-          return None
+        if isinstance(value, str):
+          try:
+            return enum_class[value.capitalize()]
+          except KeyError:
+            return None
+        return None
 
-    # Process emoticon: could be a single string or list of strings.
     emoticon_data: str | list[str] | None = data.get("emoticon")
 
-    # Process gender.
     gender_value: int | None = data.get("gender")
     gender: Gender | None = parse_enum(Gender, gender_value)
 
-    # Process group.
     group_value: str | None = data.get("group")
     group: Group | None = parse_enum(Group, group_value)
 
-    # Process group.
     sub_group_value: str | None = data.get("subgroup")
     sub_group: Subgroup | None = parse_enum(Subgroup, sub_group_value)
 
-    # Process presentation type.
     type_value: int | None = data.get("type")
-    type_enum: Presentation | None = (
+    type_enum: Presentation = (
       parse_enum(Presentation, type_value) or Presentation.EMOJI
     )
 
-    # Process skin tone.
     tone_value: int | list[int] | None = data.get("tone")
+    tone: SkinTone | list[SkinTone] | None = None
     if isinstance(tone_value, list):
-      tones: list[SkinTone] | None = []
+      tones: list[SkinTone] = []
       for t in tone_value:
         skin_tone: SkinTone | None = parse_enum(SkinTone, t)
         if skin_tone is not None:
@@ -253,16 +251,12 @@ class Emoji:
       tone = tones if tones else None
     elif tone_value is not None:
       tone = parse_enum(SkinTone, tone_value)
-    else:
-      tone = None
 
-    # Process skins recursively.
     skins_data: list[dict] | None = data.get("skins")
-    skins: list[Emoji] = (
+    skins: list[Emoji] | None = (
       [cls.from_dict(skin) for skin in skins_data] if skins_data else None
     )
 
-    # Process shortcodes.
     shortcodes = data.get("shortcodes")
     if shortcodes is not None and not isinstance(shortcodes, list):
       shortcodes = [shortcodes]
