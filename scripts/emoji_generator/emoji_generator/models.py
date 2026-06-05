@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, TypeVar
+from typing import TypeVar
 
 # Type aliases
 Unicode = str
@@ -19,8 +19,8 @@ class Gender(Enum):
   MALE = 1
 
   @classmethod
-  def _missing_(cls, value: object) -> Gender | None:
-    return None  # noqa: ARG003
+  def _missing_(cls, value: object) -> Gender | None:  # noqa: ARG003
+    return None
 
 
 # The presentation type where 0 represents text and 1 represents emoji.
@@ -29,8 +29,8 @@ class Presentation(Enum):
   EMOJI = 1
 
   @classmethod
-  def _missing_(cls, value: object) -> Presentation:
-    return Presentation.EMOJI  # noqa: ARG003
+  def _missing_(cls, value: object) -> Presentation:  # noqa: ARG003
+    return Presentation.EMOJI
 
 
 # For skin tone, values range from 1 (light) to 5 (dark). You can also get an array for multi-tone.
@@ -42,8 +42,8 @@ class SkinTone(Enum):
   DARK = 5
 
   @classmethod
-  def _missing_(cls, value: object) -> SkinTone | None:
-    return None  # noqa: ARG003
+  def _missing_(cls, value: object) -> SkinTone | None:  # noqa: ARG003
+    return None
 
 
 # The group (categorical) is defined in the data.
@@ -58,8 +58,8 @@ class Group(Enum):
   FLAGS = "Flags"
 
   @classmethod
-  def _missing_(cls, value: object) -> Group | None:
-    return None  # noqa: ARG003
+  def _missing_(cls, value: object) -> Group | None:  # noqa: ARG003
+    return None
 
 
 class Subgroup(Enum):
@@ -150,8 +150,8 @@ class Subgroup(Enum):
   FLAG = "flag"
 
   @classmethod
-  def _missing_(cls, value: object) -> Subgroup | None:
-    return None  # noqa: ARG003
+  def _missing_(cls, value: object) -> Subgroup | None:  # noqa: ARG003
+    return None
 
 
 @dataclass
@@ -209,9 +209,7 @@ class Emoji:
     Create an Emoji instance from a dictionary (e.g. parsed from JSON).
     """
 
-    def parse_enum(
-      enum_class: type[_E], value: int | str | None
-    ) -> _E | None:
+    def parse_enum(enum_class: type[_E], value: int | str | None) -> _E | None:
       if value is None:
         return None
       try:
@@ -236,9 +234,7 @@ class Emoji:
     sub_group: Subgroup | None = parse_enum(Subgroup, sub_group_value)
 
     type_value: int | None = data.get("type")
-    type_enum: Presentation = (
-      parse_enum(Presentation, type_value) or Presentation.EMOJI
-    )
+    type_enum: Presentation = parse_enum(Presentation, type_value) or Presentation.EMOJI
 
     tone_value: int | list[int] | None = data.get("tone")
     tone: SkinTone | list[SkinTone] | None = None
@@ -248,7 +244,7 @@ class Emoji:
         skin_tone: SkinTone | None = parse_enum(SkinTone, t)
         if skin_tone is not None:
           tones.append(skin_tone)
-      tone = tones if tones else None
+      tone = tones or None
     elif tone_value is not None:
       tone = parse_enum(SkinTone, tone_value)
 
