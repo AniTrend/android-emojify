@@ -1,7 +1,10 @@
 import unicodedata
+from typing import Any
 
 from emoji_generator.decorators import run_catching
 from emoji_generator.models import Emoji
+
+_BMP_LIMIT = 0xFFFF
 
 
 @run_catching
@@ -19,7 +22,7 @@ def compute_unicode(emoji: str) -> str:
   for ch in emoji:
     code_point = ord(ch)
     # If it's in the Basic Multilingual Plane, a single \uXXXX is fine
-    if code_point <= 0xFFFF:
+    if code_point <= _BMP_LIMIT:
       out.append(f"\\u{code_point:04X}")
     else:
       # Convert to a surrogate pair
@@ -43,13 +46,10 @@ def compute_html_hex(emoji: str) -> str:
 
 
 @run_catching
-def as_dict_with_no_none(data: dict):
-  # Now recursively remove any `None` values
+def as_dict_with_no_none(data: Any) -> Any:
   if isinstance(data, dict):
-    # Only keep items that are not None
     return {k: as_dict_with_no_none(v) for k, v in data.items() if v is not None}
   if isinstance(data, list):
-    # Process list items
     return [as_dict_with_no_none(item) for item in data]
   return data
 

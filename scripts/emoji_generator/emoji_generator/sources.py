@@ -12,8 +12,7 @@ def get_emoji(version: str) -> list[Emoji]:
   response = requests.get(emoji_url, timeout=__TIME_OUT)
   response.raise_for_status()
   response_data: dict = response.json()
-  emojis = [Emoji.from_dict(item) for item in response_data]
-  return emojis
+  return [Emoji.from_dict(item) for item in response_data]
 
 
 @run_catching
