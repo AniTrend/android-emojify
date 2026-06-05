@@ -183,9 +183,9 @@ def test_shortcode_merging_logic(mock_both_data):
 
   # Check that there are no duplicate shortcodes
   shortcodes = grinning_emoji["shortCodes"]
-  assert len(shortcodes) == len(
-    set(shortcodes)
-  ), "Shortcodes should not contain duplicates"
+  assert len(shortcodes) == len(set(shortcodes)), (
+    "Shortcodes should not contain duplicates"
+  )
 
 
 def test_compute_unicode():
