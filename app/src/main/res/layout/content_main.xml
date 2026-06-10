@@ -73,23 +73,6 @@
             android:text="Hex"
             android:textSize="12sp"
             android:textStyle="bold" />
-
-        <Space
-            android:layout_width="10dp"
-            android:layout_height="match_parent" />
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/toShortCode"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:focusable="true"
-            android:foreground="?selectableItemBackground"
-            android:padding="10dp"
-            android:text="Short"
-            android:textSize="12sp"
-            android:textStyle="bold" />
-
     </LinearLayout>
 
     <View
