@@ -7,7 +7,6 @@ import android.text.SpannedString
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import io.wax911.emojify.parser.parseToAliases
 import io.wax911.emojify.parser.parseToHtmlDecimal
 import io.wax911.emojify.parser.parseToHtmlHexadecimal
 import io.wax911.emojify.parser.parseToUnicode
@@ -30,7 +29,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         binding.containMain.toEmoji.setOnClickListener(this)
         binding.containMain.toHtml.setOnClickListener(this)
         binding.containMain.toHexHtml.setOnClickListener(this)
-        binding.containMain.toShortCode.setOnClickListener(this)
     }
 
     override fun onClick(view: View) {
@@ -56,8 +54,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 convertedText =
                     SpannedString(emojiManager().parseToHtmlHexadecimal(textContent.toString()))
 
-            R.id.toShortCode ->
-                convertedText = SpannedString(emojiManager().parseToAliases(textContent.toString()))
         }
         binding.containMain.editText.setText(convertedText)
     }
@@ -66,7 +62,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         binding.containMain.toEmoji.setOnClickListener(null)
         binding.containMain.toHtml.setOnClickListener(null)
         binding.containMain.toHexHtml.setOnClickListener(null)
-        binding.containMain.toShortCode.setOnClickListener(null)
         super.onDestroy()
     }
 }
