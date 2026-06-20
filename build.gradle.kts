@@ -1,5 +1,4 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
-import org.jetbrains.dokka.gradle.DokkaMultiModuleTask
 
 plugins {
     id("org.jetbrains.dokka")
@@ -24,7 +23,18 @@ allprojects {
     }
 }
 
-tasks.withType(DokkaMultiModuleTask::class.java) {
-    outputDirectory.set(rootProject.file("dokka-docs"))
-    failOnWarning.set(false)
+dokka {
+    dokkaPublications.html {
+        outputDirectory.set(rootProject.file("dokka-docs"))
+        failOnWarning.set(false)
+    }
+}
+
+// Declare subprojects for multi-module documentation aggregation
+dependencies {
+    dokka(project(":contract"))
+    dokka(project(":emojify"))
+    dokka(project(":serializer:kotlinx"))
+    dokka(project(":serializer:gson"))
+    dokka(project(":serializer:moshi"))
 }
