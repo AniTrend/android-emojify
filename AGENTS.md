@@ -59,6 +59,4 @@
 - Remove contradictory guidance instead of layering new instructions on top of obsolete ones.
 - Audit `AGENTS.md` and skills when you change module boundaries, dependency direction, package ownership, shared build conventions, Dokka behavior, or consumer-facing APIs. Keep changes specific and low-churn.
 
-## Further Context
-- Supported emoji list is documented in `SUPPORTED.md`.
-- Repo-local OpenCode skills live in `.agents/skills/` and `.github/skills/`: `android-emojify-build-dependencies`, `android-emojify-kdoc-dokka`, `android-emojify-reference-map`, `jenv-gradle-low-ram`.
+
