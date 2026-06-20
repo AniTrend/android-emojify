@@ -134,3 +134,6 @@ fabric.properties
 # End of https://www.gitignore.io/api/androidstudio
 
 .idea/studiobot.xml
+
+# Deepwork progress files (local-only state)
+.slim/deepwork/
