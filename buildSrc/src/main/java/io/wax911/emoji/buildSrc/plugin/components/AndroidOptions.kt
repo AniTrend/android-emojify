@@ -71,7 +71,7 @@ private fun Project.createDokkaConfiguration() {
     extensions.configure(DokkaExtension::class.java) {
         moduleName.set(project.name)
         dokkaSourceSets.configureEach {
-            suppress.set(name.startsWith("test") || name.startsWith("androidTest"))
+            suppress.set(name != "main")
             skipDeprecated.set(false)
             reportUndocumented.set(true)
             skipEmptyPackages.set(true)
