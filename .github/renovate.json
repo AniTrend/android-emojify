@@ -18,7 +18,7 @@
       "matchFileNames": ["gradle/sample.versions.toml"],
       "additionalBranchPrefix": "sample-",
       "labels": ["sample-dependencies", "skip-changelog"],
-      "automerge": false
+      "automerge": true
     }
   ]
 }

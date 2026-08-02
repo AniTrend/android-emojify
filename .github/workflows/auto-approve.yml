@@ -16,9 +16,10 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
-    # Skip sample catalog PRs (they carry the sample-dependencies label) until sample
-    # validation exists; keep auto-approval for all other renovate PRs and manual dispatch.
-    if: github.event_name == 'workflow_dispatch' || (github.actor == 'renovate[bot]' && !contains(github.event.pull_request.labels.*.name, 'sample-dependencies'))
+    # Sample catalog PRs are intentionally auto-approved and auto-merged. The sample remains
+    # excluded from consumer CI, so this policy relies on the narrow catalog match and release
+    # exclusion rather than treating sample updates as consumer artifacts.
+    if: github.event_name == 'workflow_dispatch' || github.actor == 'renovate[bot]'
     steps:
       - uses: hmarr/auto-approve-action@v4.0.0
         with:
