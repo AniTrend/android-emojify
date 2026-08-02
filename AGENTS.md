@@ -16,13 +16,13 @@
 
 ## Environment & Toolchain
 - JDK 21.0.8 (pinned in `.java-version`) managed via `jenv` locally and `actions/setup-java` in CI.
-- Kotlin 2.4.0, Gradle 9.6.0, Android SDK 36 (compile/target), minSdk 21.
+- Kotlin 2.4.10, Gradle 9.6.1, Android SDK 37 (compile/target), minSdk 23.
 - `kotlin.ExperimentalStdlibApi` compiler opt-in is enabled globally across all library modules.
-- Dependency versions live in `gradle/libs.versions.toml` — the single source of truth. Add/update there first, then reference by alias.
+- Shared and toolchain dependency versions live in `gradle/libs.versions.toml` (catalog `libs`); sample-only dependency versions live in `gradle/sample.versions.toml` (catalog `sampleLibs`). Add or update aliases in the catalog that owns them, then reference by accessor. Never duplicate an alias across catalogs.
 - Release version and code are tracked in `gradle/version.properties`, read by `PropertiesReader` in `buildSrc`.
 - Publishing group is `io.wax911.emoji`.
 - Build logic belongs in `buildSrc` (entry: `CorePlugin`). Do not duplicate Android/Kotlin/Dokka/Spotless/publish config in individual modules.
-- The `:app` module is only included when `CI` env var is absent. Never add `:app`-only logic to shared build conventions.
+- The `:app` module is only included when `CI` env var is absent. Sample-only configuration is centralized in `buildSrc` behind `isSampleModule()` guards, which is the established convention; do not add broad app-only logic to shared build conventions.
 
 ## Build, Test, and Development Commands
 - `./gradlew :emojify:assemble` builds the core AAR; use `:contract:assemble` or serializer variants as needed.

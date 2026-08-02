@@ -14,7 +14,7 @@
 
 1. Split sample-only dependency aliases out of the shared catalog into a dedicated `gradle/sample.versions.toml` catalog named `sampleLibs`, without changing library module builds.
 2. Migrate the sample app's single XML screen to Jetpack Compose with strict behavioral parity (Tier 1), after a compatibility spike.
-3. Protect sample dependency automation (Renovate, auto-approve, Release Drafter) from misclassification and from automerging before validation exists.
+3. Protect sample dependency automation (Renovate, auto-approve, Release Drafter) from misclassification while intentionally auto-merging narrowly matched sample catalog updates.
 4. Keep the consumer library (`:emojify`, `:contract`, `:serializer:*`) build, tests, and published artifacts untouched by the sample migration.
 
 ### 1.2 Non-goals
@@ -102,15 +102,15 @@ Implements section 4 exactly: `gradle/sample.versions.toml`, root `settings.grad
 
 **Ordering within the phase:** create the sample toml and move aliases, then wire settings/buildSrc, then update consumers, then run acceptance. The library modules must build identically before and after (verify with `:emojify:assemble` and the test pipeline).
 
-### Phase 3: Sample validation, automerge protection, release automation verification
+### Phase 3: Sample dependency automation and release automation verification
 
 **Owner:** `@builder`/Gradle specialist. **Gate:** reviewer + Phase 3 acceptance (section 6.3).
 
-1. Renovate package rules for the sample catalog (section 5.1), label `sample-dependencies`, `skip-changelog`, automerge off.
-2. Auto-approve guard for sample PRs (section 5.2).
+1. Renovate package rules for the sample catalog (section 5.1), label `sample-dependencies`, `skip-changelog`, and intentional automerge on.
+2. Auto-approve policy for sample PRs (section 5.2).
 3. Release Drafter autolabeler adjustment and changelog exclusion verification (section 5.3).
 4. Cache key/path validation after the Phase 2 config change (section 5.4).
-5. Explicit local-only/UI CI decision (section 9): default is sample stays out of CI; if the Oracle opts in, add a lightweight validation job (spotless + `:app:assembleDebug` with `CI` unset semantics) before any sample automerge is re-enabled.
+5. Explicit local-only/UI CI decision (section 9): the sample stays out of CI by default. Sample dependency auto-merge is enabled by the owner despite that limitation and must be revisited if dependency updates expose breakage.
 
 **Do not** merge this phase before the Renovate config validator and the Release Drafter dry-run pass.
 
@@ -223,22 +223,22 @@ Required change, a `packageRules` entry for the sample catalog:
   "matchManagers": ["gradle"],
   "additionalBranchPrefix": "sample-",
   "labels": ["sample-dependencies", "skip-changelog"],
-  "automerge": false
+  "automerge": true
 }
 ```
 
 - `additionalBranchPrefix: "sample-"` gives sample PRs a distinct branch shape (`renovate/sample-...`) so automation can tell them apart.
-- `automerge: false` protects sample updates from the global `automerge: true` until validation exists (section 9). Re-enable only per-package-rule after a validation job exists and the Oracle approves.
-- The global `automerge: true` for library dependency PRs is preserved unchanged.
+- `automerge: true` opts sample catalog updates into the repository's existing Renovate automerge flow. This is an explicit owner decision because the sample remains outside CI.
+- The narrow file match and `sample-` branch prefix limit the policy to sample catalog updates. Library dependency PR behavior remains unchanged.
 
 ### 5.2 Auto-approve guard (`.github/workflows/auto-approve.yml`)
 
-Current state: the workflow auto-approves every PR authored by `renovate[bot]`, unconditionally. This would approve sample catalog PRs too.
+Current state: the workflow auto-approves every PR authored by `renovate[bot]`, unconditionally. The requested policy keeps that behavior for sample catalog PRs too.
 
-Required change: skip any PR carrying the `sample-dependencies` label:
+Required policy: retain auto-approval for sample catalog PRs and all other Renovate PRs:
 
 ```yaml
-if: github.event_name == 'workflow_dispatch' || (github.actor == 'renovate[bot]' && !contains(github.event.pull_request.labels.*.name, 'sample-dependencies'))
+if: github.event_name == 'workflow_dispatch' || github.actor == 'renovate[bot]'
 ```
 
 ### 5.3 Release Drafter and the blanket autolabeler
@@ -288,7 +288,7 @@ All `:app` commands require `CI` unset (`env -u CI ./gradlew ...`) because `sett
 - `npx --yes renovate-config-validator .github/renovate.json` passes
 - Release Drafter dry-run: run the `release-drafter/release-drafter` action with `dry-run: true` (or the bundled CLI) against `.github/release-drafter-config.yml`; the draft must contain no `sample-dependencies` PR
 - Fixture inspection: a fixture PR carrying `sample-dependencies` and `skip-changelog` must be absent from the draft and must not change the resolved version
-- Auto-approve guard: a fixture sample PR is not auto-approved; a library Renovate PR still is
+- Auto-approve policy: a fixture sample PR and a library Renovate PR are both auto-approved
 - Cache validation from 5.4 passes
 - If sample CI was opted in: the new job runs `spotlessCheck` and `env -u CI ./gradlew :app:assembleDebug` and is required for sample PRs
 
@@ -342,7 +342,7 @@ The `@fixer` executes Tier 1 exactly as specified by `docs/sample-app-compose-ui
 3. **Preferred JVM tests where possible:** add `internal fun String?.isValidInput(): Boolean` in `app/src/main/java/io/wax911/emojifysample/util/InputGuard.kt` for the null or trimmed-empty decision, so it is unit-testable with JUnit4 in `:app` without a device. Parser behavior itself is already covered by `:emojify` tests.
 4. **Explicit local-only/UI CI decision:** Compose UI tests are instrumentation tests and need an emulator. Default is local-only execution; CI execution requires an explicit Oracle-approved emulator job in Phase 3. Nothing runs sample instrumentation in CI silently.
 5. **Manual verification matrix:** every Tier 1 PR is manually verified on an emulator at the effective API 23 (minSdk, Android 6.0) and at the current API (37), covering the three conversions, empty-input feedback, keyboard behavior, and landscape. `:app:installDebug` with `CI` unset is the deployment command.
-6. **Sample automerge policy:** disabled by default (Renovate rule and auto-approve guard from section 5). Re-enabled only when a validation job exists and the Oracle approves, and only for safe patch-level updates.
+6. **Sample automerge policy:** enabled for the narrow `gradle/sample.versions.toml` Renovate rule and auto-approved by workflow. This is an explicit owner decision despite the sample remaining outside CI; disable it if automated updates demonstrate breakage.
 
 ---
 
@@ -365,15 +365,15 @@ Risk register:
 | AGENTS.md drift misleads implementers | High today | D1 decision in Phase 1; docs aligned to code by default |
 | Alias duplicated across catalogs, catalogs drift | Medium | Move, never copy; grep acceptance in 6.2 |
 | `sampleLibs` accessor unavailable in `buildSrc` compile | Medium | Mirrored `buildSrc` catalog + `implementation(files(...))` workaround; any Gradle task exercises it |
-| Renovate/autolabeler misclassifies sample PRs as consumer `dependencies` | Medium | `sample-dependencies` + `skip-changelog` labels, `additionalBranchPrefix`, narrowed autolabeler rule, fixture dry-run gate |
-| Auto-approve approves sample PRs before validation | Medium | Label-gated auto-approve condition (5.2) |
-| Sample PRs automerge into `develop` | Medium | Per-catalog `automerge: false` (5.1) |
+| Renovate/autolabeler misclassifies sample PRs as consumer `dependencies` | Medium | `sample-dependencies` + `skip-changelog` labels, `additionalBranchPrefix`, additive-label documentation, fixture dry-run gate |
+| Sample PRs merge without sample CI | Medium | Explicit owner decision, narrow catalog file match, and ongoing review of automated update outcomes |
+| Sample PRs automerge into `develop` | Medium | Intentional per-catalog `automerge: true` policy; disable if breakage appears |
 | Gradle cache does not invalidate on sample catalog changes | Medium | `cache-dependency-path` glob update + cache key validation (5.4) |
 | Compose compiler plugin/Kotlin mismatch | Low | Plugin version pinned to Kotlin 2.4.10 in the sample catalog; spike verifies first |
 | Activity or theme change breaks startup or manager access | Low | Spike records the contract first; Option A default; initializer untouched |
 | Spotless misses new Compose code | Medium | Extend Spotless to `:app` in Tier 1; local enforcement even without sample CI |
 | Tier 2 scope leaks into Tier 1 | Medium | Fixer scope bounded by designer guide; reviewer gate checks for Tier 2 artifacts |
-| Sample regressions invisible (no CI) | Medium | Manual matrix on API 23 and current API; JVM tests for guard logic; automerge stays off |
+| Sample regressions invisible (no CI) | Medium | Manual matrix on API 23 and current API; JVM tests for guard logic; monitor automated sample dependency updates |
 | Library diff contaminated by sample work | Low | Tier 1 PR must show empty diff on `emojify/`, `contract/`, `serializer/` |
 
 ---
@@ -387,7 +387,7 @@ Five decisions, with recommended defaults. The Oracle (`wax911`) records each in
 | D1 | `AGENTS.md` drift (Kotlin 2.4.10, Gradle 9.6.1, SDK 37, minSdk 23, and the `:app`-only logic rule contradiction) | Align docs to the effective build baseline; update `AGENTS.md` in the Phase 1 patch |
 | D2 | Activity contract for Compose | Retain `AppCompatActivity` (Option A) unless the Phase 4 spike proves a blocker; spike records the evidence |
 | D3 | Empty-input feedback wording | Explicit feedback `Enter text before converting` with no parser invocation, replacing the legacy `You must first enter some text` behavior and the null-only check |
-| D4 | Sample automerge policy | Keep sample updates excluded from automerge and unconditional auto-approval until a sample validation job exists and is approved |
+| D4 | Sample automerge policy | Enable sample catalog auto-approval and auto-merge despite the sample remaining outside CI; revisit if automated updates expose breakage |
 | D5 | Consumer changelog treatment of sample-only PRs | Exclude sample-only PRs from consumer changelogs via `skip-changelog`; they are not a consumer release concern |
 
 ---

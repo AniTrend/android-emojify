@@ -9,16 +9,12 @@ androidx-core = "1.19.0"
 androidx-emoji = "1.1.0"
 androidx-lifecycle = "2.11.0"
 androidx-lifecycle-compose = "2.11.0"
-androidx-lifecycle-extensions = "2.2.0"
 androidx-paging = "3.5.0"
 androidx-recycler = "1.4.0"
 androidx-test-ext = "1.3.0"
 
-google-android-material = "1.14.0"
-
 jetbrains-dokka = "2.2.0"
 jetbrains-kotlin = "2.4.10"
-jetbrains-kotlinx-coroutines = "1.11.0"
 jetbrains-kotlinx-datetime = "0.8.0-0.6.x-compat"
 jetbrains-kotlinx-serialization = "1.11.0"
 
@@ -28,6 +24,9 @@ moshi-kotlin = "1.15.2"
 
 [plugins]
 gradle-versions = { id = "com.github.ben-manes.versions", version = "0.58.0" }
+# Sample-only Compose compiler plugin, pinned to the repository Kotlin version so both stay
+# synchronized. Applied only to :app through buildSrc; library modules never see it.
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "jetbrains-kotlin" }
 
 
 [libraries]
@@ -41,18 +40,12 @@ android-gradle-plugin = { module = "com.android.tools.build:gradle", version.ref
 
 androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "androidx-core" }
 
-androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version = "2.2.2" }
-
 androidx-emoji = { module = "androidx.emoji2.emoji2:emoji2", version.ref = "androidx-emoji" }
 androidx-emoji-bundled = { module = "androidx.emoji2.emoji2:emoji2-bundled", version.ref = "androidx-emoji" }
 androidx-emoji-views = { module = "androidx.emoji2.emoji2:emoji2-views", version.ref = "androidx-emoji" }
 androidx-emoji-views-helper = { module = "androidx.emoji2.emoji2:emoji2-views-helper", version.ref = "androidx-emoji" }
 
-androidx-lifecycle-extensions = { module = "androidx.lifecycle:lifecycle-extensions", version.ref = "androidx-lifecycle-extensions" }
-androidx-lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "androidx-lifecycle" }
-androidx-lifecycle-livedata-ktx = { module = "androidx.lifecycle:lifecycle-livedata-ktx", version.ref = "androidx-lifecycle" }
 androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "androidx-lifecycle" }
-androidx-lifecycle-livedata-core-ktx = { module = "androidx.lifecycle:lifecycle-livedata-core-ktx", version.ref = "androidx-lifecycle" }
 androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "androidx-lifecycle-compose" }
 
 androidx-paging-common = { module = "androidx.paging:paging-common-ktx", version.ref = "androidx-paging" }
@@ -69,20 +62,14 @@ androidx-test-rules = { module = "androidx.test:rules", version = "1.7.0" }
 
 androidx-test-ext-junit-ktx = { module = "androidx.test.ext:junit-ktx", version.ref = "androidx-test-ext" }
 
-cash-turbine = { module = "app.cash.turbine:turbine", version = "1.2.1" }
-
-google-android-material = { module = "com.google.android.material:material", version.ref = "google-android-material" }
-
 jetbrains-dokka-gradle = { module = "org.jetbrains.dokka:dokka-gradle-plugin", version.ref = "jetbrains-dokka" }
 jetbrains-kotlin-stdlib-jdk8 = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk8", version.ref = "jetbrains-kotlin" }
 jetbrains-kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "jetbrains-kotlin" }
 jetbrains-kotlin-gradle = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "jetbrains-kotlin" }
+jetbrains-compose-compiler-gradle = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "jetbrains-kotlin" }
 jetbrains-kotlin-extensions = { module = "org.jetbrains.kotlin:kotlin-android-extensions", version.ref = "jetbrains-kotlin" }
 jetbrains-kotlin-serialization = { module = "org.jetbrains.kotlin:kotlin-serialization", version.ref = "jetbrains-kotlin" }
 
-jetbrains-kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "jetbrains-kotlinx-coroutines" }
-jetbrains-kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "jetbrains-kotlinx-coroutines" }
-jetbrains-kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "jetbrains-kotlinx-coroutines" }
 jetbrains-kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "jetbrains-kotlinx-datetime" }
 jetbrains-kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "jetbrains-kotlinx-serialization" }
 

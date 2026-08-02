@@ -16,12 +16,26 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
 import java.io.File
 
 internal fun Project.configureSpotless() {
-    if (isLibraryModule())
+    if (isLibraryModule() || isSampleModule())
         spotlessExtension().run {
             kotlin {
-                target("**/kotlin/**/*.kt")
-                targetExclude("${layout.buildDirectory.get()}/**/*.kt", "**/test/**/*.kt", "bin/**/*.kt")
-                ktlint(libs.versions.ktlint.get())
+                target("**/kotlin/**/*.kt", "**/java/**/*.kt")
+                targetExclude(
+                    "${layout.buildDirectory.get()}/**/*.kt",
+                    "**/test/**/*.kt",
+                    "**/androidTest/**/*.kt",
+                    "bin/**/*.kt",
+                )
+                val ktlintConfig = ktlint(libs.versions.ktlint.get())
+                if (isSampleModule()) {
+                    // ktlint 1.0.1 flags @Composable names otherwise. Sample-only override so
+                    // library ktlint configuration stays byte-identical.
+                    ktlintConfig.editorConfigOverride(
+                        mapOf(
+                            "ktlint_function_naming_ignore_when_annotated_with" to "Composable",
+                        ),
+                    )
+                }
                 licenseHeaderFile(rootProject.file("spotless/copyright.kt"))
             }
         }
@@ -39,7 +53,7 @@ private fun DefaultConfig.applyAdditionalConfiguration(project: Project) {
     if (project.isSampleModule()) {
         applicationId = "io.wax911.emoji.sample"
         project.baseAppExtension().buildFeatures {
-            viewBinding = true
+            compose = true
         }
         println("Applying vector drawables configuration for module -> ${project.path}")
         vectorDrawables.useSupportLibrary = true

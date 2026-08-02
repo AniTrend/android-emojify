@@ -23,6 +23,16 @@ categories:
     collapse-after: 5
   - title: '🔖 Other changes'
 autolabeler:
+  # Autolabeler rules are additive: a PR can match several rules and receive every matching
+  # label. A sample catalog PR therefore also matches the blanket `/renovate\/.+/` dependencies
+  # rule below. Exclusion from the consumer changelog and version resolution is guaranteed by
+  # the `skip-changelog` label applied by Renovate (see `exclude-labels`), not by assuming one
+  # rule suppresses another. Negative lookahead is not supported by the autolabeler regex engine.
+  - label: 'sample-dependencies'
+    branch:
+      - '/renovate\/sample-.+/'
+    files:
+      - 'gradle/sample.versions.toml'
   - label: 'docs'
     files:
       - '*.md'

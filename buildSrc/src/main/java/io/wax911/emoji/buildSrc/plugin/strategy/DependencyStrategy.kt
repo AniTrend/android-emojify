@@ -4,6 +4,7 @@ import io.wax911.emoji.buildSrc.plugin.extensions.androidTestImplementation
 import io.wax911.emoji.buildSrc.plugin.extensions.implementation
 import io.wax911.emoji.buildSrc.plugin.extensions.isSampleModule
 import io.wax911.emoji.buildSrc.plugin.extensions.libs
+import io.wax911.emoji.buildSrc.plugin.extensions.sampleLibs
 import io.wax911.emoji.buildSrc.plugin.extensions.testImplementation
 import org.gradle.api.Project
 import org.gradle.api.artifacts.dsl.DependencyHandler
@@ -31,17 +32,17 @@ internal class DependencyStrategy(private val project: Project) {
     }
 
     private fun DependencyHandler.applyLifeCycleDependencies() {
-        implementation(project.libs.androidx.lifecycle.livedata.core.ktx)
-        implementation(project.libs.androidx.lifecycle.runtime.ktx)
-        implementation(project.libs.androidx.lifecycle.livedata.ktx)
-        implementation(project.libs.androidx.lifecycle.extensions)
+        implementation(project.sampleLibs.androidx.lifecycle.livedata.core.ktx)
+        implementation(project.sampleLibs.androidx.lifecycle.runtime.ktx)
+        implementation(project.sampleLibs.androidx.lifecycle.livedata.ktx)
+        implementation(project.sampleLibs.androidx.lifecycle.extensions)
     }
 
     private fun DependencyHandler.applyCoroutinesDependencies() {
-        implementation(project.libs.jetbrains.kotlinx.coroutines.android)
-        implementation(project.libs.jetbrains.kotlinx.coroutines.core)
-        testImplementation(project.libs.jetbrains.kotlinx.coroutines.test)
-        androidTestImplementation(project.libs.cash.turbine)
+        implementation(project.sampleLibs.jetbrains.kotlinx.coroutines.android)
+        implementation(project.sampleLibs.jetbrains.kotlinx.coroutines.core)
+        testImplementation(project.sampleLibs.jetbrains.kotlinx.coroutines.test)
+        androidTestImplementation(project.sampleLibs.cash.turbine)
     }
 
     fun applyDependenciesOn(handler: DependencyHandler) {

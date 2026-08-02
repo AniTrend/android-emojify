@@ -6,6 +6,7 @@ import com.diffplug.gradle.spotless.SpotlessExtension
 import io.wax911.emoji.buildSrc.module.Modules
 import io.wax911.emoji.buildSrc.plugin.components.PropertiesReader
 import org.gradle.accessors.dm.LibrariesForLibs
+import org.gradle.accessors.dm.LibrariesForSampleLibs
 import org.gradle.api.Project
 import org.gradle.api.publish.PublishingExtension
 import org.gradle.kotlin.dsl.getByType
@@ -18,6 +19,9 @@ fun Project.isLibraryModule() =
 
 internal val Project.libs: LibrariesForLibs
     get() = extensions.getByType<LibrariesForLibs>()
+
+internal val Project.sampleLibs: LibrariesForSampleLibs
+    get() = extensions.getByType<LibrariesForSampleLibs>()
 
 internal val Project.props: PropertiesReader
     get() = PropertiesReader(this)

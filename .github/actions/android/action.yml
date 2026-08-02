@@ -10,6 +10,6 @@ runs:
         java-version-file: '.java-version'
         distribution: 'adopt'
         cache: 'gradle'
-        cache-dependency-path: ./gradle/libs.versions.toml
+        cache-dependency-path: ./gradle/*.versions.toml
     - name: Setup Gradle
       uses: gradle/actions/setup-gradle@v6
