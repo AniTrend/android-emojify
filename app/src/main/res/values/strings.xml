@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">Emojify</string>
+    <string name="input_label">Input</string>
+    <string name="input_hint">Enter text with emoji, shortcodes, or HTML entities</string>
+    <string name="convert_to_emoji">Emoji</string>
+    <string name="convert_to_html">HTML</string>
+    <string name="convert_to_hex">Hex</string>
+    <string name="convert_to_emoji_description">Convert to emoji</string>
+    <string name="convert_to_html_description">Convert to HTML</string>
+    <string name="convert_to_hex_description">Convert to hexadecimal HTML</string>
+    <string name="empty_input_feedback">Enter text before converting</string>
 </resources>

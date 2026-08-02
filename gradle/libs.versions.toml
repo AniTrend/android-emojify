@@ -24,6 +24,9 @@ moshi-kotlin = "1.15.2"
 
 [plugins]
 gradle-versions = { id = "com.github.ben-manes.versions", version = "0.58.0" }
+# Sample-only Compose compiler plugin, pinned to the repository Kotlin version so both stay
+# synchronized. Applied only to :app through buildSrc; library modules never see it.
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "jetbrains-kotlin" }
 
 
 [libraries]
@@ -63,6 +66,7 @@ jetbrains-dokka-gradle = { module = "org.jetbrains.dokka:dokka-gradle-plugin", v
 jetbrains-kotlin-stdlib-jdk8 = { module = "org.jetbrains.kotlin:kotlin-stdlib-jdk8", version.ref = "jetbrains-kotlin" }
 jetbrains-kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "jetbrains-kotlin" }
 jetbrains-kotlin-gradle = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "jetbrains-kotlin" }
+jetbrains-compose-compiler-gradle = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "jetbrains-kotlin" }
 jetbrains-kotlin-extensions = { module = "org.jetbrains.kotlin:kotlin-android-extensions", version.ref = "jetbrains-kotlin" }
 jetbrains-kotlin-serialization = { module = "org.jetbrains.kotlin:kotlin-serialization", version.ref = "jetbrains-kotlin" }
 

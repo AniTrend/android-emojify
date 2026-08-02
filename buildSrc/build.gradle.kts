@@ -19,6 +19,9 @@ dependencies {
     /** Depend on the kotlin plugin, since we want to access it in our plugin */
     implementation(libs.jetbrains.kotlin.gradle)
 
+    /** Depend on the compose compiler plugin, applied to the sample module only */
+    implementation(libs.jetbrains.compose.compiler.gradle)
+
     /** Depend on the dokka plugin, since we want to access it in our plugin */
     implementation(libs.jetbrains.dokka.gradle)
 

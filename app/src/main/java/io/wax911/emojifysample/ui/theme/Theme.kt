@@ -14,21 +14,22 @@
  * limitations under the License.
  */
 
-package io.wax911.emojifysample
+package io.wax911.emojifysample.ui.theme
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import io.wax911.emojifysample.ext.emojiManager
-import io.wax911.emojifysample.ui.theme.EmojifyTheme
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.lightColorScheme
+import androidx.compose.runtime.Composable
 
-class MainActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-            EmojifyTheme {
-                MainScreen(emojiManager = emojiManager())
-            }
-        }
-    }
+/**
+ * App-wide Compose theme for the sample screen.
+ *
+ * Tier 1 uses the Material 3 baseline light color scheme with the system font family and
+ * the default Material 3 shape scale. Dark theme and dynamic color are out of Tier 1 scope.
+ */
+@Composable
+fun EmojifyTheme(content: @Composable () -> Unit) {
+    MaterialTheme(
+        colorScheme = lightColorScheme(),
+        content = content,
+    )
 }

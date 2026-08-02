@@ -14,21 +14,13 @@
  * limitations under the License.
  */
 
-package io.wax911.emojifysample
+package io.wax911.emojifysample.util
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import io.wax911.emojifysample.ext.emojiManager
-import io.wax911.emojifysample.ui.theme.EmojifyTheme
-
-class MainActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-            EmojifyTheme {
-                MainScreen(emojiManager = emojiManager())
-            }
-        }
-    }
-}
+/**
+ * Returns true when the input is a non-null string that contains at least one
+ * non-whitespace character.
+ *
+ * This is the sample screen's empty input guard: null, empty, and whitespace-only input
+ * shows feedback and must never reach a parser.
+ */
+internal fun String?.isValidInput(): Boolean = !isNullOrBlank()
