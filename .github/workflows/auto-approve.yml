@@ -16,7 +16,9 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
-    if: github.actor == 'renovate[bot]' || github.event_name == 'workflow_dispatch'
+    # Skip sample catalog PRs (they carry the sample-dependencies label) until sample
+    # validation exists; keep auto-approval for all other renovate PRs and manual dispatch.
+    if: github.event_name == 'workflow_dispatch' || (github.actor == 'renovate[bot]' && !contains(github.event.pull_request.labels.*.name, 'sample-dependencies'))
     steps:
       - uses: hmarr/auto-approve-action@v4.0.0
         with:

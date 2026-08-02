@@ -1,0 +1,23 @@
+[versions]
+# androidx-lifecycle mirrors the shared catalog value; the shared key stays for unused
+# aliases that must not move. Alias declarations are never duplicated across catalogs.
+androidx-lifecycle = "2.11.0"
+androidx-lifecycle-extensions = "2.2.0"
+google-android-material = "1.14.0"
+jetbrains-kotlinx-coroutines = "1.11.0"
+
+[libraries]
+androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version = "2.2.2" }
+
+androidx-lifecycle-extensions = { module = "androidx.lifecycle:lifecycle-extensions", version.ref = "androidx-lifecycle-extensions" }
+androidx-lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "androidx-lifecycle" }
+androidx-lifecycle-livedata-ktx = { module = "androidx.lifecycle:lifecycle-livedata-ktx", version.ref = "androidx-lifecycle" }
+androidx-lifecycle-livedata-core-ktx = { module = "androidx.lifecycle:lifecycle-livedata-core-ktx", version.ref = "androidx-lifecycle" }
+
+cash-turbine = { module = "app.cash.turbine:turbine", version = "1.2.1" }
+
+google-android-material = { module = "com.google.android.material:material", version.ref = "google-android-material" }
+
+jetbrains-kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "jetbrains-kotlinx-coroutines" }
+jetbrains-kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "jetbrains-kotlinx-coroutines" }
+jetbrains-kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "jetbrains-kotlinx-coroutines" }

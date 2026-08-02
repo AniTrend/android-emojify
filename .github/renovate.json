@@ -11,5 +11,14 @@
   ],
   "automerge": true,
   "automergeType": "pr",
-  "automergeStrategy": "rebase"
+  "automergeStrategy": "rebase",
+  "packageRules": [
+    {
+      "matchManagers": ["gradle", "gradle-version-catalog"],
+      "matchFileNames": ["gradle/sample.versions.toml"],
+      "additionalBranchPrefix": "sample-",
+      "labels": ["sample-dependencies", "skip-changelog"],
+      "automerge": false
+    }
+  ]
 }

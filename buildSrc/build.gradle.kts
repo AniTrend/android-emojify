@@ -34,4 +34,7 @@ dependencies {
 
     /** Work around to include ../.gradle/LibrariesForLibs generated file for version catalog */
     implementation(files(libs.javaClass.superclass.protectionDomain.codeSource.location))
+
+    /** Work around to include ../.gradle/LibrariesForSampleLibs generated file for version catalog */
+    implementation(files(sampleLibs.javaClass.superclass.protectionDomain.codeSource.location))
 }

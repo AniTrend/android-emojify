@@ -9,12 +9,10 @@ dependencies {
     implementation(project(Libraries.AniTrend.Emojify.contract))
     implementation(project(Libraries.AniTrend.Emojify.serializerKotlinx))
 
-    implementation(libs.google.android.material)
-    implementation(libs.androidx.constraintlayout)
+    implementation(sampleLibs.google.android.material)
+    implementation(sampleLibs.androidx.constraintlayout)
 
-    implementation(libs.jetbrains.kotlinx.coroutines.android)
-    implementation(libs.jetbrains.kotlinx.coroutines.core)
-
+    // Coroutines are supplied by DependencyStrategy (sample-only branch), do not redeclare.
     implementation(libs.androidx.startup.runtime)
 }
 
