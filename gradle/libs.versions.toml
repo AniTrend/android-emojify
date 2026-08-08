@@ -23,7 +23,7 @@ moshi-kotlin = "1.15.2"
 
 
 [plugins]
-gradle-versions = { id = "com.github.ben-manes.versions", version = "0.58.0" }
+gradle-versions = { id = "com.github.ben-manes.versions", version = "0.60.0" }
 # Sample-only Compose compiler plugin, pinned to the repository Kotlin version so both stay
 # synchronized. Applied only to :app through buildSrc; library modules never see it.
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "jetbrains-kotlin" }
