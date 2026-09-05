@@ -3,7 +3,7 @@ gson = "2.14.0"
 jackson-databind = "2.22.2"
 ktlint = "1.0.1"
 
-gradle-plugin = "9.3.2"
+gradle-plugin = "9.4.0"
 
 androidx-core = "1.19.0"
 androidx-emoji = "1.1.0"
