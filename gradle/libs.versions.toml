@@ -3,7 +3,7 @@ gson = "2.14.0"
 jackson-databind = "2.22.2"
 ktlint = "1.0.1"
 
-gradle-plugin = "9.4.0"
+gradle-plugin = "9.3.2"
 google-ksp = "2.3.11"
 
 androidx-core = "1.19.0"
@@ -81,4 +81,4 @@ mockk-android = { module = "io.mockk:mockk-android", version.ref = "mockk" }
 
 gradle-versions = { module = "com.github.ben-manes:gradle-versions-plugin", version = "0.54.0" }
 
-spotless-gradle = { module = "com.diffplug.spotless:spotless-plugin-gradle", version = "8.10.2" }
+spotless-gradle = { module = "com.diffplug.spotless:spotless-plugin-gradle", version = "8.10.1" }
