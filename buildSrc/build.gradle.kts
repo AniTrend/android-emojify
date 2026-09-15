@@ -22,6 +22,9 @@ dependencies {
     /** Depend on the compose compiler plugin, applied to the sample module only */
     implementation(libs.jetbrains.compose.compiler.gradle)
 
+    /** Depend on the ksp plugin, applied to the moshi serializer for adapter code generation */
+    implementation(libs.google.ksp.gradle)
+
     /** Depend on the dokka plugin, since we want to access it in our plugin */
     implementation(libs.jetbrains.dokka.gradle)
 

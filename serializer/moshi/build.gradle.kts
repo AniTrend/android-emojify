@@ -2,6 +2,7 @@ import io.wax911.emoji.buildSrc.Libraries
 
 plugins {
     id("io.wax911.emojify")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -10,5 +11,6 @@ android {
 
 dependencies {
     implementation(project(Libraries.AniTrend.Emojify.contract))
-    api(libs.moshi.kotlin)
+    api(libs.moshi)
+    ksp(libs.moshi.kotlin.codegen)
 }

@@ -81,6 +81,7 @@ jobs:
           ./gradlew emojify:preTest
           ./gradlew emojify:test --stacktrace
           ./gradlew emojify:postTest
+          ./gradlew serializer:moshi:test --stacktrace
       - uses: actions/create-github-app-token@v3
         id: app-token
         # Repository secrets are unavailable for pull_request events from forks,
