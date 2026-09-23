@@ -314,13 +314,17 @@ preference index. The merge decision in section 8 bakes the legacy canonical
 into `shortCodes[0]`, so `parseToAliases` is restored as a deprecated
 single-forward bridge to `parseToShortCodes` with `ReplaceWith`. One parser
 implementation, no copied logic (criterion 12). The bridge reproduces exact
-1.x output for 1,574 of 1,603 legacy emoji (98.2%). The 28 whose first alias
-is semantically conflicted emit their documented alternative canonical: the
-next retained legacy alias if one exists (for example `:envelope:` for the
-envelope emoji), otherwise the modern canonical (for example
-`:smiling_face_with_sunglasses:`, since the reassigned `sunglasses` string is
-excluded). This deviation is required: emitting a reassigned string would
-break round-tripping and reintroduce the ambiguity criterion 9 forbids.
+1.x output for 1,575 of 1,603 legacy emoji (98.3%): 1,574 matched into
+current records plus the Texas `ustx` record, which emits its 1.x first
+alias. The 27 whose first alias is semantically conflicted emit their
+documented alternative canonical: the next retained legacy alias if one exists
+(for example `:envelope:` for the envelope emoji), otherwise the modern
+canonical (for example `:smiling_face_with_sunglasses:`, since the reassigned
+`sunglasses` string is excluded). The one remaining record, the malformed
+`♾🏴‍☠️`, is dropped: both of its aliases are reassigned and it has no
+outgoing canonical. The demotion deviation is required: emitting a reassigned
+string would break round-tripping and reintroduce the ambiguity criterion 9
+forbids.
 
 ## 8. Legacy ingestion options
 
@@ -379,9 +383,29 @@ change. Merge rules, applied at generation time:
    the Texas flag `🏴󠁵󠁳󠁴󠁸󠁿` (alias `ustx`). The 1.9.7 malformed `♾🏴‍☠️` record
    matches nothing and both of its aliases are conflicted, so the record is
    dropped and documented as an exception.
-4. `supportsFitzpatrick` of the current record is authoritative for merged
-   aliases. Observed drift: 14 records, all legacy-incapable to
-   current-capable (for example `couple`); documented as an exception list.
+4. Merged field values come from the current record (current-authoritative),
+   with one exception: `supportsFitzpatrick` is the OR of both snapshots
+   (capability policy below). Capability drift is bidirectional: of the 14
+   records where the snapshots disagree, 11 are legacy-false/current-true
+   (for example `couple` 👫) and 3 are legacy-true/current-false: the zombie
+   records 🧟 (U+1F9DF), 🧟‍♂️ (U+1F9DF ZWJ U+2642 VS16), and 🧟‍♀️ (U+1F9DF
+   ZWJ U+2640 VS16).
+
+   The merged `supportsFitzpatrick` value is the OR of both snapshots: a
+   record is capable if either the current dataset or the 1.9.7 fixture marks
+   it capable. The 3 zombie records are therefore capable in the merged
+   catalog even though current upstream data defines no zombie skin variants
+   and RGI defines no zombie tone sequences. This deliberately preserves the
+   15 historical token forms `:zombie|type_N:`, `:man_zombie|type_N:`, and
+   `:woman_zombie|type_N:` (3 records x 5 modifier spellings) in both
+   directions, exactly as 1.9.7 serialized them. The 11 records newly
+   capable relative to 1.9.7 serialize tones under all three Fitzpatrick
+   actions, which only adds conversions 1.9.7 could not produce and breaks
+   none. The predicate is total: it also applies to newly created
+   legacy-only records (the Texas `ustx` record carries no capability in the
+   fixture and stays non-capable). The OR is intentional and permanent across
+   regenerations: do not "correct" the flag to upstream truth, which would
+   silently drop the 15 forms.
 
 Coverage of the measured gaps: the 784 lost aliases resolve again as 650 merged
 into exact-present records, 133 into normalized-matched records, and 1 via the
@@ -447,7 +471,7 @@ tests, not a claim that every detail matches the old parser:
   special cases and preserves failed tokens whole. This line supersedes the
   earlier draft wording about not partially consuming nested tokens. A
   supported suffix on a non-capable emoji preserves the whole token (1.x
-  agreed).
+  agreed); capability here means the merged OR flag of section 8 rule 4.
 - Generator tests must enforce the frozen fixture counts, legacy alias
   preservation or an explicit exception for every lost/reassigned mapping,
   same-emoji mapping invariants, collision behavior, stable canonical ordering,
@@ -503,13 +527,18 @@ conflicted alias as canonical; discarding unknown tokens.
 
 Acceptance implications (honest): criterion 3 holds for 1,938 of 1,969 legacy
 alias strings (98.4%); the 31 reassigned strings are the documented exception
-set under criterion 3's "explicitly documented impossible mappings". The
-deprecated bridge reproduces exact 1.x output for 98.2% of legacy emoji,
-demoting 28 conflicted first aliases to documented alternates. Criterion 11
-documentation obligations: the canonical policy, the presentation-normalization
-note, and exception tables covering the 31 reassigned aliases (section 4), the
-28 canonical demotions (section 7), the 14 Fitzpatrick-capability drifts, and
-the dropped malformed `♾🏴‍☠️` record with its 2 conflicted aliases.
+set under criterion 3's "explicitly documented impossible mappings". All 1,550
+Fitzpatrick tone token forms convert (the capability OR, section 8 rule 4), so
+no tone form needs an exception. The deprecated bridge reproduces exact 1.x
+output for 1,575 of 1,603 legacy emoji (98.3%): 1,574 matched into current
+records plus the Texas `ustx` record; 27 conflicted-first aliases demote to
+documented alternates, and 1 record (the malformed `♾🏴‍☠️`, both aliases
+reassigned) is dropped. Criterion 11 documentation obligations: the canonical
+policy, the presentation-normalization note, the Fitzpatrick capability policy
+note (section 8 rule 4, including its permanence), and exception tables
+covering the 31 reassigned aliases (section 4), the 27 canonical demotions
+(section 7), and the dropped malformed `♾🏴‍☠️` record with its 2 conflicted
+aliases.
 
 Follow-up (out of scope): `IEmoji.getUnicode` composes from the escaped
 `unicode` text field, and `extractEmojis` returns malformed Fitzpatrick forms

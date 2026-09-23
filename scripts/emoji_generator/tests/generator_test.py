@@ -12,6 +12,7 @@ from emoji_generator.models import (
   Subgroup,
 )
 from emoji_generator.sources import get_emoji_shortcodes
+from emoji_generator.compatibility import merge_current_shortcodes
 from emoji_generator.utils import compute_html_dec, compute_html_hex, compute_unicode
 
 # Sample data mimicking emojibase-data structure
@@ -138,54 +139,21 @@ def test_get_emoji_shortcodes():
   assert shortcodes["2049"] == ["exclamation_question", "interrobang"]
 
 
-def test_shortcode_merging_logic(mock_both_data):
-  """Test the shortcode merging logic with mocked data"""
-  # Get the data
+def test_shortcode_merging_logic_uses_preset_order(mock_both_data):
   emoji_list = get_emoji("15.1")
   shortcodes_dict = get_emoji_shortcodes("15.1")
-
-  # Manually perform the merge logic (same as in fetch_emoji_data)
-  if emoji_list and shortcodes_dict:
-    for emoji in emoji_list:
-      if emoji.hexcode in shortcodes_dict:
-        additional_shortcodes = shortcodes_dict[emoji.hexcode]
-
-        if isinstance(additional_shortcodes, str):
-          additional_shortcodes = [additional_shortcodes]
-
-        if emoji.shortcodes:
-          combined_shortcodes = list(set(emoji.shortcodes + additional_shortcodes))
-          emoji.shortcodes = combined_shortcodes
-        else:
-          emoji.shortcodes = additional_shortcodes
-
-  # Parse the data
+  merge_current_shortcodes(emoji_list, shortcodes_dict)
   parsed_data = parse_emoji_data(emoji_list)
-
-  # Test the results
   assert isinstance(parsed_data, list)
   assert len(parsed_data) == 3
 
-  # Find the grinning face emoji (should have merged shortcodes)
   grinning_emoji = next((e for e in parsed_data if e["emoji"] == "😀"), None)
   assert grinning_emoji is not None
-  assert "shortCodes" in grinning_emoji
-  # Should have both original and new shortcodes (deduplicated)
-  expected_shortcodes = {"grinning", "grinning_face"}
-  actual_shortcodes = set(grinning_emoji["shortCodes"])
-  assert expected_shortcodes.issubset(actual_shortcodes)
+  assert grinning_emoji["shortCodes"] == ["grinning", "grinning_face"]
 
-  # Find the sun emoji (should get shortcodes from mapping)
   sun_emoji = next((e for e in parsed_data if e["emoji"] == "☀️"), None)
   assert sun_emoji is not None
-  assert "shortCodes" in sun_emoji
-  assert "sun" in sun_emoji["shortCodes"]
-
-  # Check that there are no duplicate shortcodes
-  shortcodes = grinning_emoji["shortCodes"]
-  assert len(shortcodes) == len(set(shortcodes)), (
-    "Shortcodes should not contain duplicates"
-  )
+  assert sun_emoji["shortCodes"] == ["sun"]
 
 
 def test_compute_unicode():

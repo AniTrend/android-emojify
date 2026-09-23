@@ -11,6 +11,12 @@ from pathlib import Path
 from urllib.error import URLError
 from urllib.request import urlopen
 
+from emoji_generator.compatibility import (
+    MERGE_FITZPATRICK_CAPABILITY_WITH_OR,
+    SOURCE_LEGACY_FALSE_CURRENT_TRUE_FITZPATRICK,
+    SOURCE_LEGACY_TRUE_CURRENT_FALSE_FITZPATRICK,
+    fitzpatrick_capability_drifts,
+)
 
 ROOT = Path(__file__).resolve().parents[2]
 LEGACY_PATH = Path(__file__).resolve().parent / "fixtures" / "emoji-1.9.7.json"
@@ -171,6 +177,9 @@ def main() -> int:
     current_multi_count, current_max_codes, current_multi_examples = multi_code_stats(current, "shortCodes")
 
     old_fitzpatrick = [record for record in legacy if record.get("supports_fitzpatrick") is True]
+    legacy_true_current_false, legacy_false_current_true = fitzpatrick_capability_drifts(
+        current, legacy
+    )
     fitz_pairs = {
         (code, record["emoji"])
         for record in old_fitzpatrick
@@ -285,6 +294,43 @@ def main() -> int:
         print(f"  {entry['emoji']} ({format_unicode(entry['emoji'])}): {', '.join(entry['codes'])}")
     print()
     print("Fitzpatrick-capable legacy aliases and full token forms")
+    policy = "legacy OR current" if MERGE_FITZPATRICK_CAPABILITY_WITH_OR else "current-only"
+    restored_source_exceptions = {
+        emoji
+        for emoji in SOURCE_LEGACY_TRUE_CURRENT_FALSE_FITZPATRICK
+        if any(
+            item.get("emoji") == emoji and item.get("supportsFitzpatrick") is True
+            for item in current
+        )
+    }
+    print(f"Fitzpatrick capability policy: {policy}")
+    print(
+        "Source legacy true, current false exceptions: "
+        f"{len(SOURCE_LEGACY_TRUE_CURRENT_FALSE_FITZPATRICK)}; restored by merge="
+        f"{restored_source_exceptions == SOURCE_LEGACY_TRUE_CURRENT_FALSE_FITZPATRICK}"
+    )
+    for emoji in sorted(SOURCE_LEGACY_TRUE_CURRENT_FALSE_FITZPATRICK):
+        record = next(
+            item
+            for item in old_fitzpatrick
+            if isinstance(item.get("emoji"), str)
+            and item["emoji"].replace("\ufe0e", "").replace("\ufe0f", "")
+            == emoji.replace("\ufe0e", "").replace("\ufe0f", "")
+        )
+        aliases = distinct_in_order(string_list(record.get("aliases")))
+        forms = [f":{alias}|{suffix}:" for alias in aliases for suffix in FITZPATRICK_SUFFIXES]
+        print(f"  {emoji}: legacy forms={','.join(forms)}")
+    print(
+        "Source legacy false, current true exceptions: "
+        f"{len(SOURCE_LEGACY_FALSE_CURRENT_TRUE_FITZPATRICK)}; remains after merge="
+        f"{legacy_false_current_true == SOURCE_LEGACY_FALSE_CURRENT_TRUE_FITZPATRICK}"
+    )
+    for emoji in sorted(SOURCE_LEGACY_FALSE_CURRENT_TRUE_FITZPATRICK):
+        print(f"  {emoji} ({format_unicode(emoji)})")
+    print(
+        "Merged legacy true, current false exceptions: "
+        f"{len(legacy_true_current_false)}"
+    )
     print(f"Fitzpatrick-capable legacy aliases: {len(old_fitzpatrick)} emoji records")
     print(f"Legacy Fitzpatrick alias pairs: {len(fitz_pairs)}; distinct aliases: {len(fitz_aliases)}")
     for record in sorted(old_fitzpatrick, key=lambda item: str(item.get("emoji"))):
