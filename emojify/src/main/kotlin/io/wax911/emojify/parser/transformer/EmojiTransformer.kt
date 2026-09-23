@@ -19,13 +19,16 @@ package io.wax911.emojify.parser.transformer
 import io.wax911.emojify.parser.candidate.UnicodeCandidate
 
 /**
- * Emoji transformer contract
+ * Contract for replacing a Unicode emoji candidate during text conversion.
  */
 interface EmojiTransformer {
     /**
-     * Given a [unicodeCandidate] applies a transformation
+     * Applies a transformation to one [UnicodeCandidate].
      *
-     * @return Transformation result for the [unicodeCandidate]
+     * @param unicodeCandidate the emoji match to transform
+     * @return replacement text for the candidate; implementations must return
+     *   a non-null value for every candidate, since the parser appends each
+     *   result directly to the output
      */
     operator fun invoke(unicodeCandidate: UnicodeCandidate): String?
 }

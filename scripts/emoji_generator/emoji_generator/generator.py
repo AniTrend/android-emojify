@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import json
 import os
 from pathlib import Path
@@ -5,14 +7,34 @@ from typing import TYPE_CHECKING, cast
 
 import requests
 
+from emoji_generator.compatibility import (
+  load_legacy_records,
+  merge_current_shortcodes,
+  merge_legacy_shortcodes,
+)
 from emoji_generator.decorators import run_catching
 from emoji_generator.sources import get_emoji, get_emoji_shortcodes
 from emoji_generator.utils import parse_emoji_data
 
 if TYPE_CHECKING:
+  from collections.abc import Mapping
+
   from emoji_generator.models import Emoji
 
 __version: str | None
+
+
+def generate_catalog(
+  emoji_list: list[Emoji],
+  shortcodes_dict: Mapping[str, str | list[str]],
+  legacy_records: list[dict] | None = None,
+) -> list[dict]:
+  merge_current_shortcodes(emoji_list, shortcodes_dict)
+  current_records = cast("list[dict]", parse_emoji_data(emoji_list))
+  return merge_legacy_shortcodes(
+    current_records,
+    load_legacy_records() if legacy_records is None else legacy_records,
+  )
 
 
 @run_catching
@@ -21,20 +43,8 @@ def fetch_emoji_data() -> list[dict]:
   try:
     emoji_list: list[Emoji] | None = get_emoji(__version)
     shortcodes_dict: dict[str, str | list[str]] | None = get_emoji_shortcodes(__version)
-    if emoji_list and shortcodes_dict:
-      for emoji in emoji_list:
-        if emoji.hexcode in shortcodes_dict:
-          additional_shortcodes = shortcodes_dict[emoji.hexcode]
-
-          if isinstance(additional_shortcodes, str):
-            additional_shortcodes = [additional_shortcodes]
-
-          if emoji.shortcodes:
-            combined_shortcodes = list(set(emoji.shortcodes + additional_shortcodes))
-            emoji.shortcodes = combined_shortcodes
-          else:
-            emoji.shortcodes = additional_shortcodes
-
+    if emoji_list and shortcodes_dict is not None:
+      return generate_catalog(emoji_list, shortcodes_dict)
     return cast("list[dict]", parse_emoji_data(emoji_list))
   except requests.exceptions.RequestException as e:
     msg = f"Failed to fetch emoji data: {e}"

@@ -14,21 +14,15 @@
  * limitations under the License.
  */
 
-package io.wax911.emojify.parser.candidate.contract
+package io.wax911.emojify.parser.candidate
 
 import io.wax911.emojify.contract.model.IEmoji
+import io.wax911.emojify.parser.candidate.contract.ICandidate
 import io.wax911.emojify.util.Fitzpatrick
 
-/**
- * Shared match data for parser candidates.
- *
- * @property emoji the emoji record associated with this candidate, if any
- * @property fitzpatrick the recognized Fitzpatrick modifier, if present
- */
-interface ICandidate {
-    /** The emoji record associated with this candidate, if any. */
-    val emoji: IEmoji?
-
-    /** The recognized Fitzpatrick modifier, if present. */
-    val fitzpatrick: Fitzpatrick?
-}
+internal data class ShortCodeCandidate(
+    override val emoji: IEmoji,
+    override val fitzpatrick: Fitzpatrick?,
+    val startIndex: Int,
+    val endIndex: Int,
+) : ICandidate

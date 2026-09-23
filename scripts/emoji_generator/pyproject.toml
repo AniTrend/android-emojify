@@ -129,6 +129,14 @@ docstring-code-format = false
 docstring-code-line-length = "dynamic"
 
 [tool.ruff.lint.per-file-ignores]
+"compat_check.py" = [
+    "T201",    # Printing is the compatibility report's CLI output
+    "PLR0912", # The report assembles independent audit sections in one entry point
+    "PLR0915", # The report assembles independent audit sections in one entry point
+]
+"compat_diff.py" = [
+    "T201",    # Printing is the catalog diff's CLI output
+]
 "tests/*" = [
     "S101",    # Use of assert is fine in tests
     "PLR2004", # Magic value used in comparison

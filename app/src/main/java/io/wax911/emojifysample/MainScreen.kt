@@ -22,7 +22,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -47,26 +47,33 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.wax911.emojify.EmojiManager
+import io.wax911.emojify.parser.parseShortCodesToUnicode
 import io.wax911.emojify.parser.parseToHtmlDecimal
 import io.wax911.emojify.parser.parseToHtmlHexadecimal
+import io.wax911.emojify.parser.parseToShortCodes
 import io.wax911.emojify.parser.parseToUnicode
 import io.wax911.emojify.serializer.kotlinx.KotlinxDeserializer
 import io.wax911.emojifysample.ui.theme.EmojifyTheme
 import io.wax911.emojifysample.util.isValidInput
 
 /**
- * The three conversions exposed by the sample screen, mapped 1:1 to the
- * [EmojiManager] parser extensions.
+ * The conversions exposed by the sample screen, mapped 1:1 to the [EmojiManager]
+ * parser extensions: [EMOJI] to [parseToUnicode], [HTML] to [parseToHtmlDecimal],
+ * [HEX] to [parseToHtmlHexadecimal], [SHORTCODES] to [parseToShortCodes], and
+ * [SHORTCODES_TO_EMOJI] to [parseShortCodesToUnicode].
  */
 internal enum class ConversionAction {
     EMOJI,
     HTML,
     HEX,
+    SHORTCODES,
+    SHORTCODES_TO_EMOJI,
 }
 
 /**
- * Tier 1 single-column screen: a top app bar, a multiline input field, and a fixed row of
- * three conversion buttons. Conversions replace the input text in place, synchronously.
+ * Tier 1 single-column screen: a top app bar, a multiline input field, and five
+ * conversion buttons fixed across two rows. Conversions replace the input text in
+ * place, synchronously.
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -89,6 +96,8 @@ internal fun MainScreen(emojiManager: EmojiManager, modifier: Modifier = Modifie
                 ConversionAction.EMOJI -> emojiManager.parseToUnicode(textToConvert)
                 ConversionAction.HTML -> emojiManager.parseToHtmlDecimal(textToConvert)
                 ConversionAction.HEX -> emojiManager.parseToHtmlHexadecimal(textToConvert)
+                ConversionAction.SHORTCODES -> emojiManager.parseToShortCodes(textToConvert)
+                ConversionAction.SHORTCODES_TO_EMOJI -> emojiManager.parseShortCodesToUnicode(textToConvert)
             }
     }
 
@@ -129,6 +138,8 @@ internal fun MainScreen(emojiManager: EmojiManager, modifier: Modifier = Modifie
                 onEmojiClick = { convert(ConversionAction.EMOJI) },
                 onHtmlClick = { convert(ConversionAction.HTML) },
                 onHexClick = { convert(ConversionAction.HEX) },
+                onShortCodesClick = { convert(ConversionAction.SHORTCODES) },
+                onShortCodesToEmojiClick = { convert(ConversionAction.SHORTCODES_TO_EMOJI) },
                 modifier =
                 Modifier
                     .fillMaxWidth()
@@ -139,33 +150,62 @@ internal fun MainScreen(emojiManager: EmojiManager, modifier: Modifier = Modifie
 }
 
 /**
- * Fixed row of the three conversion buttons, kept outside the scrollable input area so
+ * Two fixed rows of conversion buttons, kept outside the scrollable input area so
  * repeated taps do not chase a moving target.
  */
 @Composable
-private fun ConversionActions(onEmojiClick: () -> Unit, onHtmlClick: () -> Unit, onHexClick: () -> Unit, modifier: Modifier = Modifier) {
-    Row(
+private fun ConversionActions(
+    onEmojiClick: () -> Unit,
+    onHtmlClick: () -> Unit,
+    onHexClick: () -> Unit,
+    onShortCodesClick: () -> Unit,
+    onShortCodesToEmojiClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Column(
         modifier = modifier,
-        horizontalArrangement = Arrangement.spacedBy(12.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
-        ConversionButton(
-            label = stringResource(R.string.convert_to_emoji),
-            description = stringResource(R.string.convert_to_emoji_description),
-            onClick = onEmojiClick,
-            modifier = Modifier.weight(1f),
-        )
-        ConversionButton(
-            label = stringResource(R.string.convert_to_html),
-            description = stringResource(R.string.convert_to_html_description),
-            onClick = onHtmlClick,
-            modifier = Modifier.weight(1f),
-        )
-        ConversionButton(
-            label = stringResource(R.string.convert_to_hex),
-            description = stringResource(R.string.convert_to_hex_description),
-            onClick = onHexClick,
-            modifier = Modifier.weight(1f),
-        )
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
+        ) {
+            ConversionButton(
+                label = stringResource(R.string.convert_to_emoji),
+                description = stringResource(R.string.convert_to_emoji_description),
+                onClick = onEmojiClick,
+                modifier = Modifier.weight(1f),
+            )
+            ConversionButton(
+                label = stringResource(R.string.convert_to_html),
+                description = stringResource(R.string.convert_to_html_description),
+                onClick = onHtmlClick,
+                modifier = Modifier.weight(1f),
+            )
+            ConversionButton(
+                label = stringResource(R.string.convert_to_hex),
+                description = stringResource(R.string.convert_to_hex_description),
+                onClick = onHexClick,
+                modifier = Modifier.weight(1f),
+            )
+        }
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
+        ) {
+            ConversionButton(
+                label = "To short codes",
+                description = "Convert emoji to short codes",
+                onClick = onShortCodesClick,
+                modifier = Modifier.weight(1f),
+            )
+            ConversionButton(
+                label = "Short codes to emoji",
+                description = "Convert short codes to emoji",
+                onClick = onShortCodesToEmojiClick,
+                modifier = Modifier.weight(1f),
+            )
+        }
     }
 }
 
@@ -178,7 +218,7 @@ private fun ConversionButton(label: String, description: String, onClick: () -> 
         onClick = onClick,
         modifier =
         modifier
-            .height(48.dp)
+            .heightIn(min = 48.dp)
             .semantics { contentDescription = description },
     ) {
         Text(text = label)

@@ -45,13 +45,15 @@ fun EmojiManager.replaceAllEmojis(
 }
 
 /**
- * Replaces the emoji's occurrences and the html representations by their unicode.
+ * Replaces recognized HTML decimal or hexadecimal emoji entities with Unicode emoji.
  *
  * > `&#128516;` will be replaced by `😄`
  *
+ * Short code tokens are not parsed by this function; use [parseShortCodesToUnicode] for them.
+ *
  * @param input the string to parse
  *
- * @return the string with the html representations replaced by their unicode.
+ * @return the input with recognized HTML emoji entities replaced by Unicode emoji.
  */
 fun EmojiManager.parseToUnicode(input: String): String {
     val sb = StringBuilder(input.length)
@@ -176,9 +178,101 @@ fun EmojiManager.parseToHtmlDecimal(
 }
 
 /**
+ * Replaces Unicode emoji with their canonical shortcode representation.
+ *
+ * For example, `😄` becomes `:smile:`. The canonical shortcode is the first
+ * entry in the generated `shortCodes` list, whose retained legacy aliases
+ * precede aliases from the current preset.
+ *
+ * When a Fitzpatrick modifier follows an emoji that supports skin tones,
+ * [FitzpatrickAction.PARSE] appends its enum name as a shortcode suffix,
+ * [FitzpatrickAction.REMOVE] drops the modifier, and
+ * [FitzpatrickAction.IGNORE] leaves the modifier as Unicode after the shortcode:
+ *
+ * | Action | `👦🏿` |
+ * | --- | --- |
+ * | PARSE | `:boy|type_6:` |
+ * | REMOVE | `:boy:` |
+ * | IGNORE | `:boy:🏿` |
+ *
+ * The supported PARSE suffixes are `type_1_2`, `type_3`, `type_4`, `type_5`,
+ * and `type_6`, derived from the Fitzpatrick enum names. For an emoji that does
+ * not support skin tones, PARSE writes the base shortcode followed by the raw
+ * modifier instead of an unsupported suffix. This preserves the input when it
+ * is converted back with [parseShortCodesToUnicode].
+ *
+ * An emoji without shortcode metadata is left as Unicode, including any
+ * following Fitzpatrick modifier.
+ *
+ * @param input text containing Unicode emoji
+ * @param fitzpatrickAction how to handle Fitzpatrick modifiers after emoji
+ * @return the input with emoji that have shortcode metadata replaced
+ * @see FitzpatrickAction
+ * @since 2.3.0
+ */
+@JvmOverloads
+fun EmojiManager.parseToShortCodes(
+    input: String,
+    fitzpatrickAction: FitzpatrickAction = FitzpatrickAction.PARSE,
+): String {
+    val emojiTransformer =
+        object : EmojiTransformer {
+            override fun invoke(unicodeCandidate: UnicodeCandidate): String {
+                val emoji = unicodeCandidate.emoji ?: return ""
+                val shortCode =
+                    emoji.shortCodes?.firstOrNull()
+                        ?: return emoji.emoji + unicodeCandidate.fitzpatrickUnicode
+                val baseShortCode = ":$shortCode"
+
+                return when (fitzpatrickAction) {
+                    FitzpatrickAction.PARSE ->
+                        if (!unicodeCandidate.hasFitzpatrick()) {
+                            "$baseShortCode:"
+                        } else if (emoji.supportsFitzpatrick) {
+                            "$baseShortCode|${unicodeCandidate.fitzpatrickType}:"
+                        } else {
+                            "$baseShortCode:${unicodeCandidate.fitzpatrickUnicode}"
+                        }
+
+                    FitzpatrickAction.REMOVE -> "$baseShortCode:"
+                    FitzpatrickAction.IGNORE -> "$baseShortCode:${unicodeCandidate.fitzpatrickUnicode}"
+                }
+            }
+        }
+
+    return parseFromUnicode(input, emojiTransformer)
+}
+
+/**
+ * Provides the 1.x `aliases` entry point, now called shortCodes in 2.x.
+ *
+ * This deprecated source-compatibility bridge delegates to
+ * [parseToShortCodes] and is behaviorally identical to it. Exact 1.x output is
+ * reproduced for 1,575 of 1,603 legacy emoji (98.3%). The 27 whose historic
+ * first alias is reassigned emit their documented alternative canonical, such
+ * as `:envelope:`. The one malformed legacy record has no outgoing canonical.
+ *
+ * @deprecated Use [parseToShortCodes] instead.
+ * @param input text containing Unicode emoji
+ * @param fitzpatrickAction how to handle Fitzpatrick modifiers after emoji
+ * @return the input with emoji that have shortcode metadata replaced
+ * @see parseToShortCodes
+ * @since 2.3.0
+ */
+@JvmOverloads
+@Deprecated(
+    message = "Use parseToShortCodes instead",
+    replaceWith = ReplaceWith("parseToShortCodes(input, fitzpatrickAction)"),
+)
+fun EmojiManager.parseToAliases(
+    input: String,
+    fitzpatrickAction: FitzpatrickAction = FitzpatrickAction.PARSE,
+): String = parseToShortCodes(input, fitzpatrickAction)
+
+/**
  * Replaces the emoji's unicode occurrences by their html hex representation.
  *
- * > '' will be replaced by `&#x1f466;`
+ * > `👦` will be replaced by `&#x1f466;`
  *
  *
  * When a fitzpatrick modifier is present with a PARSE or REMOVE action, the
@@ -314,6 +408,14 @@ fun EmojiManager.parseFromUnicode(
     return sb.append(input.substring(prev)).toString()
 }
 
+/**
+ * Finds Unicode emoji in text and returns their emoji strings in encounter order.
+ *
+ * Repeated emoji are included more than once when they occur more than once in the input.
+ *
+ * @param input text that may contain Unicode emoji
+ * @return the emoji strings found in the input
+ */
 fun EmojiManager.extractEmojis(input: String): List<String> {
     return unicodeCandidates(input)
         .mapNotNull { unicodeCandidate ->
