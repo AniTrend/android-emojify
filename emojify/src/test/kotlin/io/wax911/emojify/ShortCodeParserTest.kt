@@ -81,6 +81,25 @@ class ShortCodeParserTest : EmojiLoader() {
     }
 
     @Test
+    fun parseToShortCodes_roundTripsEveryLoadedCatalogRecord() {
+        emojiManager.emojiList.forEach { record ->
+            val expected = record.shortCodes?.firstOrNull()?.let { ":$it:" } ?: record.emoji
+            val shortCode = emojiManager.parseToShortCodes(record.emoji)
+
+            assertEquals(
+                "canonical shortcode output for '${record.description}'",
+                expected,
+                shortCode,
+            )
+            assertEquals(
+                "shortcode round trip for '${record.description}'",
+                record.emoji,
+                emojiManager.parseShortCodesToUnicode(shortCode),
+            )
+        }
+    }
+
+    @Test
     fun parseToShortCodes_appliesEveryFitzpatrickActionForAllModifiersAndRoundTrips() {
         Fitzpatrick.entries.forEach { fitzpatrick ->
             val input = "👦${fitzpatrick.unicode}"
@@ -324,6 +343,44 @@ class ShortCodeParserTest : EmojiLoader() {
 
         assertTrue(
             "tone-form coverage must span every capable code times 5 suffixes (found $checked)",
+            checked >= 1_550,
+        )
+    }
+
+    @Test
+    fun parseShortCodesToUnicode_composesAndEmitsEveryCapableCanonicalToneForm() {
+        var checked = 0
+
+        emojiManager.emojiList
+            .filter { it.supportsFitzpatrick }
+            .forEach { record ->
+                val canonical =
+                    requireNotNull(record.shortCodes?.firstOrNull()) {
+                        "Fitzpatrick-capable record '${record.description}' must have a canonical short code"
+                    }
+
+                Fitzpatrick.entries.forEach { type ->
+                    val shortCode = ":$canonical|${type.name.lowercase()}:"
+
+                    assertEquals(
+                        "incoming tone form '$shortCode' for '${record.description}'",
+                        record.emoji + type.unicode,
+                        emojiManager.parseShortCodesToUnicode(shortCode),
+                    )
+                    assertEquals(
+                        "outgoing tone form for '${record.description}' and ${type.name}",
+                        shortCode,
+                        emojiManager.parseToShortCodes(
+                            record.emoji + type.unicode,
+                            FitzpatrickAction.PARSE,
+                        ),
+                    )
+                    checked++
+                }
+            }
+
+        assertTrue(
+            "canonical tone-form coverage must include at least 310 capable codes times 5 Fitzpatrick spellings (found $checked)",
             checked >= 1_550,
         )
     }
