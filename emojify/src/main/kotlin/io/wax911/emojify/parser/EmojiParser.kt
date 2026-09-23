@@ -176,6 +176,72 @@ fun EmojiManager.parseToHtmlDecimal(
 }
 
 /**
+ * Replaces Unicode emoji with their canonical shortcode representation.
+ *
+ * For example, `😄` becomes `:smile:`. The canonical shortcode is the first
+ * entry in the generated `shortCodes` list, whose retained legacy aliases
+ * precede aliases from the current preset.
+ *
+ * When a Fitzpatrick modifier follows an emoji that supports skin tones,
+ * [FitzpatrickAction.PARSE] appends its enum name as a shortcode suffix,
+ * [FitzpatrickAction.REMOVE] drops the modifier, and
+ * [FitzpatrickAction.IGNORE] leaves the modifier as Unicode after the shortcode:
+ *
+ * | Action | `👦🏿` |
+ * | --- | --- |
+ * | PARSE | `:boy|type_6:` |
+ * | REMOVE | `:boy:` |
+ * | IGNORE | `:boy:🏿` |
+ *
+ * The supported PARSE suffixes are `type_1_2`, `type_3`, `type_4`, `type_5`,
+ * and `type_6`, derived from the Fitzpatrick enum names. For an emoji that does
+ * not support skin tones, PARSE writes the base shortcode followed by the raw
+ * modifier instead of an unsupported suffix. This preserves the input when it
+ * is converted back with [parseShortCodesToUnicode].
+ *
+ * An emoji without shortcode metadata is left as Unicode, including any
+ * following Fitzpatrick modifier.
+ *
+ * @param input text containing Unicode emoji
+ * @param fitzpatrickAction how to handle Fitzpatrick modifiers after emoji
+ * @return the input with emoji that have shortcode metadata replaced
+ * @see FitzpatrickAction
+ * @since 2.3.0
+ */
+@JvmOverloads
+fun EmojiManager.parseToShortCodes(
+    input: String,
+    fitzpatrickAction: FitzpatrickAction = FitzpatrickAction.PARSE,
+): String {
+    val emojiTransformer =
+        object : EmojiTransformer {
+            override fun invoke(unicodeCandidate: UnicodeCandidate): String {
+                val emoji = unicodeCandidate.emoji ?: return ""
+                val shortCode =
+                    emoji.shortCodes?.firstOrNull()
+                        ?: return emoji.emoji + unicodeCandidate.fitzpatrickUnicode
+                val baseShortCode = ":$shortCode"
+
+                return when (fitzpatrickAction) {
+                    FitzpatrickAction.PARSE ->
+                        if (!unicodeCandidate.hasFitzpatrick()) {
+                            "$baseShortCode:"
+                        } else if (emoji.supportsFitzpatrick) {
+                            "$baseShortCode|${unicodeCandidate.fitzpatrickType}:"
+                        } else {
+                            "$baseShortCode:${unicodeCandidate.fitzpatrickUnicode}"
+                        }
+
+                    FitzpatrickAction.REMOVE -> "$baseShortCode:"
+                    FitzpatrickAction.IGNORE -> "$baseShortCode:${unicodeCandidate.fitzpatrickUnicode}"
+                }
+            }
+        }
+
+    return parseFromUnicode(input, emojiTransformer)
+}
+
+/**
  * Replaces the emoji's unicode occurrences by their html hex representation.
  *
  * > '' will be replaced by `&#x1f466;`

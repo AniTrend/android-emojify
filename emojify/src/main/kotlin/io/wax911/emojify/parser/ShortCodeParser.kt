@@ -35,6 +35,8 @@ import io.wax911.emojify.util.Fitzpatrick
  *
  * @param input text that may contain shortcode tokens
  * @return the input with recognized shortcode tokens replaced by Unicode emoji
+ * @see parseToShortCodes
+ * @since 2.3.0
  */
 fun EmojiManager.parseShortCodesToUnicode(input: String): String {
     val output = StringBuilder(input.length)

@@ -17,13 +17,118 @@
 package io.wax911.emojify
 
 import io.wax911.emojify.core.EmojiLoader
+import io.wax911.emojify.contract.model.IEmoji
+import io.wax911.emojify.parser.action.FitzpatrickAction
 import io.wax911.emojify.parser.parseShortCodesToUnicode
+import io.wax911.emojify.parser.parseToShortCodes
+import io.wax911.emojify.util.Fitzpatrick
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class ShortCodeParserTest : EmojiLoader() {
+
+    @Test
+    fun parseToShortCodes_replacesOneEmojiWithinText() {
+        assertEquals("Hello :smile:", emojiManager.parseToShortCodes("Hello 😄"))
+    }
+
+    @Test
+    fun parseToShortCodes_convertsMultipleEmojisAndPreservesText() {
+        assertEquals(
+            "A :smile:, then :wink:!",
+            emojiManager.parseToShortCodes("A 😄, then 😉!"),
+        )
+    }
+
+    @Test
+    fun parseToShortCodes_usesFirstGeneratedShortCodeAsCanonicalOutput() {
+        assertEquals(":grinning:", emojiManager.parseToShortCodes("😀"))
+        assertEquals(":smile:", emojiManager.parseToShortCodes("😄"))
+    }
+
+    @Test
+    fun parseToShortCodes_convertsMultiCodePointAndDemotedCanonicalEmoji() {
+        val texasFlag = "\uD83C\uDFF4\uDB40\uDC75\uDB40\uDC73\uDB40\uDC74\uDB40\uDC78\uDB40\uDC7F"
+
+        assertEquals(":man_zombie:", emojiManager.parseToShortCodes("🧟‍♂️"))
+        assertEquals(":ustx:", emojiManager.parseToShortCodes(texasFlag))
+        assertEquals(":envelope:", emojiManager.parseToShortCodes("✉️"))
+        assertEquals(
+            ":smiling_face_with_sunglasses:",
+            emojiManager.parseToShortCodes("😎"),
+        )
+    }
+
+    @Test
+    fun parseToShortCodes_preservesEmojiWithNullOrEmptyShortCodeMetadata() {
+        val withoutShortCodes = "🪅"
+        val withEmptyShortCodes = "🪬"
+        val manager =
+            EmojiManager(
+                listOf(
+                    TestEmoji(withoutShortCodes, null),
+                    TestEmoji(withEmptyShortCodes, emptyList()),
+                ),
+            )
+
+        assertEquals(
+            "$withoutShortCodes $withEmptyShortCodes",
+            manager.parseToShortCodes("$withoutShortCodes $withEmptyShortCodes"),
+        )
+    }
+
+    @Test
+    fun parseToShortCodes_appliesEveryFitzpatrickActionForAllModifiersAndRoundTrips() {
+        Fitzpatrick.entries.forEach { fitzpatrick ->
+            val input = "👦${fitzpatrick.unicode}"
+            val suffix = fitzpatrick.name.lowercase()
+            val parsed = emojiManager.parseToShortCodes(input, FitzpatrickAction.PARSE)
+            val removed = emojiManager.parseToShortCodes(input, FitzpatrickAction.REMOVE)
+            val ignored = emojiManager.parseToShortCodes(input, FitzpatrickAction.IGNORE)
+
+            assertEquals(":boy|$suffix:", parsed)
+            assertEquals(":boy:", removed)
+            assertEquals(":boy:${fitzpatrick.unicode}", ignored)
+            assertEquals(input, emojiManager.parseShortCodesToUnicode(parsed))
+            assertEquals("👦", emojiManager.parseShortCodesToUnicode(removed))
+            assertEquals(input, emojiManager.parseShortCodesToUnicode(ignored))
+        }
+
+        assertEquals(":boy|type_6:", emojiManager.parseToShortCodes("👦🏿"))
+        assertEquals(":boy:", emojiManager.parseToShortCodes("👦🏿", FitzpatrickAction.REMOVE))
+        assertEquals(":boy:🏿", emojiManager.parseToShortCodes("👦🏿", FitzpatrickAction.IGNORE))
+    }
+
+    @Test
+    fun parseToShortCodes_PARSE_nonCapableModifier_preservesRoundTripUnlike197Suffix() {
+        val input = "😄🏿"
+        val parsed = emojiManager.parseToShortCodes(input, FitzpatrickAction.PARSE)
+        val removed = emojiManager.parseToShortCodes(input, FitzpatrickAction.REMOVE)
+        val ignored = emojiManager.parseToShortCodes(input, FitzpatrickAction.IGNORE)
+
+        // The 1.9.7 transformer suffixed every modifier, even on non-capable
+        // records. The shortcode parser preserves that unsupported suffix as text.
+        assertEquals(":smile:🏿", parsed)
+        assertEquals(input, emojiManager.parseShortCodesToUnicode(parsed))
+        assertEquals(":smile:", removed)
+        assertEquals("😄", emojiManager.parseShortCodesToUnicode(removed))
+        assertEquals(":smile:🏿", ignored)
+        assertEquals(input, emojiManager.parseShortCodesToUnicode(ignored))
+    }
+
+    private class TestEmoji(
+        override val emoji: String,
+        override val shortCodes: List<String>?,
+    ) : IEmoji {
+        override val description: String = "test emoji"
+        override val supportsFitzpatrick: Boolean = false
+        override val tags: List<String>? = null
+        override val unicode: String = emoji
+        override val htmlDec: String = ""
+        override val htmlHex: String = ""
+    }
 
     @Test
     fun parseShortCodesToUnicode_replacesOneTokenWithinText() {
