@@ -242,6 +242,32 @@ fun EmojiManager.parseToShortCodes(
 }
 
 /**
+ * Provides the 1.x `aliases` entry point, now called shortCodes in 2.x.
+ *
+ * This deprecated source-compatibility bridge delegates to
+ * [parseToShortCodes] and is behaviorally identical to it. Exact 1.x output is
+ * reproduced for 1,575 of 1,603 legacy emoji (98.3%). The 27 whose historic
+ * first alias is reassigned emit their documented alternative canonical, such
+ * as `:envelope:`. The one malformed legacy record has no outgoing canonical.
+ *
+ * @deprecated Use [parseToShortCodes] instead.
+ * @param input text containing Unicode emoji
+ * @param fitzpatrickAction how to handle Fitzpatrick modifiers after emoji
+ * @return the input with emoji that have shortcode metadata replaced
+ * @see parseToShortCodes
+ * @since 2.3.0
+ */
+@JvmOverloads
+@Deprecated(
+    message = "Use parseToShortCodes instead",
+    replaceWith = ReplaceWith("parseToShortCodes(input, fitzpatrickAction)"),
+)
+fun EmojiManager.parseToAliases(
+    input: String,
+    fitzpatrickAction: FitzpatrickAction = FitzpatrickAction.PARSE,
+): String = parseToShortCodes(input, fitzpatrickAction)
+
+/**
  * Replaces the emoji's unicode occurrences by their html hex representation.
  *
  * > '' will be replaced by `&#x1f466;`

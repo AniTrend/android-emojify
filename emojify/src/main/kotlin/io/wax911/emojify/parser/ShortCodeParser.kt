@@ -25,6 +25,8 @@ import io.wax911.emojify.util.Fitzpatrick
  *
  * The parser accepts `:code:` tokens and supported `:code|type_N:` Fitzpatrick
  * forms. For example, `:smile:` becomes `😄` and `:boy|type_6:` becomes `👦🏿`.
+ * The 1.x `parseToAliases` entry point remains available as a deprecated
+ * forwarder to [parseToShortCodes]; 1.x "aliases" are now called shortCodes.
  * The supported suffixes are `type_1_2`, `type_3`, `type_4`, `type_5`, and
  * `type_6`; their spelling is case-insensitive. A suffix is applied only when
  * the shortcode's emoji supports skin-tone modifiers. Unknown or ambiguous codes,

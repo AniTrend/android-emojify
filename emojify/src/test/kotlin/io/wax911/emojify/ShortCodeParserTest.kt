@@ -20,6 +20,7 @@ import io.wax911.emojify.core.EmojiLoader
 import io.wax911.emojify.contract.model.IEmoji
 import io.wax911.emojify.parser.action.FitzpatrickAction
 import io.wax911.emojify.parser.parseShortCodesToUnicode
+import io.wax911.emojify.parser.parseToAliases
 import io.wax911.emojify.parser.parseToShortCodes
 import io.wax911.emojify.util.Fitzpatrick
 import org.junit.Assert.assertEquals
@@ -116,6 +117,49 @@ class ShortCodeParserTest : EmojiLoader() {
         assertEquals("😄", emojiManager.parseShortCodesToUnicode(removed))
         assertEquals(":smile:🏿", ignored)
         assertEquals(input, emojiManager.parseShortCodesToUnicode(ignored))
+    }
+
+    @Suppress("DEPRECATION")
+    @Test
+    fun parseToAliases_matchesShortCodesForRepresentativeInputs() {
+        listOf("plain text" to "plain text", "Hello 😄" to "Hello :smile:")
+            .forEach { (input, expected) ->
+                assertEquals(expected, emojiManager.parseToAliases(input))
+                assertEquals(emojiManager.parseToShortCodes(input), emojiManager.parseToAliases(input))
+            }
+
+        listOf(
+            FitzpatrickAction.PARSE to ":boy|type_6:",
+            FitzpatrickAction.REMOVE to ":boy:",
+            FitzpatrickAction.IGNORE to ":boy:🏿",
+        ).forEach { (action, expected) ->
+            assertEquals(expected, emojiManager.parseToAliases("👦🏿", action))
+            assertEquals(
+                emojiManager.parseToShortCodes("👦🏿", action),
+                emojiManager.parseToAliases("👦🏿", action),
+            )
+        }
+
+        assertEquals(":smile:🏿", emojiManager.parseToAliases("😄🏿", FitzpatrickAction.PARSE))
+        assertEquals(
+            emojiManager.parseToShortCodes("😄🏿", FitzpatrickAction.PARSE),
+            emojiManager.parseToAliases("😄🏿", FitzpatrickAction.PARSE),
+        )
+    }
+
+    @Suppress("DEPRECATION")
+    @Test
+    fun parseToAliases_supportsDefaultAndExplicitFitzpatrickActionArguments() {
+        val input = "👦🏿"
+
+        assertEquals(":boy|type_6:", emojiManager.parseToAliases(input))
+        assertEquals(":boy:🏿", emojiManager.parseToAliases(input, FitzpatrickAction.IGNORE))
+    }
+
+    @Suppress("DEPRECATION")
+    @Test
+    fun parseToAliases_roundTripsFitzpatrickEmoji() {
+        assertEquals("👦🏿", emojiManager.parseShortCodesToUnicode(emojiManager.parseToAliases("👦🏿")))
     }
 
     private class TestEmoji(
