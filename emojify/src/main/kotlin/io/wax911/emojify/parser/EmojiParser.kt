@@ -45,13 +45,15 @@ fun EmojiManager.replaceAllEmojis(
 }
 
 /**
- * Replaces the emoji's occurrences and the html representations by their unicode.
+ * Replaces recognized HTML decimal or hexadecimal emoji entities with Unicode emoji.
  *
  * > `&#128516;` will be replaced by `😄`
  *
+ * Short code tokens are not parsed by this function; use [parseShortCodesToUnicode] for them.
+ *
  * @param input the string to parse
  *
- * @return the string with the html representations replaced by their unicode.
+ * @return the input with recognized HTML emoji entities replaced by Unicode emoji.
  */
 fun EmojiManager.parseToUnicode(input: String): String {
     val sb = StringBuilder(input.length)
@@ -270,7 +272,7 @@ fun EmojiManager.parseToAliases(
 /**
  * Replaces the emoji's unicode occurrences by their html hex representation.
  *
- * > '' will be replaced by `&#x1f466;`
+ * > `👦` will be replaced by `&#x1f466;`
  *
  *
  * When a fitzpatrick modifier is present with a PARSE or REMOVE action, the
@@ -406,6 +408,14 @@ fun EmojiManager.parseFromUnicode(
     return sb.append(input.substring(prev)).toString()
 }
 
+/**
+ * Finds Unicode emoji in text and returns their emoji strings in encounter order.
+ *
+ * Repeated emoji are included more than once when they occur more than once in the input.
+ *
+ * @param input text that may contain Unicode emoji
+ * @return the emoji strings found in the input
+ */
 fun EmojiManager.extractEmojis(input: String): List<String> {
     return unicodeCandidates(input)
         .mapNotNull { unicodeCandidate ->

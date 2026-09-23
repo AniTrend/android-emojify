@@ -451,6 +451,9 @@ tests, not a claim that every detail matches the old parser:
   legacy aliases in fixture order, then current shortcodes in preset order,
   deduplicated order-preserving. Never infer the canonical from an unordered
   set or from a runtime preference map.
+  For PARSE, a modifier on an emoji without Fitzpatrick support emits the base
+  shortcode followed by the raw Unicode modifier, never an unreadable `|type_N`
+  suffix.
 - Incoming resolution (decided): the merged catalog maps every shortcode string
   to exactly one record. The 31 conflicted strings resolve to the modern
   mapping (for example `:cat:` resolves to the current `cat` record,

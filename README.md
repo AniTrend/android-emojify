@@ -40,7 +40,7 @@ emojis from [emojipedia](https://emojipedia.org/)**
 
 Trying to get emoji support in your application in a way that is both compatible with a browser and
 mobile, you might even be trying to create a github client with reaction support? Then this library
-is for you, your backend stores is the html entities or aliases in text and this library will take
+is for you, your backend stores HTML entities or short codes in text and this library will take
 care of everything for you.
 
 ## Getting Started
@@ -148,7 +148,9 @@ class App : Application() {
 The `EmojiManager` provides several instance methods to search through the emojis database:
 
 * `getForTag` returns all the emojis for a given tag/s
-* `getForShortCode` returns the emoji for matching short code/s
+* `getForShortCode(shortCode)` returns the matching `IEmoji` records for that exact key, or `null`
+  when no record matches. Pass a short code without `:` delimiters. This lookup does not strip
+  colons or otherwise normalize the key.
 * `emojiList` list of all the emojis
 * `isEmoji` checks if a string is an emoji
 
@@ -160,24 +162,34 @@ Or get everything:
 
 * `emojiList` list of all the emojis
 
+For example, `getForShortCode` returns a collection because the API allows more than one matching
+record:
+
+```kotlin
+import io.wax911.emojify.EmojiManager
+import io.wax911.emojify.contract.model.IEmoji
+
+fun findWink(emojiManager: EmojiManager): Collection<IEmoji>? =
+    emojiManager.getForShortCode("wink")
+```
+
 ### Emoji model
 
-An `Emoji` is a data class, which provides the following methods:
+`IEmoji` provides the following properties:
 
-* `unicode` the unicode representation of the emoji
+* `emoji` the Unicode emoji sequence
 * `description` the (optional) description of the emoji
-* `aliases` a list of aliases for this emoji
-* `tags` a list of tags for this emoji
-* `htmlDec` an html decimal representation of the emoji
-* `htmlHex` an html decimal representation of the emoji
+* `shortCodes` an optional list of accepted short code strings for this emoji; the first generated
+  entry is used for outgoing canonical conversion
+* `tags` an optional list of tags for this emoji
+* `unicode` the escaped Unicode code-point string stored with the emoji data
+* `htmlDec` an HTML decimal character reference for the emoji
+* `htmlHex` an HTML hexadecimal character reference for the emoji
 * `supportsFitzpatrick` true if the emoji supports the Fitzpatrick modifiers, else false
-* `getUnicode(fitzpatrick: Fitzpatrick?): String` Returns the unicode representation of the emoji
-  associated with the provided Fitzpatrick modifier.
 
 ### Fitzpatrick modifiers
 
-Some emojis now support the use of Fitzpatrick modifiers that gives the choice between 5 shades of
-skin tones:
+Some emojis support Fitzpatrick modifiers that give a choice between five skin tones:
 
 | Modifier | Type     |
 |:--------:| -------- |
@@ -187,10 +199,10 @@ skin tones:
 | 🏾       | type_5   |
 | 🏿       | type_6   |
 
-We defined the format of the aliases including a Fitzpatrick modifier as:
+The short code form for a Fitzpatrick modifier is:
 
 ```
-:ALIAS|TYPE:
+:code|type_N:
 ```
 
 A few examples:
@@ -201,125 +213,231 @@ A few examples:
 :santa|type_6:
 ```
 
-###  
+In the merged catalog, `supportsFitzpatrick` is the OR of the 1.x and current datasets. The three
+zombie records retain tone support and 11 records gained it; this policy is intentional and
+permanent across regenerations.
+
+For modifiers on emojis without Fitzpatrick support, PARSE emits the base short code followed by
+the raw modifier so the output always round-trips.
 
 ### EmojiParser
 
-Is a set of extension methods to act on `EmojiManager`, so given an instance of `EmojiManger` we can
-achieve the following:
+The parser functions are extensions on `EmojiManager`. Import each extension from
+`io.wax911.emojify.parser`; for example, use `import io.wax911.emojify.parser.parseToShortCodes`.
+Import `FitzpatrickAction` from `io.wax911.emojify.parser.action`. The examples below take an
+already initialized `EmojiManager` as a function parameter.
+
+#### 1.x to 2.x short code migration
+
+**Terminology change:** 1.x `aliases` are named `shortCodes` in 2.x.
+
+2.x and later can consume serialized 1.x values with `parseShortCodesToUnicode`, including values
+such as `:smile:` and `:boy|type_6:`. The historical modifier suffixes are retained, and their
+Unicode output may use the current record's presentation. Matching ignores U+FE0E and U+FE0F when
+the merged catalog associates a historical record with its current emoji, so this is presentation
+normalization, not preservation of every original code point.
 
 ```kotlin
-val emojiManager: EmojiManger = ...
+import io.wax911.emojify.EmojiManager
+import io.wax911.emojify.parser.parseShortCodesToUnicode
+
+fun readSavedShortCodes(emojiManager: EmojiManager): String =
+    emojiManager.parseShortCodesToUnicode(":smile: and :boy|type_6:")
+// Returns: 😄 and 👦🏿
 ```
 
-#### To unicode
+The 31 reassigned shortcode strings resolve to their modern emoji rather than the different 1.x
+emoji that used the same string. The table lists all documented exceptions:
 
-To replace all the aliases and the html representations found in a string by their unicode,
-use `EmojiParser#parseToUnicode(String)`.
+<details>
+<summary>31 reassigned shortcode strings</summary>
 
-For example:
+| Short code | 1.x emoji | 2.x emoji |
+| --- | --- | --- |
+| `beetle` | 🐞 | 🪲 |
+| `cat` | 🐱 | 🐈️ |
+| `city_sunset` | 🌆 | 🌇 |
+| `computer` | 💻 | 🖥️ |
+| `cow` | 🐮 | 🐄 |
+| `dog` | 🐶 | 🐕️ |
+| `email` | ✉ | 📧 |
+| `frowning_face` | ☹ | 😦 |
+| `horse` | 🐴 | 🐎 |
+| `japan` | 🗾 | 🇯🇵 |
+| `jar` | 🏺 | 🫙 |
+| `jolly_roger` | ♾🏴‍☠️ | 🏴‍☠️ |
+| `man_in_tuxedo` | 🤵 | 🤵‍♂️ |
+| `mouse` | 🐭 | 🐁 |
+| `ng` | 🇳🇬 | 🆖 |
+| `no` | 🇳🇴 | 👎️ |
+| `o` | ⭕ | 🅾️ |
+| `om` | 🇴🇲 | 🕉️ |
+| `pencil` | 📝 | ✏️ |
+| `pig` | 🐷 | 🐖 |
+| `pirate_flag` | ♾🏴‍☠️ | 🏴‍☠️ |
+| `point_up` | ☝ | 👆️ |
+| `point_up_2` | 👆 | ☝️ |
+| `rabbit` | 🐰 | 🐇 |
+| `sunglasses` | 😎 | 🕶️ |
+| `sunny` | ☀ | 🌤️ |
+| `tiger` | 🐯 | 🐅 |
+| `train` | 🚋 | 🚆 |
+| `umbrella` | ☔ | ☂️ |
+| `up` | 🆙 | 🔼 |
+| `whale` | 🐳 | 🐋 |
+
+</details>
+
+For outgoing conversion, 27 records whose first 1.x short code was reassigned emit a documented
+alternative canonical: the next retained 1.x short code when available (for example, `:envelope:`),
+or the modern canonical when there is no retained alternative (for example,
+`:smiling_face_with_sunglasses:`). The malformed 1.x record `♾🏴‍☠️` is omitted because both of its
+short codes were reassigned and it has no safe outgoing canonical. See
+[`docs/shortcode-compatibility.md`](./docs/shortcode-compatibility.md) for the full compatibility
+evidence and exception details.
+
+#### To Unicode from HTML
+
+`parseToUnicode` converts decimal and hexadecimal HTML character references to Unicode emoji. It
+does not parse short codes; use `parseShortCodesToUnicode` for those.
 
 ```kotlin
-val str = "An :+1:awesome :smiley:string " + "😄with a few :wink:emojis!"
-val result = emojiManager.parseToUnicode(str)
-// An 😀awesome 😃string 😄with a few 😉emojis!
+import io.wax911.emojify.EmojiManager
+import io.wax911.emojify.parser.parseToUnicode
+
+fun decodeHtml(emojiManager: EmojiManager): String =
+    emojiManager.parseToUnicode("An &#128516; and &#x1f604;")
+// Returns: An 😄 and 😄
 ```
 
-#### To aliases
+#### To short codes
 
-To replace all the emoji's unicodes found in a string by their aliases,
-use `EmojiParser#parseToAliases(String)`.
+`parseToShortCodes` replaces Unicode emoji with the first entry in that emoji's generated
+`shortCodes` list. Retained legacy values come first, followed by the current preset order. For
+example, `Hello 😄` becomes `Hello :smile:`.
 
-For example:
+For an emoji that supports Fitzpatrick modifiers, PARSE adds a suffix, REMOVE omits the modifier,
+and IGNORE leaves the modifier as Unicode after the short code:
 
 ```kotlin
-val str = "An 😀awesome 😃string with a few 😉emojis!"
-val result = emojiManager.parseToAliases(str)
-// "An :grinning:awesome :smiley:string with a few :wink:emojis!"
+import io.wax911.emojify.EmojiManager
+import io.wax911.emojify.parser.action.FitzpatrickAction
+import io.wax911.emojify.parser.parseToShortCodes
+
+fun encodeShortCodes(emojiManager: EmojiManager) {
+    val greeting = emojiManager.parseToShortCodes("Hello 😄")
+    // Hello :smile:
+
+    val parsed = emojiManager.parseToShortCodes("👦🏿", FitzpatrickAction.PARSE)
+    // :boy|type_6:
+    val removed = emojiManager.parseToShortCodes("👦🏿", FitzpatrickAction.REMOVE)
+    // :boy:
+    val ignored = emojiManager.parseToShortCodes("👦🏿", FitzpatrickAction.IGNORE)
+    // :boy:🏿
+}
 ```
 
-By default, the aliases will parse and include any Fitzpatrick modifier that would be provided. If
-you want to remove or ignore the Fitzpatrick modifiers,
-use `EmojiParser#parseToAliases(String, FitzpatrickAction)`. Examples:
+`parseToAliases` is deprecated and should be used only as a migration bridge for callers moving from
+1.x. Its signature is `fun EmojiManager.parseToAliases(input: String, fitzpatrickAction: FitzpatrickAction = FitzpatrickAction.PARSE): String`.
+It is behaviorally identical to `parseToShortCodes`. It reproduces exact 1.x output for 1,575 of
+1,603 legacy emoji (98.3%); 27 conflicted-first records emit their documented alternative
+canonical, and one malformed legacy record is dropped. New code should use `parseToShortCodes`.
+
+#### From short codes
+
+`parseShortCodesToUnicode` converts `:code:` and `:code|type_N:` tokens to Unicode. The accepted
+case-insensitive suffixes are `type_1_2`, `type_3`, `type_4`, `type_5`, and `type_6`. Unknown or
+ambiguous short codes, malformed or incomplete tokens, invalid suffixes, and suffixes on emoji
+without Fitzpatrick support are preserved whole. For example, `:not_a_real_shortcode:` and
+`:boy|type_1:` remain unchanged. The known but non-capable `:grinning|type_6:` token is also
+preserved whole.
 
 ```kotlin
-val str = "Here is a boy: \uD83D\uDC66\uD83C\uDFFF!"
-emojiManager.parseToAliases(str, FitzpatrickAction.PARSE)
-// Returns twice: "Here is a boy: :boy|type_6:!"
-emojiManager.parseToAliases(str, FitzpatrickAction.REMOVE)
-// Returns: "Here is a boy: :boy:!"
-emojiManager.parseToAliases(str, FitzpatrickAction.IGNORE)
-// Returns: "Here is a boy: :boy:🏿!"
+import io.wax911.emojify.EmojiManager
+import io.wax911.emojify.parser.parseShortCodesToUnicode
+
+fun decodeShortCodes(emojiManager: EmojiManager) {
+    val known = emojiManager.parseShortCodesToUnicode(":smile: :boy|type_6:")
+    // 😄 👦🏿
+    val unchanged = emojiManager.parseShortCodesToUnicode(
+        ":not_a_real_shortcode: :boy|type_1: :grinning|type_6:",
+    )
+    // All three tokens are preserved.
+    val nested = emojiManager.parseShortCodesToUnicode("::boy:")
+    // :👦
+}
 ```
 
-#### To html
+The one-character scan policy means `::boy:` preserves its leading colon and converts the inner
+`:boy:` token. Reassigned short code strings, such as `:cat:`, resolve to their modern emoji rather
+than the different emoji associated with the string in 1.x. This also means a historical string
+such as `:relaxed:` can resolve to the current Unicode presentation, including its variation
+selector.
 
-To replace all the emoji's unicodes found in a string by their html representation,
-use `EmojiParser#parseToHtmlDecimal(String)` or `EmojiParser#parseToHtmlHexadecimal(String)`.
+#### To HTML character references
 
-For example:
+Use `parseToHtmlDecimal` or `parseToHtmlHexadecimal` to replace Unicode emoji with decimal or
+hexadecimal HTML character references.
 
 ```kotlin
-val str = "An 😀awesome 😃string with a few 😉emojis!"
-val resultHtmlDecimal = emojiManager.parseToHtmlDecimal(str)
-// Returns:
-// "An &#128512;awesome &#128515;string with a few &#128521;emojis!"
+import io.wax911.emojify.EmojiManager
+import io.wax911.emojify.parser.parseToHtmlDecimal
+import io.wax911.emojify.parser.parseToHtmlHexadecimal
 
-val resultHexadecimal = emojiManager.parseToHtmlHexadecimal(str)
-// Returns:
-// "An 😀awesome 😃string with a few 😉emojis!"
+fun encodeHtml(emojiManager: EmojiManager) {
+    val decimal = emojiManager.parseToHtmlDecimal("An 😀awesome 😃string with a few 😉emojis!")
+    // An &#128512;awesome &#128515;string with a few &#128521;emojis!
+
+    val hexadecimal = emojiManager.parseToHtmlHexadecimal("An 😀awesome 😃string with a few 😉emojis!")
+    // An &#x1f600;awesome &#x1f603;string with a few &#x1f609;emojis!
+}
 ```
 
-By default, any Fitzpatrick modifier will be removed. If you want to ignore the Fitzpatrick
-modifiers, use `emojiManager.parseToAliases(String, FitzpatrickAction)`. Examples:
+With the default PARSE action, or REMOVE, the modifier is omitted from the HTML reference. IGNORE
+leaves it as a Unicode character after the reference:
 
 ```kotlin
-val str = "Here is a boy: \uD83D\uDC66\uD83C\uDFFF!"
+import io.wax911.emojify.EmojiManager
+import io.wax911.emojify.parser.action.FitzpatrickAction
+import io.wax911.emojify.parser.parseToHtmlDecimal
 
-emojiManager.parseToHtmlDecimal(str, FitzpatrickAction.PARSE)
-emojiManager.parseToHtmlDecimal(str, FitzpatrickAction.REMOVE)
-// Returns: "Here is a boy: 👦!"
-emojiManager.parseToHtmlDecimal(str, FitzpatrickAction.IGNORE)
-// Returns: "Here is a boy: 👦🏿!"
+fun encodeHtmlWithTone(emojiManager: EmojiManager) {
+    val parsed = emojiManager.parseToHtmlDecimal("👦🏿", FitzpatrickAction.PARSE)
+    // &#128102;
+    val removed = emojiManager.parseToHtmlDecimal("👦🏿", FitzpatrickAction.REMOVE)
+    // &#128102;
+    val ignored = emojiManager.parseToHtmlDecimal("👦🏿", FitzpatrickAction.IGNORE)
+    // &#128102;🏿
+}
 ```
 
-The same applies for the methods `emojiManager.parseToHtmlHexadecimal(String)`
-and `emojiManager.parseToHtmlHexadecimal(String, FitzpatrickAction)`.
+#### Remove, replace, and extract emojis
 
-#### Remove emojis
-
-You can easily remove emojis from a string using one of the following methods:
-
-* `emojiManager.removeAllEmojis(String)`: removes all the emojis from the String
-* `emojiManager.removeAllEmojisExcept(String, Collection<Emoji>)`: removes all the emojis from the
-  String, except the ones in the Collection
-* `emojiManager.removeEmojis(String, Collection<Emoji>)`: removes the emojis in the Collection from
-  the String
-
-For example:
+Use `removeAllEmojis(str)` to remove every emoji, `removeAllEmojisExcept(str, emojisToKeep)` to keep
+only selected emoji, `removeEmojis(str, emojisToRemove)` to remove a selected set, or
+`replaceAllEmojis(str, replacementString)` to replace every emoji with the supplied text. The
+collection arguments contain `IEmoji` records.
 
 ```kotlin
-val str = "An 😀awesome 😃string with a few 😉emojis!"
-val collection = ArrayList<Emoji>()
-collection.add(emojiManager.getForShortCode("wink")); // This is 😉
+import io.wax911.emojify.EmojiManager
+import io.wax911.emojify.parser.removeAllEmojis
+import io.wax911.emojify.parser.removeAllEmojisExcept
+import io.wax911.emojify.parser.removeEmojis
+import io.wax911.emojify.parser.replaceAllEmojis
 
-emojiManager.removeAllEmojis(str);
-emojiManager.removeAllEmojisExcept(str, collection);
-emojiManager.removeEmojis(str, collection);
-
-// Returns:
-// "An awesome string with a few emojis!"
-// "An awesome string with a few 😉emojis!"
-// "An 😀awesome 😃string with a few emojis!"
+fun transformEmojis(emojiManager: EmojiManager) {
+    val text = "An 😀awesome 😃string with a few 😉emojis!"
+    val wink = emojiManager.getForShortCode("wink").orEmpty()
+    emojiManager.removeAllEmojis(text)
+    emojiManager.removeAllEmojisExcept(text, wink)
+    emojiManager.removeEmojis(text, wink)
+    emojiManager.replaceAllEmojis(text, "[emoji]")
+}
 ```
 
-#### Extract Emojis from a string
-
-You can search a string of mixed emoji/non-emoji characters and have all of the emoji characters
-returned as a Collection.
-
-* `emojiManager.extractEmojis(String)`: returns all emojis as a Collection. This will include
-  duplicates if emojis are present more than once.
+`extractEmojis(input)` returns a `List<String>` containing the emoji substrings found in the input,
+including duplicates when an emoji occurs more than once. Import the extension from
+`io.wax911.emojify.parser`.
 
 ##  
 
