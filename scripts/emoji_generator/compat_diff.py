@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """Validate a generated catalog against the pre-merge generated catalog."""
 
 from __future__ import annotations
@@ -19,19 +18,23 @@ ALLOWED_FITZPATRICK_PROMOTIONS = SOURCE_LEGACY_TRUE_CURRENT_FALSE_FITZPATRICK
 def load_records(path: Path) -> list[dict[str, Any]]:
   with path.open(encoding="utf-8") as source:
     payload = json.load(source)
-  if not isinstance(payload, list) or any(not isinstance(record, dict) for record in payload):
+  if not isinstance(payload, list) or any(
+    not isinstance(record, dict) for record in payload
+  ):
     msg = f"Expected a JSON array of records: {path}"
     raise ValueError(msg)
   return payload
 
 
-def index_records(records: list[dict[str, Any]], path: Path) -> dict[str, dict[str, Any]]:
+def index_records(
+  records: list[dict[str, Any]], path: Path
+) -> dict[str, dict[str, Any]]:
   indexed: dict[str, dict[str, Any]] = {}
   for record in records:
     emoji = record.get("emoji")
     if not isinstance(emoji, str):
       msg = f"Record in {path} has no emoji string: {record!r}"
-      raise ValueError(msg)
+      raise ValueError(msg)  # noqa: TRY004
     if emoji in indexed:
       msg = f"Duplicate emoji record in {path}: {emoji!r}"
       raise ValueError(msg)
@@ -45,7 +48,7 @@ def validate(old_path: Path, new_path: Path) -> tuple[list[str], dict[str, int]]
   old_by_emoji = index_records(old_records, old_path)
   new_by_emoji = index_records(new_records, new_path)
   errors: list[str] = []
-  shortcode_changes = Counter()
+  shortcode_changes: Counter[str] = Counter()
   fitzpatrick_promotions: set[str] = set()
 
   for emoji, old_record in old_by_emoji.items():
@@ -106,23 +109,22 @@ def validate(old_path: Path, new_path: Path) -> tuple[list[str], dict[str, int]]
   if added != [ALLOWED_ADDED_EMOJI]:
     errors.append(f"Expected only the Texas flag record to be added; found {added!r}")
   elif new_by_emoji[ALLOWED_ADDED_EMOJI].get("shortCodes") != ["ustx"]:
-    errors.append("The added Texas flag record must retain only the legacy alias 'ustx'")
+    errors.append(
+      "The added Texas flag record must retain only the legacy alias 'ustx'"
+    )
 
   old_shortcodes = {
-    code
-    for record in old_records
-    for code in (record.get("shortCodes") if isinstance(record.get("shortCodes"), list) else [])
+    code for record in old_records for code in _shortcode_values(record)
   }
   new_shortcodes = {
-    code
-    for record in new_records
-    for code in (record.get("shortCodes") if isinstance(record.get("shortCodes"), list) else [])
+    code for record in new_records for code in _shortcode_values(record)
   }
 
   stats = {
     "old_records": len(old_records),
     "new_records": len(new_records),
-    "matched_records": len(old_by_emoji) - sum("Removed existing record" in error for error in errors),
+    "matched_records": len(old_by_emoji)
+    - sum("Removed existing record" in error for error in errors),
     "added_records": len(added),
     "shortcode_records_changed": shortcode_changes["records_changed"],
     "shortcode_occurrences_added": shortcode_changes["added_occurrences"],
@@ -137,6 +139,11 @@ def validate(old_path: Path, new_path: Path) -> tuple[list[str], dict[str, int]]
   return errors, stats
 
 
+def _shortcode_values(record: dict[str, Any]) -> list[Any]:
+  shortcodes = record.get("shortCodes")
+  return shortcodes if isinstance(shortcodes, list) else []
+
+
 def main() -> int:
   parser = argparse.ArgumentParser(description=__doc__)
   parser.add_argument("old", type=Path, help="pre-merge generated emoji.json")
@@ -145,8 +152,8 @@ def main() -> int:
 
   try:
     errors, stats = validate(args.old, args.new)
-  except (OSError, json.JSONDecodeError, ValueError) as error:
-    print(f"Catalog diff failed: {error}", file=sys.stderr)
+  except (OSError, json.JSONDecodeError, ValueError) as exception:
+    print(f"Catalog diff failed: {exception}", file=sys.stderr)
     return 2
 
   print("Structured catalog diff")

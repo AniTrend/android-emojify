@@ -2,10 +2,10 @@ import json
 from collections import defaultdict
 from pathlib import Path
 
-import emoji_generator.compatibility as compatibility
+from emoji_generator import compatibility
 from emoji_generator.compatibility import (
-  CONFLICTED_ALIASES,
   CONFLICTED_ALIAS_TARGETS,
+  CONFLICTED_ALIASES,
   FIXTURE_PATH,
   MERGE_FITZPATRICK_CAPABILITY_WITH_OR,
   SOURCE_LEGACY_FALSE_CURRENT_TRUE_FITZPATRICK,
@@ -98,7 +98,9 @@ def test_legacy_fixture_inventory():
   assert len(legacy_records) == 1603
   assert len(aliases) == 1969
   assert sum(len(record["aliases"]) > 1 for record in legacy_records) == 240
-  assert sum(record.get("supports_fitzpatrick") is True for record in legacy_records) == 187
+  assert (
+    sum(record.get("supports_fitzpatrick") is True for record in legacy_records) == 187
+  )
 
 
 def test_legacy_aliases_merge_collision_free_and_conflicts_keep_modern_destinations():
@@ -112,7 +114,9 @@ def test_legacy_aliases_merge_collision_free_and_conflicts_keep_modern_destinati
 
   assert CONFLICTED_ALIASES == EXPECTED_CONFLICTED_ALIASES
   assert len(CONFLICTED_ALIASES) == 31
-  assert len(by_shortcode) == sum(len(shortcode_list(record.get("shortCodes"))) for record in merged_records)
+  assert len(by_shortcode) == sum(
+    len(shortcode_list(record.get("shortCodes"))) for record in merged_records
+  )
   assert len(by_shortcode) == 2_590 + 784 == 3_374
 
   for legacy in legacy_records:
@@ -170,7 +174,11 @@ def test_canonical_order_conflicted_demotions_and_dropped_malformed_record():
     else:
       conflicted_first_demotions += 1
 
-  assert (exact_legacy_canonicals, conflicted_first_demotions, dropped_records) == (1575, 27, 1)
+  assert (exact_legacy_canonicals, conflicted_first_demotions, dropped_records) == (
+    1575,
+    27,
+    1,
+  )
 
 
 def test_fitzpatrick_source_drift_sets_are_pinned_and_legacy_or_current_wins():
@@ -245,10 +253,16 @@ def test_generation_pipeline_merges_fixture_aliases_after_preset_order():
   first = generate_catalog([Emoji.from_dict(emoji_data[0])], preset, legacy)
   second = generate_catalog([Emoji.from_dict(emoji_data[0])], preset, legacy)
 
-  assert first[0]["shortCodes"] == ["historic", "grinning", "grinning_face", "source_alias"]
-  assert json.dumps(first, ensure_ascii=False, skipkeys=True).encode() == json.dumps(
-    second, ensure_ascii=False, skipkeys=True
-  ).encode()
+  assert first[0]["shortCodes"] == [
+    "historic",
+    "grinning",
+    "grinning_face",
+    "source_alias",
+  ]
+  assert (
+    json.dumps(first, ensure_ascii=False, skipkeys=True).encode()
+    == json.dumps(second, ensure_ascii=False, skipkeys=True).encode()
+  )
 
 
 def test_merged_catalog_serialization_is_byte_stable_and_idempotent():

@@ -1,5 +1,6 @@
 import json
 import unicodedata
+from collections.abc import Mapping
 from pathlib import Path
 from typing import Any
 
@@ -64,7 +65,9 @@ SOURCE_LEGACY_FALSE_CURRENT_TRUE_FITZPATRICK = frozenset(
 def load_legacy_records(path: Path = FIXTURE_PATH) -> list[dict[str, Any]]:
   with path.open(encoding="utf-8") as source:
     records = json.load(source)
-  if not isinstance(records, list) or any(not isinstance(record, dict) for record in records):
+  if not isinstance(records, list) or any(
+    not isinstance(record, dict) for record in records
+  ):
     msg = f"Legacy shortcode fixture must be an array of objects: {path}"
     raise ValueError(msg)
   return records
@@ -161,7 +164,7 @@ def merge_legacy_shortcodes(
     emoji = legacy.get("emoji")
     if not isinstance(emoji, str):
       msg = f"Legacy record has no emoji string: {legacy!r}"
-      raise ValueError(msg)
+      raise ValueError(msg)  # noqa: TRY004
 
     target_index = exact_targets.get(emoji)
     if target_index is None:
@@ -169,11 +172,12 @@ def merge_legacy_shortcodes(
       if len(candidates) > 1:
         msg = f"Legacy emoji has multiple normalized current targets: {emoji!r}"
         raise ValueError(msg)
-      if candidates:
-        target_index = candidates[0]
+      target_index = candidates[0] if candidates else None
 
     retained_aliases = [
-      code for code in shortcode_list(legacy.get("aliases")) if code not in CONFLICTED_ALIASES
+      code
+      for code in shortcode_list(legacy.get("aliases"))
+      if code not in CONFLICTED_ALIASES
     ]
     if target_index is None:
       if retained_aliases:
@@ -189,7 +193,7 @@ def merge_legacy_shortcodes(
     record["shortCodes"] = list(dict.fromkeys(retained_aliases + current_shortcodes))
     _apply_fitzpatrick_capability_policy(record, legacy)
 
-  shortcode_targets: dict[str, str] = {}
+  shortcode_targets: dict[str, Any] = {}
   for record in result:
     emoji = record.get("emoji")
     for code in shortcode_list(record.get("shortCodes")):
@@ -202,7 +206,9 @@ def merge_legacy_shortcodes(
   return result
 
 
-def merge_current_shortcodes(emoji_list: list[Any], shortcode_map: dict[str, object]) -> None:
+def merge_current_shortcodes(
+  emoji_list: list[Any], shortcode_map: Mapping[str, object]
+) -> None:
   """Apply preset aliases first, then any source-only values, with stable deduplication."""
   for emoji in emoji_list:
     preset_value = shortcode_map.get(emoji.hexcode)

@@ -7,16 +7,18 @@ from typing import TYPE_CHECKING, cast
 
 import requests
 
-from emoji_generator.decorators import run_catching
 from emoji_generator.compatibility import (
   load_legacy_records,
   merge_current_shortcodes,
   merge_legacy_shortcodes,
 )
+from emoji_generator.decorators import run_catching
 from emoji_generator.sources import get_emoji, get_emoji_shortcodes
 from emoji_generator.utils import parse_emoji_data
 
 if TYPE_CHECKING:
+  from collections.abc import Mapping
+
   from emoji_generator.models import Emoji
 
 __version: str | None
@@ -24,7 +26,7 @@ __version: str | None
 
 def generate_catalog(
   emoji_list: list[Emoji],
-  shortcodes_dict: dict[str, str | list[str]],
+  shortcodes_dict: Mapping[str, str | list[str]],
   legacy_records: list[dict] | None = None,
 ) -> list[dict]:
   merge_current_shortcodes(emoji_list, shortcodes_dict)

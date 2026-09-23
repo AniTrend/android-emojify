@@ -3,6 +3,7 @@ from unittest.mock import Mock, patch
 import pytest
 
 from emoji_generator import get_emoji, parse_emoji_data
+from emoji_generator.compatibility import merge_current_shortcodes
 from emoji_generator.models import (
   Emoji,
   Gender,
@@ -12,7 +13,6 @@ from emoji_generator.models import (
   Subgroup,
 )
 from emoji_generator.sources import get_emoji_shortcodes
-from emoji_generator.compatibility import merge_current_shortcodes
 from emoji_generator.utils import compute_html_dec, compute_html_hex, compute_unicode
 
 # Sample data mimicking emojibase-data structure
