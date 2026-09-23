@@ -5,7 +5,7 @@
 - Sample app under `app` is included for local debugging only (not in CI); keep feature work in library modules first.
 - Kotlin sources are in `src/<variant>/kotlin`, tests in `src/test/kotlin`, and emoji assets in `emojify/src/main/assets/emoticons` (copied into tests via Gradle tasks).
 - Common build logic is centralized in `buildSrc`, and formatting headers sit in `spotless/`.
-- `:emojify` exposes `EmojiManager`, `EmojiParser`, `FitzpatrickAction`, trie helpers, and parser candidates. `:contract` exposes `model/IEmoji`, `serializer/IEmojiDeserializer`, and `util/trie/Matches`. `:serializer:*` modules each expose a corresponding `IEmojiDeserializer` implementation.
+- `:emojify` exposes `EmojiManager`, `EmojiParser`, `FitzpatrickAction`, trie helpers, and parser candidates. Its shortcode parser provides `parseToShortCodes` and `parseShortCodesToUnicode`; deprecated `parseToAliases` remains as a source-compatibility bridge. `:contract` exposes `model/IEmoji`, `serializer/IEmojiDeserializer`, and `util/trie/Matches`. `:serializer:*` modules each expose a corresponding `IEmojiDeserializer` implementation.
 
 ## Dependency Graph (must remain acyclic)
 - `:contract` is the bottom module — shared models and serializer interfaces with no project dependencies.
@@ -28,7 +28,7 @@
 - `./gradlew :emojify:assemble` builds the core AAR; use `:contract:assemble` or serializer variants as needed.
 - `./gradlew emojify:preTest emojify:test emojify:postTest` — run in this exact order. `preTest` copies the emoji fixture into test resources, `postTest` cleans it. Never run `emojify:test` in isolation.
 - `./gradlew spotlessCheck` (or `spotlessApply`) enforces formatting, headers, and ktlint rules across all library modules.
-- `./gradlew dokkaHtmlMultiModule` generates the consumer docs site (published to `docs` branch via CI). `reportUndocumented = true` — undocumented public APIs produce warnings. Internal packages (`.*\.internal.*`) are suppressed from output.
+- `./gradlew dokkaHtmlMultiModule` currently fails with `Cannot run Dokka V1 tasks when V2 mode is enabled`; use `./gradlew dokkaGenerate` for docs validation until the V1-to-V2 migration lands. `reportUndocumented = true` — undocumented public APIs produce warnings. Internal packages (`.*\.internal.*`) are suppressed from output.
 - `./gradlew :app:installDebug` deploys the sample client when the `app` module is included outside CI.
 
 ## Coding Style & Naming Conventions
