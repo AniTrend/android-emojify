@@ -4,7 +4,7 @@ jackson-databind = "2.22.3"
 ktlint = "1.0.1"
 
 gradle-plugin = "9.4.1"
-google-ksp = "2.3.11"
+google-ksp = "2.3.12"
 
 androidx-core = "1.19.1"
 androidx-emoji = "1.1.0"
