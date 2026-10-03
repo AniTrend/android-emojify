@@ -6,7 +6,7 @@ ktlint = "1.0.1"
 gradle-plugin = "9.4.0"
 google-ksp = "2.3.11"
 
-androidx-core = "1.19.0"
+androidx-core = "1.19.1"
 androidx-emoji = "1.1.0"
 androidx-lifecycle = "2.11.0"
 androidx-lifecycle-compose = "2.11.0"
