@@ -12,11 +12,6 @@ on:
   pull_request:
     branches:
       - develop
-    paths-ignore:
-      - ".github/actions/python/**"
-      - ".github/workflows/python-ci.yml"
-      - "app/src/main/**"
-      - "scripts/emoji_generator/**"
 
 env:
   CI: true
