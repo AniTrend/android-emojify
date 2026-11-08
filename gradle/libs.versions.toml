@@ -19,7 +19,7 @@ jetbrains-kotlin = "2.4.21"
 jetbrains-kotlinx-datetime = "0.8.0-0.6.x-compat"
 jetbrains-kotlinx-serialization = "1.11.0"
 
-mockk = "1.14.11"
+mockk = "1.14.12"
 moshi-kotlin = "1.15.2"
 
 
